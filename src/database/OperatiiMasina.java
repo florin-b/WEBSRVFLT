@@ -17,6 +17,7 @@ import beans.BeanEvenimentTableta;
 import beans.BeanStatusMotor;
 import beans.PozitieClient;
 import beans.PozitieGps;
+import enums.EnumCoordClienti;
 import enums.EnumStatusMotor;
 import queries.SqlQueries;
 import utils.Constants;
@@ -84,7 +85,33 @@ public class OperatiiMasina {
 
 	}
 
-	public BeanEvenimentStop getInfoEvenimentStop(String codBorderou, List<PozitieClient> pozitiiClienti) throws SQLException {
+	public String getIdDevice(String nrMasina) {
+		DBManager manager = new DBManager();
+
+		String deviceId = "";
+
+		String sqlString = " select id from gps_masini where nr_masina = replace(?,'-','') ";
+
+		try (Connection conn = manager.getProdDataSource().getConnection(); PreparedStatement stmt = conn.prepareStatement(sqlString)) {
+
+			stmt.setString(1, nrMasina);
+
+			stmt.execute();
+			ResultSet rs = stmt.getResultSet();
+
+			rs.next();
+			deviceId = rs.getString("id");
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return deviceId;
+
+	}
+
+	public BeanEvenimentStop getInfoEvenimentStop(String codBorderou) throws SQLException {
 
 		List<BeanClientAlarma> listaClientiAlarma = new ArrayList<>();
 
@@ -97,12 +124,13 @@ public class OperatiiMasina {
 
 		if (status == null)
 			return evenimentStop;
-		
+
 		boolean existaEvenimentStop = isEvenimentStop(codBorderou, status.getIdEveniment());
 
-		
-
 		if (status.getStatus() == EnumStatusMotor.OFF && !existaEvenimentStop) {
+
+			List<PozitieClient> pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.NEVIZITATI);
+
 			OperatiiBorderou operatiiBorderou = new OperatiiBorderou();
 			List<BeanEvenimentTableta> listEvenimente = operatiiBorderou.getEvenimenteTableta(codBorderou);
 
@@ -110,22 +138,21 @@ public class OperatiiMasina {
 				double distanta = 0;
 
 				for (PozitieClient pozitie : pozitiiClienti) {
-					if (status.getStatus() == EnumStatusMotor.OFF) {
-						if (!pozitie.isStartBord() && !pozitie.isStopBord()) {
-							distanta = MapUtils.distanceXtoY(status.getPozitie().getLatitudine(), status.getPozitie().getLongitudine(), pozitie.getLatitudine(),
-									pozitie.getLongitudine(), "K");
 
-							if (distanta >= Constants.RAZA_CLIENT_KM)
-								if (!existaEveniment(listEvenimente, pozitie, status.getStatus())) {
-									BeanClientAlarma clientAlarma = new BeanClientAlarma();
-									clientAlarma.setCodBorderou(codBorderou);
-									clientAlarma.setCodClient(pozitie.getCodClient());
-									clientAlarma.setCodAdresa(pozitie.getCodAdresa());
-									clientAlarma.setNumeClient(pozitie.getNumeClient());
-									listaClientiAlarma.add(clientAlarma);
-								}
+					if (!pozitie.isStartBord() && !pozitie.isStopBord()) {
+						distanta = MapUtils.distanceXtoY(status.getPozitie().getLatitudine(), status.getPozitie().getLongitudine(), pozitie.getLatitudine(),
+								pozitie.getLongitudine(), "K");
 
-						}
+						if (distanta >= Constants.RAZA_CLIENT_KM)
+							if (!existaEveniment(listEvenimente, pozitie, status.getStatus())) {
+								BeanClientAlarma clientAlarma = new BeanClientAlarma();
+								clientAlarma.setCodBorderou(codBorderou);
+								clientAlarma.setCodClient(pozitie.getCodClient());
+								clientAlarma.setCodAdresa(pozitie.getCodAdresa());
+								clientAlarma.setNumeClient(pozitie.getNumeClient());
+								listaClientiAlarma.add(clientAlarma);
+							}
+
 					}
 
 				}

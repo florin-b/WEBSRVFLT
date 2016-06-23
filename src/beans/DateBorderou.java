@@ -2,8 +2,8 @@ package beans;
 
 public class DateBorderou {
 
-	public String dataEmitere;
-	public String nrMasina;
+	private String dataEmitere;
+	private String nrMasina;
 
 	public String getDataEmitere() {
 		return dataEmitere;

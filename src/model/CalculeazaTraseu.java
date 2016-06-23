@@ -1,6 +1,5 @@
 package model;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +13,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import beans.BeanEvenimentTableta;
+import beans.DateBorderou;
 import beans.PozitieClient;
 import beans.PozitieGps;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
 import database.OperatiiBorderou;
+import database.OperatiiMasina;
 import enums.EnumTipClient;
 import utils.Constants;
 import utils.MapUtils;
@@ -33,6 +34,9 @@ public class CalculeazaTraseu {
 	private TreeSet<RezultatTraseu> traseuFinal;
 	private String dataStartBorderou;
 	private String codBorderou;
+	private DateBorderou dateBorderou;
+
+	private List<BeanEvenimentTableta> listEvenimenteTableta;
 
 	private enum EvenimentClient {
 		SOSIRE, PLECARE
@@ -63,7 +67,18 @@ public class CalculeazaTraseu {
 		this.rezultatTraseu = rezultatTraseu;
 	}
 
+	public void setDateBorderou(DateBorderou dateBorderou) {
+		this.dateBorderou = dateBorderou;
+	}
+
 	private void descoperaEvenimente() {
+
+		OperatiiBorderou opBorderou = new OperatiiBorderou();
+		opBorderou.setIdDevice(new OperatiiMasina().getIdDevice(dateBorderou.getNrMasina()));
+
+		listEvenimenteTableta = opBorderou.getEvenimenteTableta(codBorderou);
+
+		Date maxEventDate = opBorderou.getMaxDateEveniment(listEvenimenteTableta, codBorderou);
 
 		double distanta = 0;
 		for (TraseuBorderou traseu : traseuBorderou) {
@@ -72,7 +87,7 @@ public class CalculeazaTraseu {
 				distanta = MapUtils.distanceXtoY(traseu.getLatitudine(), traseu.getLongitudine(), pozitieClient.getLatitudine(), pozitieClient.getLongitudine(),
 						"K");
 
-				if (conditiiSosire(traseu, distanta, pozitieClient)) {
+				if (conditiiSosire(traseu, distanta, pozitieClient, maxEventDate)) {
 					pozitieClient.setKmBord(traseu.getKm());
 					adaugaEveniment(pozitieClient, traseu, EvenimentClient.SOSIRE);
 
@@ -89,12 +104,15 @@ public class CalculeazaTraseu {
 
 	}
 
-	private boolean conditiiSosire(TraseuBorderou traseu, double distanta, PozitieClient pozitieClient) {
+	private boolean conditiiSosire(TraseuBorderou traseu, double distanta, PozitieClient pozitieClient, Date maxDate) {
 
 		if (pozitieClient.isStopBord()) {
-			if (borderouNotStarted(traseu, pozitieClient)) {
+			if (borderouNotStarted(traseu, pozitieClient) || rezultatTraseu.size() == 1) {
 				return false;
 			}
+
+			if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
+				return false;
 
 		}
 
@@ -102,6 +120,32 @@ public class CalculeazaTraseu {
 			return true;
 
 		return false;
+	}
+
+	private Date getMaxDateTraseu() {
+		Date maxDate = new Date();
+
+		try {
+			maxDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(dataStartBorderou);
+
+			for (RezultatTraseu traseu : rezultatTraseu) {
+
+				if (traseu.getPlecare() != null) {
+					Date compDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(traseu.getPlecare().getData());
+
+					if (maxDate.compareTo(compDate) < 0)
+						maxDate = compDate;
+				}
+
+			}
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return maxDate;
 	}
 
 	private boolean condSuplimentSosire(TraseuBorderou traseuBorderou, PozitieClient pozitieClient) {
@@ -113,7 +157,9 @@ public class CalculeazaTraseu {
 			return true;
 
 		try {
-			Date dateLow = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(dataStartBorderou);
+
+			Date dateLow = getMaxDateTraseu();
+
 			Date dateHigh = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(traseuBorderou.getDataInreg());
 
 			if (dateLow.compareTo(dateHigh) < 0)
@@ -299,7 +345,27 @@ public class CalculeazaTraseu {
 		completeazaDateSofer();
 		corecteazaTraseuBorderou();
 
+		// eliminaUltimaEtapa();
+
 		return traseuFinal;
+
+	}
+
+	private void eliminaUltimaEtapa() {
+
+		Iterator<RezultatTraseu> iterator = traseuFinal.iterator();
+
+		int count = 0;
+		while (iterator.hasNext()) {
+			iterator.next();
+
+			if (count == traseuFinal.size() - 2) {
+				iterator.remove();
+				break;
+			}
+			count++;
+
+		}
 
 	}
 
@@ -369,17 +435,12 @@ public class CalculeazaTraseu {
 
 	private void completeazaDateSofer() {
 
-		OperatiiBorderou opBorderou = new OperatiiBorderou();
-		List<BeanEvenimentTableta> listEvenimenteTableta = opBorderou.getEvenimenteTableta(codBorderou);
+		String dataStopBorderou;
 
-		
-		String dataStopBorderou ;
-		
 		if (traseuFinal.last().getSosire() != null)
 			dataStopBorderou = traseuFinal.last().getSosire().getData();
 		else
 			dataStopBorderou = UtilsFormatting.getCurrentDate();
-		
 
 		for (RezultatTraseu traseu : traseuFinal) {
 
@@ -395,7 +456,7 @@ public class CalculeazaTraseu {
 
 	private int compareDates(String date1, String date2) {
 
-		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("en"));
 
 		Date d1 = new Date();
 		Date d2 = new Date();
@@ -421,13 +482,27 @@ public class CalculeazaTraseu {
 				pozitie.setData(UtilsFormatting.formatDateLocal(evenimTableta.getData() + " " + evenimTableta.getOra()));
 				String[] coords = evenimTableta.getGps().split(",");
 
-				pozitie.setLatitudine(Double.valueOf(coords[0]));
-				pozitie.setLongitudine(Double.valueOf(coords[1]));
+				if (coords[0].equals("0")) {
+					String archivedCoords = OperatiiBorderou.getCoordFromArchive(codBorderou, evenimTableta.getData());
+
+					if (archivedCoords.contains(",")) {
+						String[] arrayVals = archivedCoords.split(",");
+						pozitie.setLatitudine(Double.valueOf(arrayVals[0]));
+						pozitie.setLongitudine(Double.valueOf(arrayVals[1].trim()));
+						traseu.setKmBord(Integer.valueOf(arrayVals[2].trim()));
+
+					}
+
+				} else {
+					pozitie.setLatitudine(Double.valueOf(coords[0]));
+					pozitie.setLongitudine(Double.valueOf(coords[1]));
+					traseu.setKmBord(evenimTableta.getKmBord());
+				}
 				if (eveniment == EvenimentClient.PLECARE)
 					traseu.setPlecare(pozitie);
 				else
 					traseu.setSosire(pozitie);
-				traseu.setKmBord(evenimTableta.getKmBord());
+
 				break;
 			}
 

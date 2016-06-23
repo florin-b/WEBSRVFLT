@@ -59,5 +59,19 @@
 			<artifactId>json</artifactId>
 			<version>20140107</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-kernel</artifactId>
+			<version>1.7.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-adb</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
 	</dependencies>
 </project>

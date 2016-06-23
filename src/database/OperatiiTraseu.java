@@ -25,45 +25,112 @@ import utils.UtilsAdrese;
 
 public class OperatiiTraseu {
 
-	public List<TraseuBorderou> getTraseuBorderou(String codBorderou) {
+	public List<TraseuBorderou> getTraseuBorderou(DateBorderou dateBorderou) throws SQLException {
 
 		DBManager manager = new DBManager();
-
-		DateBorderou dateBorderou = null;
-
-		try {
-			dateBorderou = getDateBorderou(codBorderou);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
 		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
 				+ " nvl(c.speed,0) viteza from gps_masini b, gps_date c  where " + " b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id "
 				+ " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') + 4  order by c.record_time ";
 
-		MapSqlParameterSource parameter = new MapSqlParameterSource();
-		parameter.addValue("codBorderou", codBorderou);
-		parameter.addValue("dataEmitere", dateBorderou.getDataEmitere());
-		parameter.addValue("nrMasina", dateBorderou.getNrMasina());
+		List<TraseuBorderou> listTraseu = new ArrayList<TraseuBorderou>();
 
-		NamedParameterJdbcTemplate jdbc = new NamedParameterJdbcTemplate(manager.getProdDataSource());
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
-		return jdbc.query(sqlString, parameter, new RowMapper<TraseuBorderou>() {
+			stmt.setString(1, dateBorderou.getNrMasina());
+			stmt.setString(2, dateBorderou.getDataEmitere());
+			stmt.setString(3, dateBorderou.getDataEmitere());
 
-			public TraseuBorderou mapRow(ResultSet rs, int rowNum) throws SQLException {
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
 				TraseuBorderou pozitie = new TraseuBorderou();
 				pozitie.setDataInreg(rs.getString("datarec"));
 				pozitie.setLatitudine(rs.getDouble("latitude"));
 				pozitie.setLongitudine(rs.getDouble("longitude"));
 				pozitie.setKm(rs.getInt("kilo"));
 				pozitie.setViteza(rs.getInt("viteza"));
-				return pozitie;
+				listTraseu.add(pozitie);
+
 			}
-		});
+
+		}
+
+		return listTraseu;
 
 	}
 
-	public List<PozitieClient> getCoordClientiBorderou(String codBorderou, EnumCoordClienti stareClienti) {
+	public List<PozitieClient> getCoordClientiBorderou(String codBorderou, EnumCoordClienti stareClienti) throws SQLException {
+		List<PozitieClient> listPozitii = new ArrayList<PozitieClient>();
+
+		DBManager manager = new DBManager();
+
+		String sqlString = " ";
+
+		if (stareClienti == EnumCoordClienti.TOTI)
+			sqlString = SqlQueries.getCoordClientiBorderouAll();
+
+		if (stareClienti == EnumCoordClienti.NEVIZITATI)
+			sqlString = SqlQueries.getCoordClientiNevisit();
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
+
+			stmt.setString(1, codBorderou);
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+			while (rs.next()) {
+
+				CoordonateGps coordonate = null;
+
+				PozitieClient pozitie = new PozitieClient();
+				pozitie.setPoz(Integer.valueOf(rs.getString("poz")));
+				pozitie.setCodClient(rs.getString("cod_client"));
+
+				if (rs.getString("latitude").equals("-1")) {
+					coordonate = getCoordonate(rs.getString("region"), rs.getString("city1"), rs.getString("house_num1"), rs.getString("street"));
+
+					pozitie.setLatitudine(coordonate.getLatitude());
+					pozitie.setLongitudine(coordonate.getLongitude());
+
+				} else {
+					pozitie.setLatitudine(Double.valueOf(rs.getString("latitude")));
+					pozitie.setLongitudine(Double.valueOf(rs.getString("longitude")));
+				}
+
+				pozitie.setNumeClient(rs.getString("nume"));
+				pozitie.setCodAdresa(rs.getString("cod_adresa"));
+				pozitie.setNumeClientGed(rs.getString("name1"));
+				pozitie.setTipClient(EnumTipClient.DISTRIBUTIE);
+
+				listPozitii.add(pozitie);
+			}
+
+		}
+		
+		
+		//eliminare ultima etapa
+		listPozitii.remove(listPozitii.size() - 1);
+
+		List<PozitieClient> listBorder = null;
+		try {
+			listBorder = getStartStopBorderou(codBorderou);
+		} catch (SQLException e) {
+			System.out.println(e.toString() + " sql = " + sqlString);
+		}
+
+		listPozitii.add(0, listBorder.get(0));
+		listPozitii.add(listPozitii.size(), listBorder.get(1));
+		listBorder.get(1).setPoz(listPozitii.size() - 1);
+
+		return listPozitii;
+	}
+
+	public List<PozitieClient> getCoordClientiBorderou1(String codBorderou, EnumCoordClienti stareClienti) {
 
 		List<PozitieClient> listPozitii = null;
 		DBManager manager = new DBManager();
@@ -85,6 +152,7 @@ public class OperatiiTraseu {
 			CoordonateGps coordonate = null;
 
 			public PozitieClient mapRow(ResultSet rs, int rowNum) throws SQLException {
+
 				PozitieClient pozitie = new PozitieClient();
 				pozitie.setPoz(Integer.valueOf(rs.getString("poz")));
 				pozitie.setCodClient(rs.getString("cod_client"));
@@ -94,6 +162,7 @@ public class OperatiiTraseu {
 
 					pozitie.setLatitudine(coordonate.getLatitude());
 					pozitie.setLongitudine(coordonate.getLongitude());
+
 				} else {
 					pozitie.setLatitudine(Double.valueOf(rs.getString("latitude")));
 					pozitie.setLongitudine(Double.valueOf(rs.getString("longitude")));
@@ -155,10 +224,56 @@ public class OperatiiTraseu {
 			System.out.println(e.toString());
 		}
 
+		if (coordonate == null)
+			return new CoordonateGps();
 		return coordonate;
 	}
 
 	public DateBorderou getDateBorderou(String codBorderou) throws SQLException {
+
+		DBManager manager = new DBManager();
+
+		Connection conn = manager.getProdDataSource().getConnection();
+
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select to_char(trunc(to_date(data,'yyyymmdd')),'DD-MM-YYYY')||' '||to_char(to_date(ora,'HH24:MI:SS'),'HH24:MI:SS') dataEmitere, ");
+		sqlString.append(" masina from (select v.tknum as numarb, m.exidv as masina, p.pernr as cod_sofer, ");
+		sqlString.append(" (select fili from websap.soferi where cod=p.pernr) fili, ");
+		sqlString.append(" v.shtyp, ");
+		sqlString.append(" (case when v.dareg != '00000000' then v.dareg ");
+		sqlString.append(" else  (case when (select DATA_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) != '00000000' then ");
+		sqlString.append(" (select DATA_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) else v.dtdis end) ");
+		sqlString.append(" end) data, ");
+		sqlString.append(" (case when v.uareg != '000000' then v.uareg ");
+		sqlString.append(" else  (case when (select ora_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) != '000000' then ");
+		sqlString.append(" (select ora_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) ");
+		sqlString.append(" else v.uzdis end) end) ora ");
+		sqlString.append(" from sapprd.vttk v join sapprd.vekp m on v.mandt = m.mandt and v.tknum = m.vpobjkey and m.vpobj = '04' join ");
+		sqlString.append(" sapprd.vtpa p on v.mandt = p.mandt and v.tknum = p.vbeln and p.parvw = 'ZF' where v.mandt = '900') ");
+		sqlString.append(" where numarb =? ");
+
+		PreparedStatement stmt = conn.prepareStatement(sqlString.toString());
+
+		stmt.setString(1, codBorderou);
+
+		ResultSet rs = stmt.executeQuery();
+		DateBorderou dateBorderou = new DateBorderou();
+		while (rs.next()) {
+			dateBorderou.setDataEmitere(rs.getString("dataEmitere"));
+			dateBorderou.setNrMasina(rs.getString("masina"));
+		}
+
+		if (rs != null)
+			rs.close();
+
+		if (conn != null)
+			conn.close();
+
+		return dateBorderou;
+	}
+
+	public DateBorderou getDateBorderou1(String codBorderou) throws SQLException {
 
 		DBManager manager = new DBManager();
 

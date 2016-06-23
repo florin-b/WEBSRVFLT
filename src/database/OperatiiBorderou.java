@@ -4,14 +4,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
 
 import beans.BeanEvenimentTableta;
-import enums.EnumStatusMotor;
 import queries.SqlQueries;
+import utils.MailOperations;
+import utils.UtilsFormatting;
 
 public class OperatiiBorderou {
+
+	private String idDevice;
 
 	public String getBorderouActiv(String codSofer) throws SQLException {
 
@@ -84,12 +94,148 @@ public class OperatiiBorderou {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			MailOperations.sendMail(e.toString());
 		}
+
+		verificaPlecariClient(listEvenimente);
 
 		return listEvenimente;
 	}
 
-	
+	private void verificaPlecariClient(List<BeanEvenimentTableta> listEvenimente) {
+
+		ListIterator<BeanEvenimentTableta> iterator = listEvenimente.listIterator();
+
+		while (iterator.hasNext()) {
+
+			BeanEvenimentTableta ev = iterator.next();
+
+			if (ev.getEveniment().equals("S")) {
+				setPlecareClient(listEvenimente, ev, iterator);
+			}
+		}
+
+	}
+
+	private void setPlecareClient(List<BeanEvenimentTableta> listEvenimente, BeanEvenimentTableta eveniment, ListIterator<BeanEvenimentTableta> iterator) {
+
+		for (BeanEvenimentTableta ev : listEvenimente) {
+
+			if (ev.getClient().equals(eveniment) && ev.getEveniment().equals("P") && ev.getCodAdresa().equals(eveniment.getCodAdresa())) {
+				return;
+			}
+
+		}
+
+		setEvenimentPlecare(listEvenimente, eveniment, iterator);
+
+	}
+
+	private void setEvenimentPlecare(List<BeanEvenimentTableta> listEvenimente, BeanEvenimentTableta eveniment, ListIterator<BeanEvenimentTableta> iterator) {
+
+		DBManager manager = new DBManager();
+
+		String sqlString = " select to_char(record_time,'yyyymmdd') data, to_char(record_time,'HH24miss') ora ,latitude, longitude, mileage "
+				+ " from gps_date where device_id =? "
+				+ " and speed > 0 and record_time > to_date(?,'dd-mm-yyyy HH24:mi:ss')   and rownum < 2 order by record_time ";
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
+
+			String dateComp = UtilsFormatting.formatDateSimpleYear(eveniment.getData() + " " + eveniment.getOra());
+
+			stmt.setString(1, idDevice);
+			stmt.setString(2, dateComp);
+
+			stmt.execute();
+			ResultSet rs = stmt.getResultSet();
+
+			rs.next();
+
+			BeanEvenimentTableta evPlecare = new BeanEvenimentTableta();
+			evPlecare.setClient(eveniment.getClient());
+			evPlecare.setCodAdresa(eveniment.getCodAdresa());
+			evPlecare.setEveniment("P");
+			evPlecare.setData(rs.getString("data"));
+			evPlecare.setOra(rs.getString("ora"));
+			evPlecare.setGps(rs.getDouble("latitude") + "," + rs.getDouble("longitude"));
+			evPlecare.setKmBord(rs.getInt("mileage"));
+			iterator.add(evPlecare);
+
+		} catch (SQLException e) {
+			MailOperations.sendMail(e.toString());
+		}
+
+	}
+
+	public Date getMaxDateEveniment(List<BeanEvenimentTableta> listEvenimente, String codBorderou) {
+
+		DateFormat sdf = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", Locale.US);
+		Date date1 = null;
+		Date date2 = null;
+		try {
+			date1 = sdf.parse("01-Jan-70 00:00:00");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		for (BeanEvenimentTableta eveniment : listEvenimente) {
+
+			if ((eveniment.getEveniment().equals("P") && eveniment.getClient().equals(codBorderou))
+					|| (eveniment.getEveniment().equals("S") && !eveniment.getClient().equals(codBorderou))) {
+
+				String dataEv = eveniment.getData() + " " + eveniment.getOra();
+				try {
+					date2 = sdf.parse(UtilsFormatting.formatDateSimple(dataEv));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				if (date2.compareTo(date1) > 0)
+					date1 = date2;
+			}
+
+		}
+
+		return date2;
+	}
+
+	public static String getCoordFromArchive(String codBorderou, String data) {
+
+		DBManager manager = new DBManager();
+		String results = "";
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SqlQueries.getCoordEventFromArchive(), ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_READ_ONLY);) {
+
+			stmt.setString(1, data);
+			stmt.setString(2, codBorderou);
+			stmt.setString(3, data);
+			stmt.setString(4, data);
+			stmt.setString(5, data);
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+
+				results = String.valueOf(rs.getDouble("latitude"));
+				results += ", " + String.valueOf(rs.getDouble("longitude"));
+				results += ", " + String.valueOf(rs.getLong("mileage"));
+
+			}
+
+		} catch (SQLException e) {
+			MailOperations.sendMail(e.toString());
+		}
+
+		return results;
+
+	}
+
+	public void setIdDevice(String idDevice) {
+		this.idDevice = idDevice;
+	}
 
 }

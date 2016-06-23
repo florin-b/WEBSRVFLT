@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import beans.BeanEvenimentStop;
+import beans.DateBorderou;
 import beans.PozitieClient;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
@@ -16,6 +17,8 @@ import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import model.CalculeazaTraseu;
 
+import utils.MapUtils;
+
 public class FlotaWS {
 
 	public Set<RezultatTraseu> getStareBorderou(String codBorderou) {
@@ -24,35 +27,47 @@ public class FlotaWS {
 
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
-		List<TraseuBorderou> traseuBorderou = operatiiTraseu.getTraseuBorderou(codBorderou);
-		List<PozitieClient> pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);
+		List<TraseuBorderou> traseuBorderou = null;
+		List<PozitieClient> pozitiiClienti = null;
+
+		DateBorderou dateBorderou = null;
+		try {
+			dateBorderou = operatiiTraseu.getDateBorderou(codBorderou);
+		} catch (SQLException e) {
+			System.out.println(e.getStackTrace().toString());
+		}
+		
+		
+		try {
+			traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
+			pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		CalculeazaTraseu calculeaza = new CalculeazaTraseu(codBorderou);
 		calculeaza.setPozitiiClienti(pozitiiClienti);
 		calculeaza.setTraseuBorderou(traseuBorderou);
+		calculeaza.setDateBorderou(dateBorderou);
 
 		rezultat = calculeaza.getStareTraseu();
-		System.out.println("Rezultat traseu: " + rezultat);
 
 		return rezultat;
 	}
 
 	public String getEvenimentStop(String codBorderou) throws IOException {
-		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
+
 		BeanEvenimentStop evenimentStop = new BeanEvenimentStop();
-		List<PozitieClient> pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.NEVIZITATI);
 		OperatiiMasina operatiiMasina = new OperatiiMasina();
-		try {
 
-			evenimentStop = operatiiMasina.getInfoEvenimentStop(codBorderou, pozitiiClienti);
-
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
+		
 
 		return operatiiMasina.serializeEvenimentStop(evenimentStop);
 
+	}
+
+	public String getCoordAddress(String codJudet, String localitate, String strada, String numar) {
+		return MapUtils.getCoordAddress(codJudet, localitate, strada, numar);
 	}
 
 	public boolean getStartBorderou(String codSofer) {
@@ -70,15 +85,30 @@ public class FlotaWS {
 
 		if (borderouActiv != null) {
 			OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
-			List<TraseuBorderou> traseuBorderou = operatiiTraseu.getTraseuBorderou(borderouActiv);
+			
+			DateBorderou dateBorderou = null;
+			try {
+				dateBorderou = operatiiTraseu.getDateBorderou(borderouActiv);
+			} catch (SQLException e) {
+				System.out.println(e.getStackTrace().toString());
+			}
+
+			List<TraseuBorderou> traseuBorderou = null;
+
+			try {
+				traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			List<PozitieClient> pozitiiClienti = operatiiTraseu.getFilialaStartBorderou(borderouActiv);
 
 			CalculeazaTraseu calculeaza = new CalculeazaTraseu(borderouActiv);
 			calculeaza.setPozitiiClienti(pozitiiClienti);
 			calculeaza.setTraseuBorderou(traseuBorderou);
+			calculeaza.setDateBorderou(dateBorderou);
 
 			rezultat = calculeaza.getStareTraseu();
-			System.out.println("Rezultat traseu: " + rezultat);
 
 			OperatiiBorderou opBorderou = new OperatiiBorderou();
 
@@ -101,6 +131,10 @@ public class FlotaWS {
 
 		return isBordStarted ? isBordMarked : false;
 
+	}
+
+	public boolean sendSms(String nrTelefon, String mesaj) {
+		return false;
 	}
 
 }

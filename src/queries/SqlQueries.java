@@ -31,6 +31,18 @@ public class SqlQueries {
 
 		return str.toString();
 	}
+	
+	
+	public static String getBorderouActivMasina() {
+		StringBuilder str = new StringBuilder();
+
+		
+		str.append(" select numarb from ( ");
+		str.append(" select numarb from websap.borderouri where sttrg in( 4, 6) ");
+		str.append(" and masina =? order by sttrg desc,data_e asc) x where rownum<2 ");
+
+		return str.toString();
+	}
 
 	public static String isBorderouMarkedStart() {
 		StringBuilder sqlString = new StringBuilder();
@@ -45,7 +57,7 @@ public class SqlQueries {
 		StringBuilder sqlString = new StringBuilder();
 
 		sqlString.append(" select client, codadresa, eveniment, data, ora,  gps, fms from sapprd.zevenimentsofer ");
-		sqlString.append(" where document =? order by data, ora");
+		sqlString.append(" where document =? order by data, ora ");
 
 		return sqlString.toString();
 	}
@@ -53,8 +65,8 @@ public class SqlQueries {
 	public static String getStareMotor() {
 		StringBuilder sqlString = new StringBuilder();
 
-		sqlString.append(
-				" select a.engine_on, c.latitude, c.longitude, a.id from gps_engine a, gps_masini b, gps_date c where b.nr_masina =? and a.device_id = b.id ");
+		sqlString.append(" select a.engine_on, c.latitude, c.longitude, a.id from gps_engine a, gps_masini b, gps_date c where b.nr_masina =? "
+				+ " and a.device_id = b.id and c.speed = 0 ");
 		sqlString.append(" and c.id = a.id and a.id = (select max(id) from gps_engine where device_id = b.id) ");
 
 		return sqlString.toString();
@@ -96,6 +108,28 @@ public class SqlQueries {
 		sqlString.append(" and z.codadresa(+) = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
 		sqlString.append(" and  nvl(z.data,-1) = -1 ");
 		sqlString.append(" order by a.poz ");
+
+		return sqlString.toString();
+	}
+
+	public static String getCoordEventFromArchive() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select latitude, longitude, nvl(mileage,0) mileage from ( ");
+		sqlString.append(" select latitude, longitude, mileage, ");
+		sqlString.append(" (to_date(?, 'yyyymmdd hh24miss') - record_time) * 24 * 60  diff from gps_date where device_id = ");
+		sqlString.append(" (select id from gps_masini where nr_masina = (select replace(masina, '-', '') from websap.borderouri where numarb =?)) and ");
+		sqlString.append(" record_time between(to_date(?, 'yyyymmdd hh24miss') - 15 / (24 * 60)) and(to_date(?, 'yyyymmdd hh24miss') + 15 / (24 * 60)) ");
+		sqlString.append(" and(to_date(?, 'yyyymmdd hh24miss') - record_time) * 24 * 60 >= 0 order by diff ) where rownum< 2 ");
+
+		return sqlString.toString();
+	}
+
+	public static String getDateBorderouSofer() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select a.data, a.ora, b.masina from sapprd.zevenimentsofer a, borderouri b where a.document =? ");
+		sqlString.append(" and a.client = a.document and a.eveniment = 'P' and b.numarb = a.document ");
 
 		return sqlString.toString();
 	}
