@@ -79,13 +79,13 @@ public class SqlQueries {
 
 		return sqlString.toString();
 	}
-
+	
 	public static String getCoordClientiBorderouAll() {
 		StringBuilder sqlString = new StringBuilder();
 
 		sqlString.append(" select a.poz, c.nume, decode(a.cod_client,'', a.cod_furnizor, a.cod_client) cod_client, ");
 		sqlString.append(" decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) cod_adresa,  b.city1, b.street, b.house_num1, b.region, a.name1, ");
-		sqlString.append(" nvl(d.latitude,-1) latitude, nvl(d.longitude,-1) longitude ");
+		sqlString.append(" decode(length(a.coord_gps_client),1,'0,0',a.coord_gps_client) coord_client ");
 		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d where a.nr_bord =:codBorderou ");
 		sqlString.append(" and c.cod = a.cod_client ");
 		sqlString.append(" and b.client = '900' and b.addrnumber = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
@@ -99,7 +99,7 @@ public class SqlQueries {
 
 		sqlString.append(" select distinct a.poz, c.nume, decode(a.cod_client,'', a.cod_furnizor, a.cod_client) cod_client, ");
 		sqlString.append(" decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) cod_adresa,  b.city1, b.street, b.house_num1, b.region, a.name1, ");
-		sqlString.append(" nvl(d.latitude,-1) latitude, nvl(d.longitude,-1) longitude ");
+		sqlString.append(" decode(length(a.coord_gps_client),1,'0,0',a.coord_gps_client) coord_client ");
 		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d, sapprd.zevenimentsofer z  ");
 		sqlString.append(" where a.nr_bord =:codBorderou and c.cod = a.cod_client ");
 		sqlString.append(" and b.client = '900' and b.addrnumber = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");

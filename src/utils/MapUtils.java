@@ -61,11 +61,9 @@ public class MapUtils {
 		strAddress.append(address.getCountry());
 
 		GeoApiContext context = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY);
+		context.setRetryTimeout(0, TimeUnit.SECONDS);
 		GeocodingResult[] results = GeocodingApi.geocode(context, strAddress.toString()).await();
 
-		
-		
-		
 		double latitude = results[0].geometry.location.lat;
 		double longitude = results[0].geometry.location.lng;
 
@@ -77,6 +75,9 @@ public class MapUtils {
 	public static String getCoordAddress(String codJudet, String localitate, String strada, String numar) {
 
 		StringBuilder strAddress = new StringBuilder();
+
+		double latitude = 0;
+		double longitude = 0;
 
 		if (strada != null && !strada.trim().equals("")) {
 			strAddress.append(strada.trim());
@@ -100,7 +101,6 @@ public class MapUtils {
 
 		strAddress.append("Romania");
 
-		
 		GeoApiContext context = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY);
 		context.setRetryTimeout(0, TimeUnit.SECONDS);
 		GeocodingResult[] results = null;
@@ -108,10 +108,9 @@ public class MapUtils {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
 		} catch (Exception e) {
 			e.printStackTrace();
+			latitude = -1;
+			longitude = -1;
 		}
-
-		double latitude = 0;
-		double longitude = 0;
 
 		if (results.length > 0) {
 			latitude = results[0].geometry.location.lat;

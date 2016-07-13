@@ -76,6 +76,9 @@ public class OperatiiTraseu {
 		if (stareClienti == EnumCoordClienti.NEVIZITATI)
 			sqlString = SqlQueries.getCoordClientiNevisit();
 
+		
+		
+		
 		try (Connection conn = manager.getProdDataSource().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
@@ -85,22 +88,14 @@ public class OperatiiTraseu {
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
 
-				CoordonateGps coordonate = null;
-
 				PozitieClient pozitie = new PozitieClient();
 				pozitie.setPoz(Integer.valueOf(rs.getString("poz")));
 				pozitie.setCodClient(rs.getString("cod_client"));
 
-				if (rs.getString("latitude").equals("-1")) {
-					coordonate = getCoordonate(rs.getString("region"), rs.getString("city1"), rs.getString("house_num1"), rs.getString("street"));
+				String[] coordonate = rs.getString("coord_client").split(",");
 
-					pozitie.setLatitudine(coordonate.getLatitude());
-					pozitie.setLongitudine(coordonate.getLongitude());
-
-				} else {
-					pozitie.setLatitudine(Double.valueOf(rs.getString("latitude")));
-					pozitie.setLongitudine(Double.valueOf(rs.getString("longitude")));
-				}
+				pozitie.setLatitudine(Double.valueOf(coordonate[0]));
+				pozitie.setLongitudine(Double.valueOf(coordonate[1]));
 
 				pozitie.setNumeClient(rs.getString("nume"));
 				pozitie.setCodAdresa(rs.getString("cod_adresa"));
@@ -111,21 +106,24 @@ public class OperatiiTraseu {
 			}
 
 		}
-		
-		
-		//eliminare ultima etapa
-		listPozitii.remove(listPozitii.size() - 1);
 
-		List<PozitieClient> listBorder = null;
-		try {
-			listBorder = getStartStopBorderou(codBorderou);
-		} catch (SQLException e) {
-			System.out.println(e.toString() + " sql = " + sqlString);
+		
+		if (listPozitii.size() > 1) {
+			
+			// eliminare ultima etapa
+			listPozitii.remove(listPozitii.size() - 1);
+
+			List<PozitieClient> listBorder = null;
+			try {
+				listBorder = getStartStopBorderou(codBorderou);
+			} catch (SQLException e) {
+				System.out.println(e.toString() + " sql = " + sqlString);
+			}
+
+			listPozitii.add(0, listBorder.get(0));
+			listPozitii.add(listPozitii.size(), listBorder.get(1));
+			listBorder.get(1).setPoz(listPozitii.size() - 1);
 		}
-
-		listPozitii.add(0, listBorder.get(0));
-		listPozitii.add(listPozitii.size(), listBorder.get(1));
-		listBorder.get(1).setPoz(listPozitii.size() - 1);
 
 		return listPozitii;
 	}
@@ -252,6 +250,9 @@ public class OperatiiTraseu {
 		sqlString.append(" from sapprd.vttk v join sapprd.vekp m on v.mandt = m.mandt and v.tknum = m.vpobjkey and m.vpobj = '04' join ");
 		sqlString.append(" sapprd.vtpa p on v.mandt = p.mandt and v.tknum = p.vbeln and p.parvw = 'ZF' where v.mandt = '900') ");
 		sqlString.append(" where numarb =? ");
+		
+		
+		
 
 		PreparedStatement stmt = conn.prepareStatement(sqlString.toString());
 

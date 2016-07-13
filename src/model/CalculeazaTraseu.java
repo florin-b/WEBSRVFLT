@@ -73,6 +73,9 @@ public class CalculeazaTraseu {
 
 	private void descoperaEvenimente() {
 
+		
+		
+		
 		OperatiiBorderou opBorderou = new OperatiiBorderou();
 		opBorderou.setIdDevice(new OperatiiMasina().getIdDevice(dateBorderou.getNrMasina()));
 

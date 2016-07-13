@@ -99,8 +99,8 @@ public class OperatiiMasina {
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
 
-			rs.next();
-			deviceId = rs.getString("id");
+			if (rs.next())
+				deviceId = rs.getString("id");
 
 		} catch (SQLException e) {
 

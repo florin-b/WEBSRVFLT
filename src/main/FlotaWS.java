@@ -38,6 +38,9 @@ public class FlotaWS {
 		}
 		
 		
+		if (dateBorderou.getNrMasina() == null)
+			return null;
+		
 		try {
 			traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
 			pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);

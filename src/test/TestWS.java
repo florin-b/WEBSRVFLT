@@ -24,13 +24,15 @@ public class TestWS {
 	}
 
 	private static String testGps() {
-		return MapUtils.getCoordAddress("17", "Tecuci", "Militari", "4");
+		return MapUtils.getCoordAddress("17", "Galati", "STRADA ROSIORI, piata ancora NR 1", "");
 	}
 
 	private static void testBorderou() {
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
-		String codBorderou = "0001473316";
+		System.out.println("Start");
+		
+		String codBorderou = "0001490570";
 
 		// 0001471175
 		
@@ -41,6 +43,8 @@ public class TestWS {
 			System.out.println(e.getStackTrace().toString());
 		}
 		
+		if (dateBorderou.getNrMasina() == null)
+			return ;
 
 		List<TraseuBorderou> traseuBorderou = null;
 
