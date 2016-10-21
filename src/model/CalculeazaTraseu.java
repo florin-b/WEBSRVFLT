@@ -18,12 +18,16 @@ import beans.PozitieClient;
 import beans.PozitieGps;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
+
 import database.OperatiiBorderou;
 import database.OperatiiMasina;
 import enums.EnumTipClient;
 import utils.Constants;
 import utils.MapUtils;
+import utils.Utils;
 import utils.UtilsFormatting;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CalculeazaTraseu {
 
@@ -37,6 +41,8 @@ public class CalculeazaTraseu {
 	private DateBorderou dateBorderou;
 
 	private List<BeanEvenimentTableta> listEvenimenteTableta;
+
+	private static final Logger logger = LogManager.getLogger(CalculeazaTraseu.class);
 
 	private enum EvenimentClient {
 		SOSIRE, PLECARE
@@ -73,9 +79,6 @@ public class CalculeazaTraseu {
 
 	private void descoperaEvenimente() {
 
-		
-		
-		
 		OperatiiBorderou opBorderou = new OperatiiBorderou();
 		opBorderou.setIdDevice(new OperatiiMasina().getIdDevice(dateBorderou.getNrMasina()));
 
@@ -89,6 +92,11 @@ public class CalculeazaTraseu {
 
 				distanta = MapUtils.distanceXtoY(traseu.getLatitudine(), traseu.getLongitudine(), pozitieClient.getLatitudine(), pozitieClient.getLongitudine(),
 						"K");
+
+				if (distanta < 700){
+				//	System.out.println(pozitieClient.getCodClient()+ " , " + traseu.getDataInreg() + " , " + distanta + " , " + traseu.getViteza());
+				//	System.out.println(rezultatTraseu);
+				}
 
 				if (conditiiSosire(traseu, distanta, pozitieClient, maxEventDate)) {
 					pozitieClient.setKmBord(traseu.getKm());
@@ -114,8 +122,8 @@ public class CalculeazaTraseu {
 				return false;
 			}
 
-			if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
-				return false;
+			//if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
+			//	return false;
 
 		}
 
@@ -143,9 +151,9 @@ public class CalculeazaTraseu {
 			}
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return maxDate;
@@ -169,7 +177,7 @@ public class CalculeazaTraseu {
 				return true;
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return false;
@@ -288,7 +296,6 @@ public class CalculeazaTraseu {
 				for (RezultatTraseu traseu : rezultatTraseu) {
 					if (traseu.getCodClient().equals(pozitieClient.getCodClient())) {
 						traseu.setPlecare(new PozitieGps(traseuBord.getDataInreg(), traseuBord.getLatitudine(), traseuBord.getLongitudine()));
-
 						break;
 					}
 				}
@@ -348,27 +355,7 @@ public class CalculeazaTraseu {
 		completeazaDateSofer();
 		corecteazaTraseuBorderou();
 
-		// eliminaUltimaEtapa();
-
 		return traseuFinal;
-
-	}
-
-	private void eliminaUltimaEtapa() {
-
-		Iterator<RezultatTraseu> iterator = traseuFinal.iterator();
-
-		int count = 0;
-		while (iterator.hasNext()) {
-			iterator.next();
-
-			if (count == traseuFinal.size() - 2) {
-				iterator.remove();
-				break;
-			}
-			count++;
-
-		}
 
 	}
 
@@ -409,8 +396,8 @@ public class CalculeazaTraseu {
 		try {
 			dateStart = sdf.parse(dataStartBorderou);
 			dateStop = sdf.parse(dataStopBorderou);
-		} catch (Exception ex) {
-			System.out.println(ex.toString());
+		} catch (Exception e) {
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		Date dateTraseu = null;
@@ -428,8 +415,8 @@ public class CalculeazaTraseu {
 				if (dateStop != null && dateTraseu.getTime() > dateStop.getTime())
 					iterator.remove();
 
-			} catch (Exception ex) {
-				System.out.println(ex.toString());
+			} catch (Exception e) {
+				logger.error(Utils.getStackTrace(e));
 			}
 
 		}

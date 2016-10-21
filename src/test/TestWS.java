@@ -15,36 +15,42 @@ import enums.EnumCoordClienti;
 import model.CalculeazaTraseu;
 import utils.MapUtils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class TestWS {
 
+	private static final Logger logger = LogManager.getLogger(TestWS.class);
+
 	public static void main(String[] args) {
-		//System.out.println(testGps());
-		testBorderou();
+		// testGps();
+		 testBorderou();
 
 	}
 
-	private static String testGps() {
-		return MapUtils.getCoordAddress("17", "Galati", "STRADA ROSIORI, piata ancora NR 1", "");
+	private static void testGps() {
+		System.out.println(MapUtils.getCoordAddress("17", "Galati", "STRADA timisului", "1"));
+
 	}
 
 	private static void testBorderou() {
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
 		System.out.println("Start");
-		
-		String codBorderou = "0001490570";
+
+		String codBorderou = "0001550473";
 
 		// 0001471175
-		
+
 		DateBorderou dateBorderou = null;
 		try {
 			dateBorderou = operatiiTraseu.getDateBorderou(codBorderou);
 		} catch (SQLException e) {
 			System.out.println(e.getStackTrace().toString());
 		}
-		
+
 		if (dateBorderou.getNrMasina() == null)
-			return ;
+			return;
 
 		List<TraseuBorderou> traseuBorderou = null;
 
@@ -61,9 +67,6 @@ public class TestWS {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 
 		CalculeazaTraseu calculeaza = new CalculeazaTraseu(codBorderou);
 		calculeaza.setPozitiiClienti(pozitiiClienti);
@@ -91,7 +94,7 @@ public class TestWS {
 
 		if (borderouActiv != null) {
 			OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
-			
+
 			DateBorderou dateBorderou = null;
 			try {
 				dateBorderou = operatiiTraseu.getDateBorderou(borderouActiv);

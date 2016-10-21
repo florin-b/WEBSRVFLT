@@ -22,9 +22,16 @@ import enums.EnumStatusMotor;
 import queries.SqlQueries;
 import utils.Constants;
 import utils.MapUtils;
+import utils.Utils;
 import utils.UtilsFormatting;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class OperatiiMasina {
+	
+	private static final Logger logger = LogManager.getLogger(OperatiiMasina.class);
+	
 	public BeanStatusMotor getStatusMotor(String nrMasina) throws SQLException {
 		DBManager manager = new DBManager();
 		BeanStatusMotor status = null;
@@ -103,8 +110,7 @@ public class OperatiiMasina {
 				deviceId = rs.getString("id");
 
 		} catch (SQLException e) {
-
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return deviceId;

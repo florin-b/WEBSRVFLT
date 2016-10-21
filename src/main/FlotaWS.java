@@ -18,8 +18,14 @@ import enums.EnumCoordClienti;
 import model.CalculeazaTraseu;
 
 import utils.MapUtils;
+import utils.Utils;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class FlotaWS {
+
+	private static final Logger logger = LogManager.getLogger(FlotaWS.class);
 
 	public Set<RezultatTraseu> getStareBorderou(String codBorderou) {
 
@@ -34,18 +40,17 @@ public class FlotaWS {
 		try {
 			dateBorderou = operatiiTraseu.getDateBorderou(codBorderou);
 		} catch (SQLException e) {
-			System.out.println(e.getStackTrace().toString());
+			logger.error(Utils.getStackTrace(e));
 		}
-		
-		
+
 		if (dateBorderou.getNrMasina() == null)
 			return null;
-		
+
 		try {
 			traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
 			pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		CalculeazaTraseu calculeaza = new CalculeazaTraseu(codBorderou);
@@ -62,8 +67,6 @@ public class FlotaWS {
 
 		BeanEvenimentStop evenimentStop = new BeanEvenimentStop();
 		OperatiiMasina operatiiMasina = new OperatiiMasina();
-
-		
 
 		return operatiiMasina.serializeEvenimentStop(evenimentStop);
 
@@ -82,27 +85,26 @@ public class FlotaWS {
 
 		try {
 			borderouActiv = new OperatiiBorderou().getBorderouActiv(codSofer);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+		} catch (SQLException e) {
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		if (borderouActiv != null) {
 			OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
-			
+
 			DateBorderou dateBorderou = null;
 			try {
 				dateBorderou = operatiiTraseu.getDateBorderou(borderouActiv);
 			} catch (SQLException e) {
-				System.out.println(e.getStackTrace().toString());
+				logger.error(Utils.getStackTrace(e));
 			}
 
 			List<TraseuBorderou> traseuBorderou = null;
 
 			try {
 				traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (SQLException e) {
+				logger.error(Utils.getStackTrace(e));
 			}
 			List<PozitieClient> pozitiiClienti = operatiiTraseu.getFilialaStartBorderou(borderouActiv);
 

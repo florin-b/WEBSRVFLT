@@ -3,10 +3,17 @@ package utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class UtilsFormatting {
+
+	private static final Logger logger = LogManager.getLogger(UtilsFormatting.class);
+
 	public static String formatDateSap(String stringDate) {
 		String formattedDate = "";
 
@@ -24,7 +31,7 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return formattedDate;
@@ -47,13 +54,12 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return formattedDate;
 	}
-	
-	
+
 	public static String formatDateSimpleYear(String stringDate) {
 		String formattedDate = "";
 
@@ -71,12 +77,11 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return formattedDate;
 	}
-	
 
 	public static String formatDateLocal(String stringDate) {
 		String formattedDate = "";
@@ -95,7 +100,7 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return formattedDate;
@@ -122,11 +127,18 @@ public class UtilsFormatting {
 				return false;
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return true;
 
+	}
+
+	public static Date addDays(Date date, int days) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, days);
+		return cal.getTime();
 	}
 
 }

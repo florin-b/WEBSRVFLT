@@ -9,8 +9,13 @@ import com.google.maps.model.GeocodingResult;
 import beans.StandardAddress;
 import beans.CoordonateGps;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MapUtils {
 
+	private static final Logger logger = LogManager.getLogger(MapUtils.class);
+	
 	public static double distanceXtoY(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
@@ -102,15 +107,21 @@ public class MapUtils {
 		strAddress.append("Romania");
 
 		GeoApiContext context = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY);
+		context.setQueryRateLimit(2);
 		context.setRetryTimeout(0, TimeUnit.SECONDS);
 		GeocodingResult[] results = null;
 		try {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e));
 			latitude = -1;
 			longitude = -1;
+			return e.toString();
+			
 		}
+		
+		
 
 		if (results.length > 0) {
 			latitude = results[0].geometry.location.lat;

@@ -11,8 +11,14 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import oracle.jdbc.pool.OracleDataSource;
+import utils.Utils;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBManager {
+
+	private static final Logger logger = LogManager.getLogger(DBManager.class);
 
 	public DataSource getProdDataSource() {
 		InitialContext initContext;
@@ -22,13 +28,11 @@ public class DBManager {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			ds = (DataSource) envContext.lookup("jdbc/myoracle_prod");
 		} catch (NamingException e) {
-			System.out.println(e.toString());
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return ds;
 	}
-
-	
 
 	public DataSource getProdDataSource1() {
 		Properties props = new Properties();
@@ -48,8 +52,7 @@ public class DBManager {
 		}
 		return oracleDS;
 	}
-	
-	
+
 	public DataSource getTestDataSource() {
 		InitialContext initContext;
 		DataSource ds = null;
@@ -63,9 +66,7 @@ public class DBManager {
 
 		return ds;
 	}
-	
-	
-	
+
 	public DataSource getTestDataSource1() {
 		Properties props = new Properties();
 		FileInputStream fis = null;
@@ -84,6 +85,5 @@ public class DBManager {
 		}
 		return oracleDS;
 	}
-	
 
 }

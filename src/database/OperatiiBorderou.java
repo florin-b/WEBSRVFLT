@@ -16,12 +16,16 @@ import java.util.Locale;
 
 import beans.BeanEvenimentTableta;
 import queries.SqlQueries;
-import utils.MailOperations;
+import utils.Utils;
 import utils.UtilsFormatting;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OperatiiBorderou {
 
 	private String idDevice;
+	private static final Logger logger = LogManager.getLogger(OperatiiBorderou.class);
 
 	public String getBorderouActiv(String codSofer) throws SQLException {
 
@@ -94,7 +98,7 @@ public class OperatiiBorderou {
 			}
 
 		} catch (SQLException e) {
-			MailOperations.sendMail(e.toString());
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		verificaPlecariClient(listEvenimente);
@@ -127,7 +131,8 @@ public class OperatiiBorderou {
 
 		}
 
-		setEvenimentPlecare(listEvenimente, eveniment, iterator);
+		if (eveniment.getData() != null)
+			setEvenimentPlecare(listEvenimente, eveniment, iterator);
 
 	}
 
@@ -135,14 +140,16 @@ public class OperatiiBorderou {
 
 		DBManager manager = new DBManager();
 
+		String dateComp = null;
+
 		String sqlString = " select to_char(record_time,'yyyymmdd') data, to_char(record_time,'HH24miss') ora ,latitude, longitude, mileage "
 				+ " from gps_date where device_id =? "
-				+ " and speed > 0 and record_time > to_date(?,'dd-mm-yyyy HH24:mi:ss')   and rownum < 2 order by record_time ";
+				+ " and speed > 0 and record_time > to_date(?,'dd-mm-yyyy HH24:mi:ss') and rownum < 2 order by record_time ";
 
 		try (Connection conn = manager.getProdDataSource().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
-			String dateComp = UtilsFormatting.formatDateSimpleYear(eveniment.getData() + " " + eveniment.getOra());
+			dateComp = UtilsFormatting.formatDateSimpleYear(eveniment.getData() + " " + eveniment.getOra());
 
 			stmt.setString(1, idDevice);
 			stmt.setString(2, dateComp);
@@ -150,20 +157,22 @@ public class OperatiiBorderou {
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
 
-			rs.next();
-
 			BeanEvenimentTableta evPlecare = new BeanEvenimentTableta();
 			evPlecare.setClient(eveniment.getClient());
 			evPlecare.setCodAdresa(eveniment.getCodAdresa());
 			evPlecare.setEveniment("P");
-			evPlecare.setData(rs.getString("data"));
-			evPlecare.setOra(rs.getString("ora"));
-			evPlecare.setGps(rs.getDouble("latitude") + "," + rs.getDouble("longitude"));
-			evPlecare.setKmBord(rs.getInt("mileage"));
+
+			if (rs.next()) {
+				evPlecare.setData(rs.getString("data"));
+				evPlecare.setOra(rs.getString("ora"));
+				evPlecare.setGps(rs.getDouble("latitude") + "," + rs.getDouble("longitude"));
+				evPlecare.setKmBord(rs.getInt("mileage"));
+			}
+
 			iterator.add(evPlecare);
 
 		} catch (SQLException e) {
-			MailOperations.sendMail(e.toString());
+			logger.error(Utils.getStackTrace(e) + " device = " + idDevice + " date = " + dateComp);
 		}
 
 	}
@@ -176,13 +185,16 @@ public class OperatiiBorderou {
 		try {
 			date1 = sdf.parse("01-Jan-70 00:00:00");
 		} catch (Exception e) {
-			e.printStackTrace();
+
 		}
 
 		for (BeanEvenimentTableta eveniment : listEvenimente) {
 
 			if ((eveniment.getEveniment().equals("P") && eveniment.getClient().equals(codBorderou))
 					|| (eveniment.getEveniment().equals("S") && !eveniment.getClient().equals(codBorderou))) {
+
+				if (eveniment.getData() == null)
+					continue;
 
 				String dataEv = eveniment.getData() + " " + eveniment.getOra();
 				try {
@@ -197,7 +209,7 @@ public class OperatiiBorderou {
 
 		}
 
-		return date2;
+		return UtilsFormatting.addDays(date2, 1);
 	}
 
 	public static String getCoordFromArchive(String codBorderou, String data) {
@@ -227,7 +239,7 @@ public class OperatiiBorderou {
 			}
 
 		} catch (SQLException e) {
-			MailOperations.sendMail(e.toString());
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		return results;

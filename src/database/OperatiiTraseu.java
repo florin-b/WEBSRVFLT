@@ -21,10 +21,16 @@ import enums.EnumCoordClienti;
 import enums.EnumTipClient;
 import queries.SqlQueries;
 import utils.MapUtils;
+import utils.Utils;
 import utils.UtilsAdrese;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OperatiiTraseu {
 
+	private static final Logger logger = LogManager.getLogger(OperatiiTraseu.class);
+	
 	public List<TraseuBorderou> getTraseuBorderou(DateBorderou dateBorderou) throws SQLException {
 
 		DBManager manager = new DBManager();
@@ -92,10 +98,10 @@ public class OperatiiTraseu {
 				pozitie.setPoz(Integer.valueOf(rs.getString("poz")));
 				pozitie.setCodClient(rs.getString("cod_client"));
 
-				String[] coordonate = rs.getString("coord_client").split(",");
+				
 
-				pozitie.setLatitudine(Double.valueOf(coordonate[0]));
-				pozitie.setLongitudine(Double.valueOf(coordonate[1]));
+				pozitie.setLatitudine(Double.valueOf(rs.getString("latitudine")));
+				pozitie.setLongitudine(Double.valueOf(rs.getString("longitudine")));
 
 				pozitie.setNumeClient(rs.getString("nume"));
 				pozitie.setCodAdresa(rs.getString("cod_adresa"));
@@ -178,7 +184,7 @@ public class OperatiiTraseu {
 		try {
 			listBorder = getStartStopBorderou(codBorderou);
 		} catch (SQLException e) {
-			System.out.println(e.toString() + " sql = " + sqlString);
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		listPozitii.add(0, listBorder.get(0));
@@ -197,7 +203,7 @@ public class OperatiiTraseu {
 		try {
 			listBorder = getStartStopBorderou(codBorderou);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		listPozitii.add(0, listBorder.get(0));
@@ -219,7 +225,7 @@ public class OperatiiTraseu {
 		try {
 			coordonate = MapUtils.geocodeAddress(address);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			logger.error(Utils.getStackTrace(e));
 		}
 
 		if (coordonate == null)
