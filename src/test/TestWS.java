@@ -38,7 +38,7 @@ public class TestWS {
 
 		System.out.println("Start");
 
-		String codBorderou = "0001550473";
+		String codBorderou = "0001553715";
 
 		// 0001471175
 

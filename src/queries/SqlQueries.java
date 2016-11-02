@@ -11,10 +11,10 @@ public class SqlQueries {
 		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
 		sqlString.append(" c.pct = a.plecare),'0,0') plec_long, a.adr_plecare, ");
 		sqlString.append(" a.sosire, ");
-		sqlString.append(" nvl((select b.latitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
-		sqlString.append(" c.pct = a.sosire),'0,0') sosire_lat, ");
-		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
-		sqlString.append(" c.pct = a.sosire),'0,0') sosire_long, a.adr_sosire ");
+		sqlString.append(" nvl((select b.latitude from sapprd.zgpsdepcoord b where b.tdlnr = a.sosire ");
+		sqlString.append(" ),'0,0') sosire_lat, ");
+		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b where b.tdlnr = a.sosire ");
+		sqlString.append(" ),'0,0') sosire_long, a.adr_sosire ");
 		sqlString.append(" from websap.bord_ends a where a.tknum=?");
 
 		return sqlString.toString();
@@ -85,12 +85,16 @@ public class SqlQueries {
 
 		sqlString.append(" select a.poz, c.nume, decode(a.cod_client,'', a.cod_furnizor, a.cod_client) cod_client, ");
 		sqlString.append(" decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) cod_adresa,  b.city1, b.street, b.house_num1, b.region, a.name1, ");
-		sqlString.append(" e.latitudine, e.longitudine ");
-		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d, sapprd.zcoordadrese e where a.nr_bord =:codBorderou ");
+		sqlString.append(" e.latitudine, e.longitudine, nvl(f.latitude,'-1') lat_fil, nvl(f.longitude,'-1') long_fil ");
+		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d, sapprd.zcoordadrese e, sapprd.ZGPSDEPCOORD f " );
+		sqlString.append(" where a.nr_bord =:codBorderou ");
 		sqlString.append(" and c.cod = a.cod_client and e.idadresa = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
-		sqlString.append(" and b.client = '900' and b.addrnumber = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
+		sqlString.append(" and b.client = '900' and f.tdlnr(+) = a.cod_client and b.addrnumber = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
 		sqlString.append(" and d.idcomanda(+) = a.idcomanda order by a.poz ");
 
+		
+		
+		
 		return sqlString.toString();
 	}
 

@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 public class OperatiiTraseu {
 
 	private static final Logger logger = LogManager.getLogger(OperatiiTraseu.class);
-	
+
 	public List<TraseuBorderou> getTraseuBorderou(DateBorderou dateBorderou) throws SQLException {
 
 		DBManager manager = new DBManager();
@@ -82,9 +82,6 @@ public class OperatiiTraseu {
 		if (stareClienti == EnumCoordClienti.NEVIZITATI)
 			sqlString = SqlQueries.getCoordClientiNevisit();
 
-		
-		
-		
 		try (Connection conn = manager.getProdDataSource().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
@@ -98,10 +95,13 @@ public class OperatiiTraseu {
 				pozitie.setPoz(Integer.valueOf(rs.getString("poz")));
 				pozitie.setCodClient(rs.getString("cod_client"));
 
-				
-
-				pozitie.setLatitudine(Double.valueOf(rs.getString("latitudine")));
-				pozitie.setLongitudine(Double.valueOf(rs.getString("longitudine")));
+				if (!rs.getString("lat_fil").equals("-1")) {
+					pozitie.setLatitudine(Double.valueOf(rs.getString("lat_fil").replace(",", ".")));
+					pozitie.setLongitudine(Double.valueOf(rs.getString("long_fil").replace(",", ".")));
+				} else {
+					pozitie.setLatitudine(Double.valueOf(rs.getString("latitudine")));
+					pozitie.setLongitudine(Double.valueOf(rs.getString("longitudine")));
+				}
 
 				pozitie.setNumeClient(rs.getString("nume"));
 				pozitie.setCodAdresa(rs.getString("cod_adresa"));
@@ -113,9 +113,8 @@ public class OperatiiTraseu {
 
 		}
 
-		
 		if (listPozitii.size() > 1) {
-			
+
 			// eliminare ultima etapa
 			listPozitii.remove(listPozitii.size() - 1);
 
@@ -256,9 +255,6 @@ public class OperatiiTraseu {
 		sqlString.append(" from sapprd.vttk v join sapprd.vekp m on v.mandt = m.mandt and v.tknum = m.vpobjkey and m.vpobj = '04' join ");
 		sqlString.append(" sapprd.vtpa p on v.mandt = p.mandt and v.tknum = p.vbeln and p.parvw = 'ZF' where v.mandt = '900') ");
 		sqlString.append(" where numarb =? ");
-		
-		
-		
 
 		PreparedStatement stmt = conn.prepareStatement(sqlString.toString());
 
