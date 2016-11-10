@@ -123,8 +123,8 @@ public class CalculeazaTraseu {
 				return false;
 			}
 
-			//if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
-			//	return false;
+			if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
+				return false;
 
 		}
 

@@ -209,7 +209,7 @@ public class OperatiiBorderou {
 
 		}
 
-		return UtilsFormatting.addDays(date2, 1);
+		return UtilsFormatting.addDays(date2, 0);
 	}
 
 	public static String getCoordFromArchive(String codBorderou, String data) {
