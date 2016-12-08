@@ -31,12 +31,10 @@ public class SqlQueries {
 
 		return str.toString();
 	}
-	
-	
+
 	public static String getBorderouActivMasina() {
 		StringBuilder str = new StringBuilder();
 
-		
 		str.append(" select numarb from ( ");
 		str.append(" select numarb from websap.borderouri where sttrg in( 4, 6) ");
 		str.append(" and masina =? order by sttrg desc,data_e asc) x where rownum<2 ");
@@ -79,20 +77,20 @@ public class SqlQueries {
 
 		return sqlString.toString();
 	}
-	
+
 	public static String getCoordClientiBorderouAll() {
 		StringBuilder sqlString = new StringBuilder();
 
 		sqlString.append(" select a.poz, c.nume, decode(a.cod_client,'', a.cod_furnizor, a.cod_client) cod_client, ");
 		sqlString.append(" decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) cod_adresa,  b.city1, b.street, b.house_num1, b.region, a.name1, ");
-		sqlString.append(" nvl(e.latitudine,'-1') latitudine, nvl(e.longitudine,'-1') longitudine, nvl(f.latitude,'-1') lat_fil, nvl(f.longitude,'-1') long_fil ");
-		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d, sapprd.zcoordadrese e, sapprd.ZGPSDEPCOORD f " );
+		sqlString.append(
+				" nvl(e.latitudine,'-1') latitudine, nvl(e.longitudine,'-1') longitudine, nvl(f.latitude,'-1') lat_fil, nvl(f.longitude,'-1') long_fil ");
+		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d, sapprd.zcoordadrese e, sapprd.ZGPSDEPCOORD f ");
 		sqlString.append(" where a.nr_bord =:codBorderou ");
 		sqlString.append(" and c.cod = a.cod_client and e.idadresa(+) = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
 		sqlString.append(" and b.client = '900' and f.tdlnr(+) = a.cod_client and b.addrnumber = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
 		sqlString.append(" and d.idcomanda(+) = a.idcomanda order by a.poz ");
 
-		
 		return sqlString.toString();
 	}
 
@@ -135,5 +133,32 @@ public class SqlQueries {
 
 		return sqlString.toString();
 	}
+
+	
+	
+	
+	public static String getDateBorderou() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select max(to_char(trunc(to_date(data_e,'yyyymmdd')),'DD-MM-YYYY')||' '||to_char(to_date(ora_e,'HH24:MI:SS'),'HH24:MI:SS'))  ");
+		sqlString.append(" as dataemitere,masina from ( ");
+		sqlString.append(" select * from ( ");
+		sqlString.append(" select daten as data_e, uaten as ora_e,m.exidv as masina ");
+		sqlString.append(" from sapprd.vttk k join sapprd.vtpa p on p.vbeln = k.tknum and p.mandt=k.mandt ");
+		sqlString.append(" join sapprd.vekp m on m.vpobjkey = k.tknum and m.mandt=k.mandt ");
+		sqlString.append(" where p.pernr = (select distinct pernr from sapprd.vtpa where vbeln = ? and parvw = 'ZF') and k.mandt = '900' ");
+		sqlString.append(" and daten||uaten > (select distinct data_e||ora_e from sapprd.zdocumentebord where nr_bord =?) and tknum <> ? ");
+		sqlString.append(" order by daten asc, uaten asc) ");
+		sqlString.append(" where rownum = 1 ");
+		sqlString.append(" union ");
+		sqlString.append(" select distinct d.data_e, d.ora_e,m.exidv as masina from sapprd.zdocumentebord d join sapprd.vekp m ");
+		sqlString.append(" on m.vpobjkey = d.nr_bord and m.mandt=d.mandt ");
+		sqlString.append(" where nr_bord =?) ");
+		sqlString.append(" group by masina ");
+
+		return sqlString.toString();
+	}	
+	
+	
 
 }

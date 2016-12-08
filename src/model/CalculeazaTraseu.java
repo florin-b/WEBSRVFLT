@@ -93,9 +93,11 @@ public class CalculeazaTraseu {
 				distanta = MapUtils.distanceXtoY(traseu.getLatitudine(), traseu.getLongitudine(), pozitieClient.getLatitudine(), pozitieClient.getLongitudine(),
 						"K");
 
-				if (distanta < 700 && traseu.getDataInreg().contains("25-Oct-16 16")){
-				//	System.out.println(pozitieClient.getCodClient()+ " , " + traseu.getDataInreg() + " , " + distanta + " , " + traseu.getViteza());
-				//	System.out.println(rezultatTraseu);
+				if (distanta < 700 && traseu.getDataInreg().contains("25-Oct-16 16")) {
+					// System.out.println(pozitieClient.getCodClient()+ " , " +
+					// traseu.getDataInreg() + " , " + distanta + " , " +
+					// traseu.getViteza());
+					// System.out.println(rezultatTraseu);
 				}
 
 				if (conditiiSosire(traseu, distanta, pozitieClient, maxEventDate)) {
@@ -118,7 +120,8 @@ public class CalculeazaTraseu {
 	private boolean conditiiSosire(TraseuBorderou traseu, double distanta, PozitieClient pozitieClient, Date maxDate) {
 
 		if (pozitieClient.isStopBord()) {
-			//if (borderouNotStarted(traseu, pozitieClient) || rezultatTraseu.size() == 1) {
+			// if (borderouNotStarted(traseu, pozitieClient) ||
+			// rezultatTraseu.size() == 1) {
 			if (borderouNotStarted(traseu, pozitieClient)) {
 				return false;
 			}
@@ -410,11 +413,14 @@ public class CalculeazaTraseu {
 			try {
 				dateTraseu = sdf.parse(traseu.getDataInreg());
 
-				if (dateStart != null && dateTraseu.getTime() < dateStart.getTime())
+				if (dateStart != null && dateTraseu.getTime() < dateStart.getTime()) {
 					iterator.remove();
 
-				if (dateStop != null && dateTraseu.getTime() > dateStop.getTime())
+				}
+
+				else if (dateStop != null && dateTraseu.getTime() > dateStop.getTime()) {
 					iterator.remove();
+				}
 
 			} catch (Exception e) {
 				logger.error(Utils.getStackTrace(e));

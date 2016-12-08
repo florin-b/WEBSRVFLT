@@ -240,25 +240,14 @@ public class OperatiiTraseu {
 
 		StringBuilder sqlString = new StringBuilder();
 
-		sqlString.append(" select to_char(trunc(to_date(data,'yyyymmdd')),'DD-MM-YYYY')||' '||to_char(to_date(ora,'HH24:MI:SS'),'HH24:MI:SS') dataEmitere, ");
-		sqlString.append(" masina from (select v.tknum as numarb, m.exidv as masina, p.pernr as cod_sofer, ");
-		sqlString.append(" (select fili from websap.soferi where cod=p.pernr) fili, ");
-		sqlString.append(" v.shtyp, ");
-		sqlString.append(" (case when v.dareg != '00000000' then v.dareg ");
-		sqlString.append(" else  (case when (select DATA_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) != '00000000' then ");
-		sqlString.append(" (select DATA_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) else v.dtdis end) ");
-		sqlString.append(" end) data, ");
-		sqlString.append(" (case when v.uareg != '000000' then v.uareg ");
-		sqlString.append(" else  (case when (select ora_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) != '000000' then ");
-		sqlString.append(" (select ora_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) ");
-		sqlString.append(" else v.uzdis end) end) ora ");
-		sqlString.append(" from sapprd.vttk v join sapprd.vekp m on v.mandt = m.mandt and v.tknum = m.vpobjkey and m.vpobj = '04' join ");
-		sqlString.append(" sapprd.vtpa p on v.mandt = p.mandt and v.tknum = p.vbeln and p.parvw = 'ZF' where v.mandt = '900') ");
-		sqlString.append(" where numarb =? ");
+		
 
-		PreparedStatement stmt = conn.prepareStatement(sqlString.toString());
+		PreparedStatement stmt = conn.prepareStatement(SqlQueries.getDateBorderou());
 
 		stmt.setString(1, codBorderou);
+		stmt.setString(2, codBorderou);
+		stmt.setString(3, codBorderou);
+		stmt.setString(4, codBorderou);
 
 		ResultSet rs = stmt.executeQuery();
 		DateBorderou dateBorderou = new DateBorderou();
@@ -267,6 +256,10 @@ public class OperatiiTraseu {
 			dateBorderou.setNrMasina(rs.getString("masina"));
 		}
 
+		
+		if (stmt != null)
+			stmt.close();
+		
 		if (rs != null)
 			rs.close();
 

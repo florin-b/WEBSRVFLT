@@ -20,7 +20,7 @@ public class DBManager {
 
 	private static final Logger logger = LogManager.getLogger(DBManager.class);
 
-	public DataSource getProdDataSource1() {
+	public DataSource getProdDataSource() {
 		InitialContext initContext;
 		DataSource ds = null;
 		try {
@@ -34,7 +34,7 @@ public class DBManager {
 		return ds;
 	}
 
-	public DataSource getProdDataSource() {
+	public DataSource getProdDataSource1() {
 		Properties props = new Properties();
 		FileInputStream fis = null;
 		OracleDataSource oracleDS = null;
