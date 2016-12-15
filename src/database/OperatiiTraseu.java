@@ -238,10 +238,6 @@ public class OperatiiTraseu {
 
 		Connection conn = manager.getProdDataSource().getConnection();
 
-		StringBuilder sqlString = new StringBuilder();
-
-		
-
 		PreparedStatement stmt = conn.prepareStatement(SqlQueries.getDateBorderou());
 
 		stmt.setString(1, codBorderou);
@@ -256,10 +252,9 @@ public class OperatiiTraseu {
 			dateBorderou.setNrMasina(rs.getString("masina"));
 		}
 
-		
 		if (stmt != null)
 			stmt.close();
-		
+
 		if (rs != null)
 			rs.close();
 

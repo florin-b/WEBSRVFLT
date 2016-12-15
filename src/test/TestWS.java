@@ -38,7 +38,8 @@ public class TestWS {
 
 		System.out.println("Start");
 
-		String codBorderou = "0001575041";
+		String codBorderou = "0001580807";
+				
 
 		// 0001553715
 
@@ -49,6 +50,9 @@ public class TestWS {
 			System.out.println(e.getStackTrace().toString());
 		}
 
+		
+		System.out.println(dateBorderou);
+		
 		if (dateBorderou.getNrMasina() == null)
 			return;
 
@@ -61,6 +65,7 @@ public class TestWS {
 		}
 
 		List<PozitieClient> pozitiiClienti = null;
+		
 
 		try {
 			pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);

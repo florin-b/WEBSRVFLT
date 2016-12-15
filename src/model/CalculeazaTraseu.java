@@ -93,13 +93,6 @@ public class CalculeazaTraseu {
 				distanta = MapUtils.distanceXtoY(traseu.getLatitudine(), traseu.getLongitudine(), pozitieClient.getLatitudine(), pozitieClient.getLongitudine(),
 						"K");
 
-				if (distanta < 700 && traseu.getDataInreg().contains("25-Oct-16 16")) {
-					// System.out.println(pozitieClient.getCodClient()+ " , " +
-					// traseu.getDataInreg() + " , " + distanta + " , " +
-					// traseu.getViteza());
-					// System.out.println(rezultatTraseu);
-				}
-
 				if (conditiiSosire(traseu, distanta, pozitieClient, maxEventDate)) {
 					pozitieClient.setKmBord(traseu.getKm());
 					adaugaEveniment(pozitieClient, traseu, EvenimentClient.SOSIRE);
@@ -120,8 +113,7 @@ public class CalculeazaTraseu {
 	private boolean conditiiSosire(TraseuBorderou traseu, double distanta, PozitieClient pozitieClient, Date maxDate) {
 
 		if (pozitieClient.isStopBord()) {
-			// if (borderouNotStarted(traseu, pozitieClient) ||
-			// rezultatTraseu.size() == 1) {
+
 			if (borderouNotStarted(traseu, pozitieClient)) {
 				return false;
 			}
@@ -382,6 +374,10 @@ public class CalculeazaTraseu {
 					if (client.isStopBord()) {
 						if (traseu.getSosire() != null) {
 							dataStopBorderou = traseu.getSosire().getData();
+						} else {
+							dataStopBorderou = new OperatiiBorderou().getDataSosireFiliala(codBorderou);
+							if (dataStopBorderou.length() > 0)
+								traseu.setSosire(new PozitieGps(dataStopBorderou, 0, 0));
 						}
 					}
 				}
@@ -444,11 +440,15 @@ public class CalculeazaTraseu {
 			if (traseu.getPlecare() == null || compareDates(traseu.getPlecare().getData(), dataStopBorderou) > 0)
 				preiaEvenimentSofer(traseu, listEvenimenteTableta, EvenimentClient.PLECARE);
 
-			if (traseu.getSosire() == null || compareDates(traseu.getSosire().getData(), dataStopBorderou) > 0)
+			if (!isStopBorderou(traseu) && (traseu.getSosire() == null || compareDates(traseu.getSosire().getData(), dataStopBorderou) > 0))
 				preiaEvenimentSofer(traseu, listEvenimenteTableta, EvenimentClient.SOSIRE);
 
 		}
 
+	}
+
+	private boolean isStopBorderou(RezultatTraseu traseu) {
+		return traseu.getNumeClient().toLowerCase().contains("stop borderou");
 	}
 
 	private int compareDates(String date1, String date2) {

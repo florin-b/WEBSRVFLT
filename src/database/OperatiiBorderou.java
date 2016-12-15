@@ -246,6 +246,34 @@ public class OperatiiBorderou {
 
 	}
 
+	public String getDataSosireFiliala(String codBorderou) {
+
+		DBManager manager = new DBManager();
+		String sosire = "";
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SqlQueries.getDataSosireFiliala(), ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_READ_ONLY);) {
+
+			stmt.setString(1, codBorderou);
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+
+				sosire = String.valueOf(rs.getString("sosire"));
+
+			}
+
+		} catch (SQLException e) {
+			logger.error(Utils.getStackTrace(e));
+		}
+
+		return sosire;
+
+	}
+
 	public void setIdDevice(String idDevice) {
 		this.idDevice = idDevice;
 	}

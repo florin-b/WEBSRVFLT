@@ -134,9 +134,6 @@ public class SqlQueries {
 		return sqlString.toString();
 	}
 
-	
-	
-	
 	public static String getDateBorderou() {
 		StringBuilder sqlString = new StringBuilder();
 
@@ -157,8 +154,15 @@ public class SqlQueries {
 		sqlString.append(" group by masina ");
 
 		return sqlString.toString();
-	}	
-	
-	
+	}
+
+	public static String getDataSosireFiliala() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(
+				" select to_char(trunc(to_date(daten,'yyyymmdd')),'DD-Mon-YY','NLS_DATE_LANGUAGE = AMERICAN')||' '||to_char(to_date(uaten,'HH24:MI:SS'),'HH24:MI:SS') sosire from sapprd.vttk where mandt = '900' and daten <> '00000000' and tknum =? ");
+
+		return sqlString.toString();
+	}
 
 }
