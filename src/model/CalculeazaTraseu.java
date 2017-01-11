@@ -133,12 +133,12 @@ public class CalculeazaTraseu {
 		Date maxDate = new Date();
 
 		try {
-			maxDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(dataStartBorderou);
+			maxDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("ro")).parse(dataStartBorderou);
 
 			for (RezultatTraseu traseu : rezultatTraseu) {
 
 				if (traseu.getPlecare() != null) {
-					Date compDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(traseu.getPlecare().getData());
+					Date compDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("ro")).parse(traseu.getPlecare().getData());
 
 					if (maxDate.compareTo(compDate) < 0)
 						maxDate = compDate;
@@ -167,7 +167,7 @@ public class CalculeazaTraseu {
 
 			Date dateLow = getMaxDateTraseu();
 
-			Date dateHigh = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH).parse(traseuBorderou.getDataInreg());
+			Date dateHigh = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("ro")).parse(traseuBorderou.getDataInreg());
 
 			if (dateLow.compareTo(dateHigh) < 0)
 				return true;
@@ -385,7 +385,7 @@ public class CalculeazaTraseu {
 
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss", new Locale("ro"));
 
 		Date dateStart = null;
 		Date dateStop = null;
@@ -453,7 +453,7 @@ public class CalculeazaTraseu {
 
 	private int compareDates(String date1, String date2) {
 
-		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("en"));
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("ro"));
 
 		Date d1 = new Date();
 		Date d2 = new Date();

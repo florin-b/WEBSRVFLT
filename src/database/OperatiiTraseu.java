@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,9 +26,7 @@ import queries.SqlQueries;
 import utils.MapUtils;
 import utils.Utils;
 import utils.UtilsAdrese;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import utils.UtilsFormatting;
 
 public class OperatiiTraseu {
 
@@ -35,9 +36,9 @@ public class OperatiiTraseu {
 
 		DBManager manager = new DBManager();
 
-		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
+		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = ROMANIAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
 				+ " nvl(c.speed,0) viteza from gps_masini b, gps_date c  where " + " b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id "
-				+ " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') + 4  order by c.record_time ";
+				+ " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') + 6  order by c.record_time ";
 
 		List<TraseuBorderou> listTraseu = new ArrayList<TraseuBorderou>();
 
@@ -235,77 +236,29 @@ public class OperatiiTraseu {
 	public DateBorderou getDateBorderou(String codBorderou) throws SQLException {
 
 		DBManager manager = new DBManager();
-
-		Connection conn = manager.getProdDataSource().getConnection();
-
-		PreparedStatement stmt = conn.prepareStatement(SqlQueries.getDateBorderou());
-
-		stmt.setString(1, codBorderou);
-		stmt.setString(2, codBorderou);
-		stmt.setString(3, codBorderou);
-		stmt.setString(4, codBorderou);
-
-		ResultSet rs = stmt.executeQuery();
 		DateBorderou dateBorderou = new DateBorderou();
-		while (rs.next()) {
-			dateBorderou.setDataEmitere(rs.getString("dataEmitere"));
-			dateBorderou.setNrMasina(rs.getString("masina"));
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				CallableStatement callableStatement = conn.prepareCall("{ call websap.set_borderou_context(?) }");) {
+
+			callableStatement.setString(1, codBorderou);
+			callableStatement.execute();
+
+			PreparedStatement stmt = conn.prepareStatement(SqlQueries.getDataEmitereBorderou(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+
+				dateBorderou.setDataEmitere(UtilsFormatting.formatDateLocal(rs.getString("dataEmitere")));
+				dateBorderou.setNrMasina(rs.getString("masina"));
+
+			}
+
+		} catch (SQLException e) {
+			logger.error(Utils.getStackTrace(e));
 		}
-
-		if (stmt != null)
-			stmt.close();
-
-		if (rs != null)
-			rs.close();
-
-		if (conn != null)
-			conn.close();
-
-		return dateBorderou;
-	}
-
-	public DateBorderou getDateBorderou1(String codBorderou) throws SQLException {
-
-		DBManager manager = new DBManager();
-
-		Connection conn = manager.getProdDataSource().getConnection();
-
-		StringBuilder sqlString = new StringBuilder();
-
-		sqlString.append(" select to_char(trunc(to_date(data,'yyyymmdd')),'DD-MM-YYYY')||' '||to_char(to_date(ora,'HH24:MI:SS'),'HH24:MI:SS') dataEmitere, ");
-		sqlString.append(" masina from (select v.tknum as numarb, m.exidv as masina, p.pernr as cod_sofer, ");
-		sqlString.append(" (select fili from websap.soferi where cod=p.pernr) fili, ");
-		sqlString.append(" v.shtyp, ");
-		sqlString.append(" (case when v.datbg != '00000000' then v.datbg ");
-		sqlString.append(" when v.dareg != '00000000' then v.dareg ");
-		sqlString.append(" else  (case when (select DATA_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) != '00000000' then ");
-		sqlString.append(" (select DATA_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) else v.dtdis end) ");
-		sqlString.append("  end) data, ");
-		sqlString.append(" (case when v.uatbg != '000000' then v.uatbg ");
-		sqlString.append("  when v.uareg != '000000' then v.uareg ");
-		sqlString.append("  else  (case when (select ora_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) != '000000' then ");
-		sqlString.append(" (select ora_ATR_TAB from sapprd.zcomdti where nrborderou = v.tknum) ");
-		sqlString.append("  else v.uzdis end) end) ora ");
-		sqlString.append("	from sapprd.vttk v join sapprd.vekp m on v.mandt = m.mandt and v.tknum = m.vpobjkey and m.vpobj = '04' join ");
-		sqlString.append(" sapprd.vtpa p on v.mandt = p.mandt and v.tknum = p.vbeln and p.parvw = 'ZF' where v.mandt = '900') ");
-		sqlString.append("	where numarb =? ");
-
-		PreparedStatement stmt = conn.prepareStatement(sqlString.toString());
-
-		stmt.setString(1, codBorderou);
-
-		ResultSet rs = stmt.executeQuery();
-		DateBorderou dateBorderou = new DateBorderou();
-		while (rs.next()) {
-			dateBorderou.setDataEmitere(rs.getString("dataEmitere"));
-			dateBorderou.setNrMasina(rs.getString("masina"));
-		}
-
-		if (rs != null)
-			rs.close();
-
-		if (conn != null)
-			conn.close();
 
 		return dateBorderou;
 	}
@@ -365,11 +318,7 @@ public class OperatiiTraseu {
 
 		}
 
-		if (rs != null)
-			rs.close();
-
-		if (conn != null)
-			conn.close();
+		DBManager.closeConnection(rs, conn);
 
 		return listPozitii;
 

@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import beans.DateBorderou;
 import beans.PozitieClient;
 import beans.RezultatTraseu;
@@ -15,16 +18,15 @@ import enums.EnumCoordClienti;
 import model.CalculeazaTraseu;
 import utils.MapUtils;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class TestWS {
 
 	private static final Logger logger = LogManager.getLogger(TestWS.class);
 
 	public static void main(String[] args) {
 		// testGps();
-		 testBorderou();
+		testBorderou();
+
+		//
 
 	}
 
@@ -38,8 +40,7 @@ public class TestWS {
 
 		System.out.println("Start");
 
-		String codBorderou = "0001580807";
-				
+		String codBorderou = "0001586618";
 
 		// 0001553715
 
@@ -51,8 +52,10 @@ public class TestWS {
 		}
 
 		
-		System.out.println(dateBorderou);
 		
+		
+		System.out.println(dateBorderou);
+
 		if (dateBorderou.getNrMasina() == null)
 			return;
 
@@ -65,7 +68,6 @@ public class TestWS {
 		}
 
 		List<PozitieClient> pozitiiClienti = null;
-		
 
 		try {
 			pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);

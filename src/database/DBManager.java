@@ -2,6 +2,8 @@ package database;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -10,11 +12,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import oracle.jdbc.pool.OracleDataSource;
-import utils.Utils;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import oracle.jdbc.pool.OracleDataSource;
+import utils.Utils;
 
 public class DBManager {
 
@@ -84,6 +86,22 @@ public class DBManager {
 			e.printStackTrace();
 		}
 		return oracleDS;
+	}
+
+	public static void closeConnection(ResultSet rs, Connection conn) {
+
+		try {
+
+			if (rs != null)
+				rs.close();
+
+			if (conn != null)
+				conn.close();
+
+		} catch (Exception ex) {
+
+		}
+
 	}
 
 }

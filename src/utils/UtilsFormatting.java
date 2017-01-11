@@ -95,7 +95,7 @@ public class UtilsFormatting {
 			SimpleDateFormat formatInit = new SimpleDateFormat(pattern, Locale.US);
 			Date date = formatInit.parse(stringDate);
 
-			SimpleDateFormat formatFinal = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", Locale.US);
+			SimpleDateFormat formatFinal = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("ro"));
 
 			formattedDate = formatFinal.format(date);
 
@@ -111,13 +111,13 @@ public class UtilsFormatting {
 	}
 
 	public static String getCurrentDate() {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", new Locale("en"));
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", new Locale("ro"));
 		return dateFormat.format(new Date());
 	}
 
 	public static boolean isDateChronological(String strDate1, Date strDate2) {
 
-		DateFormat format1 = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", Locale.US);
+		DateFormat format1 = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("ro"));
 		Date date1 = null;
 
 		try {

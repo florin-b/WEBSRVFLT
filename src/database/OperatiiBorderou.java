@@ -9,18 +9,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import beans.BeanEvenimentTableta;
 import queries.SqlQueries;
 import utils.Utils;
 import utils.UtilsFormatting;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class OperatiiBorderou {
 
@@ -208,6 +207,9 @@ public class OperatiiBorderou {
 			}
 
 		}
+
+		if (date2 == null)
+			date2 = new Date();
 
 		return UtilsFormatting.addDays(date2, 0);
 	}
