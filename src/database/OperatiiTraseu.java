@@ -36,11 +36,11 @@ public class OperatiiTraseu {
 
 		DBManager manager = new DBManager();
 
-		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = ROMANIAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
-				+ " nvl(c.speed,0) viteza from gps_masini b, gps_date c  where " + " b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id "
-				+ " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss') + 6  order by c.record_time ";
+		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
+				+ " nvl(c.speed,0) viteza from gps_masini b, gps_date c  where " + " b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id  "
+				+ " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') + 6  order by c.record_time ";
 
-		List<TraseuBorderou> listTraseu = new ArrayList<TraseuBorderou>();
+		List<TraseuBorderou> listTraseu = new ArrayList<>();
 
 		try (Connection conn = manager.getProdDataSource().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
@@ -71,7 +71,7 @@ public class OperatiiTraseu {
 	}
 
 	public List<PozitieClient> getCoordClientiBorderou(String codBorderou, EnumCoordClienti stareClienti) throws SQLException {
-		List<PozitieClient> listPozitii = new ArrayList<PozitieClient>();
+		List<PozitieClient> listPozitii = new ArrayList<>();
 
 		DBManager manager = new DBManager();
 
@@ -123,7 +123,7 @@ public class OperatiiTraseu {
 			try {
 				listBorder = getStartStopBorderou(codBorderou);
 			} catch (SQLException e) {
-				System.out.println(e.toString() + " sql = " + sqlString);
+				logger.error(Utils.getStackTrace(e, codBorderou));
 			}
 
 			listPozitii.add(0, listBorder.get(0));
@@ -184,7 +184,7 @@ public class OperatiiTraseu {
 		try {
 			listBorder = getStartStopBorderou(codBorderou);
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
 		}
 
 		listPozitii.add(0, listBorder.get(0));
@@ -203,10 +203,11 @@ public class OperatiiTraseu {
 		try {
 			listBorder = getStartStopBorderou(codBorderou);
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
 		}
 
-		listPozitii.add(0, listBorder.get(0));
+		if (listBorder != null)
+			listPozitii.add(0, listBorder.get(0));
 
 		return listPozitii;
 
@@ -225,7 +226,7 @@ public class OperatiiTraseu {
 		try {
 			coordonate = MapUtils.geocodeAddress(address);
 		} catch (Exception e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, address.toString()));
 		}
 
 		if (coordonate == null)
@@ -256,8 +257,10 @@ public class OperatiiTraseu {
 
 			}
 
+			stmt.close();
+
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
 		}
 
 		return dateBorderou;
@@ -277,7 +280,7 @@ public class OperatiiTraseu {
 		ResultSet rs = stmt.executeQuery();
 
 		List<PozitieClient> listPozitii = new ArrayList<>();
-		PozitieClient pozitie = null;
+		PozitieClient pozitie;
 		String adresa;
 		while (rs.next()) {
 
@@ -318,7 +321,7 @@ public class OperatiiTraseu {
 
 		}
 
-		DBManager.closeConnection(rs, conn);
+		DBManager.closeConnection(stmt, rs, conn);
 
 		return listPozitii;
 
@@ -328,12 +331,13 @@ public class OperatiiTraseu {
 
 		if (dateCoord != null && dateCoord.contains("#")) {
 
-			CoordonateGps coord = new CoordonateGps();
+			CoordonateGps coord = new CoordonateGps(0, 0);
 
 			try {
 				coord = MapUtils.geocodeAddress(getAddress(dateCoord));
 			} catch (Exception e) {
-				e.printStackTrace();
+				String extraInfo = pozitieClient + " , " + dateCoord;
+				logger.error(Utils.getStackTrace(e, extraInfo));
 			}
 
 			pozitieClient.setLatitudine(coord.getLatitude());

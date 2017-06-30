@@ -110,7 +110,7 @@ public class OperatiiMasina {
 				deviceId = rs.getString("id");
 
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, nrMasina));
 		}
 
 		return deviceId;
@@ -201,8 +201,8 @@ public class OperatiiMasina {
 
 		Iterator<BeanClientAlarma> iterator = evenimentStop.getClientiAlarma().iterator();
 
-		JSONObject objClient = null;
-		BeanClientAlarma client = null;
+		JSONObject objClient;
+		BeanClientAlarma client;
 		while (iterator.hasNext()) {
 			client = iterator.next();
 			objClient = new JSONObject();

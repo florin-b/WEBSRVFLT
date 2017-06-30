@@ -6,8 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import beans.BeanEvenimentStop;
 import beans.DateBorderou;
+import beans.DistantaRuta;
 import beans.PozitieClient;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
@@ -16,12 +20,10 @@ import database.OperatiiMasina;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import model.CalculeazaTraseu;
-
+import model.Distanta;
+import utils.MailOperations;
 import utils.MapUtils;
 import utils.Utils;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class FlotaWS {
 
@@ -29,7 +31,7 @@ public class FlotaWS {
 
 	public Set<RezultatTraseu> getStareBorderou(String codBorderou) {
 
-		Set<RezultatTraseu> rezultat = new HashSet<RezultatTraseu>();
+		Set<RezultatTraseu> rezultat;
 
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
@@ -40,7 +42,9 @@ public class FlotaWS {
 		try {
 			dateBorderou = operatiiTraseu.getDateBorderou(codBorderou);
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
+
+			MailOperations.sendMail("getStareBorderou: " + e.toString());
 		}
 
 		if (dateBorderou.getNrMasina() == null)
@@ -50,7 +54,8 @@ public class FlotaWS {
 			traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
 			pozitiiClienti = operatiiTraseu.getCoordClientiBorderou(codBorderou, EnumCoordClienti.TOTI);
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
+			MailOperations.sendMail("getStareBorderou: " + e.toString());
 		}
 
 		CalculeazaTraseu calculeaza = new CalculeazaTraseu(codBorderou);
@@ -72,8 +77,23 @@ public class FlotaWS {
 
 	}
 
+	public String getDistantaTraseu(String dataStart, String dataStop, String nrMasina) {
+
+		String retVal = "";
+		Distanta distanta = new Distanta();
+
+		try {
+			retVal = distanta.getDistanta(dataStart, dataStop, nrMasina);
+		} catch (SQLException e) {
+			String extraInfo = dataStart + " , " + dataStop + " , " + nrMasina;
+			logger.error(Utils.getStackTrace(e, extraInfo));
+		}
+
+		return retVal;
+	}
+
 	public String getCoordAddress(String codJudet, String localitate, String strada, String numar) {
-		return MapUtils.getCoordAddress(codJudet, localitate, strada, numar);
+		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
 	}
 
 	public boolean getStartBorderou(String codSofer) {
@@ -86,7 +106,7 @@ public class FlotaWS {
 		try {
 			borderouActiv = new OperatiiBorderou().getBorderouActiv(codSofer);
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codSofer));
 		}
 
 		if (borderouActiv != null) {
@@ -96,7 +116,7 @@ public class FlotaWS {
 			try {
 				dateBorderou = operatiiTraseu.getDateBorderou(borderouActiv);
 			} catch (SQLException e) {
-				logger.error(Utils.getStackTrace(e));
+				logger.error(Utils.getStackTrace(e, borderouActiv));
 			}
 
 			List<TraseuBorderou> traseuBorderou = null;
@@ -104,7 +124,7 @@ public class FlotaWS {
 			try {
 				traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
 			} catch (SQLException e) {
-				logger.error(Utils.getStackTrace(e));
+				logger.error(Utils.getStackTrace(e, dateBorderou.toString()));
 			}
 			List<PozitieClient> pozitiiClienti = operatiiTraseu.getFilialaStartBorderou(borderouActiv);
 
@@ -138,7 +158,11 @@ public class FlotaWS {
 
 	}
 
-	public boolean sendSms(String nrTelefon, String mesaj) {
+	public List<DistantaRuta> getDistantaPuncte(String coordonate) {
+		return MapUtils.getDistantaPuncte(coordonate);
+	}
+
+	private boolean sendSms(String nrTelefon, String mesaj) {
 		return false;
 	}
 

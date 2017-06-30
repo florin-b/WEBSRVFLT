@@ -12,22 +12,23 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import beans.BeanEvenimentTableta;
 import beans.DateBorderou;
 import beans.PozitieClient;
 import beans.PozitieGps;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
-
 import database.OperatiiBorderou;
 import database.OperatiiMasina;
 import enums.EnumTipClient;
+import predicates.EvPredicates;
 import utils.Constants;
 import utils.MapUtils;
 import utils.Utils;
 import utils.UtilsFormatting;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class CalculeazaTraseu {
 
@@ -130,29 +131,7 @@ public class CalculeazaTraseu {
 	}
 
 	private Date getMaxDateTraseu() {
-		Date maxDate = new Date();
-
-		try {
-			maxDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("ro")).parse(dataStartBorderou);
-
-			for (RezultatTraseu traseu : rezultatTraseu) {
-
-				if (traseu.getPlecare() != null) {
-					Date compDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("ro")).parse(traseu.getPlecare().getData());
-
-					if (maxDate.compareTo(compDate) < 0)
-						maxDate = compDate;
-				}
-
-			}
-
-		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
-		} catch (Exception e) {
-			logger.error(Utils.getStackTrace(e));
-		}
-
-		return maxDate;
+		return rezultatTraseu.stream().filter(EvPredicates.isPlecareDateNotNull()).map(r -> r.getPlecare().getDateObject()).max(Date::compareTo).get();
 	}
 
 	private boolean condSuplimentSosire(TraseuBorderou traseuBorderou, PozitieClient pozitieClient) {
@@ -167,13 +146,13 @@ public class CalculeazaTraseu {
 
 			Date dateLow = getMaxDateTraseu();
 
-			Date dateHigh = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("ro")).parse(traseuBorderou.getDataInreg());
+			Date dateHigh = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("en")).parse(traseuBorderou.getDataInreg());
 
 			if (dateLow.compareTo(dateHigh) < 0)
 				return true;
 
 		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, traseuBorderou.getDataInreg()));
 		}
 
 		return false;
@@ -239,7 +218,7 @@ public class CalculeazaTraseu {
 
 		boolean found = false;
 
-		if (rezultatTraseu.size() == 0) {
+		if (rezultatTraseu.isEmpty()) {
 			RezultatTraseu evenim = new RezultatTraseu();
 			evenim.setPoz(pozitieClient.getPoz());
 			evenim.setCodClient(pozitieClient.getCodClient());
@@ -314,9 +293,9 @@ public class CalculeazaTraseu {
 
 		descoperaEvenimente();
 
-		stareTraseu = new ArrayList<RezultatTraseu>();
+		stareTraseu = new ArrayList<>();
 
-		RezultatTraseu tempRez = null;
+		RezultatTraseu tempRez;
 		Collections.sort(pozitiiClienti);
 		Collections.sort(rezultatTraseu);
 
@@ -343,9 +322,9 @@ public class CalculeazaTraseu {
 			stareTraseu.add(tempRez);
 		}
 
-		Set<RezultatTraseu> setStare = new HashSet<RezultatTraseu>(stareTraseu);
+		Set<RezultatTraseu> setStare = new HashSet<>(stareTraseu);
 
-		traseuFinal = new TreeSet<RezultatTraseu>();
+		traseuFinal = new TreeSet<>();
 		traseuFinal.addAll(setStare);
 
 		completeazaDateSofer();
@@ -385,7 +364,7 @@ public class CalculeazaTraseu {
 
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss", new Locale("ro"));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm", new Locale("en"));
 
 		Date dateStart = null;
 		Date dateStop = null;
@@ -397,12 +376,13 @@ public class CalculeazaTraseu {
 			dateStart = sdf.parse(dataStartBorderou);
 			dateStop = sdf.parse(dataStopBorderou);
 		} catch (Exception e) {
-			logger.error(Utils.getStackTrace(e));
+			String extraInfo = dataStartBorderou + " , " + dataStopBorderou;
+			logger.error(Utils.getStackTrace(e, extraInfo));
 		}
 
-		Date dateTraseu = null;
+		Date dateTraseu;
 
-		TraseuBorderou traseu = null;
+		TraseuBorderou traseu;
 		while (iterator.hasNext()) {
 			traseu = iterator.next();
 
@@ -419,7 +399,7 @@ public class CalculeazaTraseu {
 				}
 
 			} catch (Exception e) {
-				logger.error(Utils.getStackTrace(e));
+				logger.error(Utils.getStackTrace(e, traseu.getDataInreg()));
 			}
 
 		}
@@ -453,7 +433,7 @@ public class CalculeazaTraseu {
 
 	private int compareDates(String date1, String date2) {
 
-		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("ro"));
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy HH:mm", new Locale("en"));
 
 		Date d1 = new Date();
 		Date d2 = new Date();
@@ -462,7 +442,8 @@ public class CalculeazaTraseu {
 			d1 = df.parse(date1);
 			d2 = df.parse(date2);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			String extraInfo = date1 + " , " + date2;
+			logger.error(Utils.getStackTrace(e, extraInfo));
 		}
 
 		return d1.compareTo(d2);
@@ -477,6 +458,10 @@ public class CalculeazaTraseu {
 
 				PozitieGps pozitie = new PozitieGps();
 				pozitie.setData(UtilsFormatting.formatDateLocal(evenimTableta.getData() + " " + evenimTableta.getOra()));
+
+				if (evenimTableta.getGps() == null)
+					continue;
+
 				String[] coords = evenimTableta.getGps().split(",");
 
 				if (coords[0].equals("0")) {
@@ -535,6 +520,7 @@ public class CalculeazaTraseu {
 		PozitieGps evenimentTraseu = null;
 
 		for (RezultatTraseu tras : rezultatTraseu) {
+
 			if (tras.getCodClient().equals(codClient))
 				switch (eveniment) {
 				case SOSIRE:

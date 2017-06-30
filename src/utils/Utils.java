@@ -56,17 +56,27 @@ public class Utils {
 			}
 
 		} catch (Exception e) {
-			logger.error(Utils.getStackTrace(e));
+			String extraInfo = dateStart + " , " + dateStop;
+			logger.error(Utils.getStackTrace(e, extraInfo));
 		}
 
 		return result.toString();
 
 	}
 
-	public static String getStackTrace(Exception ex) {
+	public static String getStackTrace(Exception ex, String extraInfo) {
 		StringWriter errors = new StringWriter();
 		ex.printStackTrace(new PrintWriter(errors));
-		return errors.toString();
+		StringBuilder str = new StringBuilder();
+
+		str.append(errors.toString());
+
+		if (extraInfo != null) {
+			str.append("Extra: ");
+			str.append(extraInfo);
+		}
+
+		return str.toString();
 	}
 
 }

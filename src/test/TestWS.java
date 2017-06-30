@@ -1,6 +1,7 @@
 package test;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,10 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.maps.model.LatLng;
+
 import beans.DateBorderou;
+import beans.DistantaRuta;
 import beans.PozitieClient;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
@@ -17,21 +21,44 @@ import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import model.CalculeazaTraseu;
 import utils.MapUtils;
+import utils.Utils;
 
 public class TestWS {
 
 	private static final Logger logger = LogManager.getLogger(TestWS.class);
 
-	public static void main(String[] args) {
-		// testGps();
-		testBorderou();
+	public static void main(String[] args) throws SQLException {
 
-		//
+		testBorderou();
+		
+		
+		
+		
+
+	}
+
+	private static void testPoly() {
+		List<LatLng> points = new ArrayList<>();
+
+		points.add(new LatLng(45.456715, 27.989181));
+		points.add(new LatLng(45.462809, 28.025017));
+		points.add(new LatLng(45.453754, 28.053519));
+
+		points.add(new LatLng(45.451049, 28.024775));
+		points.add(new LatLng(45.426287, 28.032628));
+		points.add(new LatLng(45.442641, 28.012405));
+		points.add(new LatLng(45.429639, 27.990228));
+
+		LatLng findPoint = new LatLng(45.437845, 27.997513);
+
+		boolean contains = MapUtils.containsLocation(findPoint, points, true);
+
+		System.out.println("Contains: " + contains);
 
 	}
 
 	private static void testGps() {
-		System.out.println(MapUtils.getCoordAddress("17", "Galati", "STRADA timisului", "1"));
+		System.out.println(MapUtils.getCoordAddressFromService("17", "Galati", "STRADA timisului", "1"));
 
 	}
 
@@ -39,21 +66,19 @@ public class TestWS {
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
 		System.out.println("Start");
+		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001586618";
+		String codBorderou = "0001672494";
 
-		// 0001553715
+	
 
 		DateBorderou dateBorderou = null;
 		try {
 			dateBorderou = operatiiTraseu.getDateBorderou(codBorderou);
 		} catch (SQLException e) {
-			System.out.println(e.getStackTrace().toString());
+			logger.error(Utils.getStackTrace(e, codBorderou));
 		}
 
-		
-		
-		
 		System.out.println(dateBorderou);
 
 		if (dateBorderou.getNrMasina() == null)
@@ -64,7 +89,7 @@ public class TestWS {
 		try {
 			traseuBorderou = operatiiTraseu.getTraseuBorderou(dateBorderou);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(Utils.getStackTrace(e, dateBorderou.toString()));
 		}
 
 		List<PozitieClient> pozitiiClienti = null;
@@ -74,6 +99,9 @@ public class TestWS {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		System.out.println("Diff = " + estimatedTime);
 
 		CalculeazaTraseu calculeaza = new CalculeazaTraseu(codBorderou);
 		calculeaza.setPozitiiClienti(pozitiiClienti);
@@ -96,7 +124,7 @@ public class TestWS {
 		try {
 			borderouActiv = new OperatiiBorderou().getBorderouActiv(codSofer);
 		} catch (SQLException e1) {
-			e1.printStackTrace();
+			logger.error(Utils.getStackTrace(e1, borderouActiv));
 		}
 
 		if (borderouActiv != null) {
@@ -106,7 +134,7 @@ public class TestWS {
 			try {
 				dateBorderou = operatiiTraseu.getDateBorderou(borderouActiv);
 			} catch (SQLException e) {
-				System.out.println(e.getStackTrace().toString());
+				logger.error(Utils.getStackTrace(e, borderouActiv));
 			}
 
 			List<TraseuBorderou> traseuBorderou = null;
@@ -138,7 +166,7 @@ public class TestWS {
 				try {
 					isBordMarked = opBorderou.isBorderouMarkedStarted(codSofer, borderouActiv);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					logger.error(Utils.getStackTrace(e, borderouActiv));
 				}
 			}
 

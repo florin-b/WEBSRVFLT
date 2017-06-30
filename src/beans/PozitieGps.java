@@ -1,5 +1,10 @@
 package beans;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import utils.UtilsFormatting;
 
 public class PozitieGps {
@@ -19,13 +24,25 @@ public class PozitieGps {
 	}
 
 	public String getData() {
-		if (data == null)
+		if (data == null || data.isEmpty())
 			return "";
-		return data;
+		return UtilsFormatting.formatDateSmall(data);
 	}
 
 	public String getFormattedData() {
-		return UtilsFormatting.formatDateSap(getData());
+		return UtilsFormatting.formatDateAfis(getData());
+	}
+
+	public Date getDateObject() {
+
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("dd-MMM-yyyy HH:mm", new Locale("en")).parse(getData());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return date;
 	}
 
 	public void setData(String data) {
@@ -84,7 +101,7 @@ public class PozitieGps {
 
 	@Override
 	public String toString() {
-		return "LocatieGps [data=" + data + ", latitudine=" + latitudine + ", longitudine=" + longitudine + "]";
+		return "LocatieGps [data=" + UtilsFormatting.formatDateSmall(data) + ", latitudine=" + latitudine + ", longitudine=" + longitudine + "]";
 	}
 
 }

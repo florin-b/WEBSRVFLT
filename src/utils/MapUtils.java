@@ -1,21 +1,31 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.model.GeocodingResult;
-
-import beans.StandardAddress;
-import beans.CoordonateGps;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.maps.DirectionsApi;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.TravelMode;
+
+import beans.CoordonateGps;
+import beans.DistantaRuta;
+import beans.GoogleContext;
+import beans.StandardAddress;
+
 public class MapUtils {
 
 	private static final Logger logger = LogManager.getLogger(MapUtils.class);
-	
+
 	public static double distanceXtoY(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
@@ -39,45 +49,51 @@ public class MapUtils {
 	}
 
 	public static CoordonateGps geocodeAddress(StandardAddress address) throws Exception {
-		CoordonateGps coordonateGps = null;
+		CoordonateGps coordonateGps = new CoordonateGps(0, 0);
 
-		StringBuilder strAddress = new StringBuilder();
+		try {
 
-		if (address.getStreet() != null && !address.getStreet().equals("")) {
-			strAddress.append(address.getStreet());
-			strAddress.append(",");
+			StringBuilder strAddress = new StringBuilder();
+
+			if (address.getStreet() != null && !address.getStreet().equals("")) {
+				strAddress.append(address.getStreet());
+				strAddress.append(",");
+			}
+
+			if (address.getNumber() != null && !address.getStreet().equals("")) {
+				strAddress.append(address.getNumber());
+				strAddress.append(",");
+			}
+
+			if (address.getSector() != null && !address.getSector().equals("")) {
+				strAddress.append(address.getSector());
+				strAddress.append(",");
+			}
+
+			if (address.getCity() != null && !address.getCity().equals("")) {
+				strAddress.append(address.getCity());
+				strAddress.append(",");
+			}
+
+			strAddress.append(address.getCountry());
+
+			GeoApiContext context = GoogleContext.getContext();
+
+			GeocodingResult[] results = GeocodingApi.geocode(context, strAddress.toString()).await();
+
+			double latitude = results[0].geometry.location.lat;
+			double longitude = results[0].geometry.location.lng;
+
+			coordonateGps = new CoordonateGps(latitude, longitude);
+		} catch (Exception e) {
+
+			logger.error(Utils.getStackTrace(e, ""));
 		}
-
-		if (address.getNumber() != null && !address.getStreet().equals("")) {
-			strAddress.append(address.getNumber());
-			strAddress.append(",");
-		}
-
-		if (address.getSector() != null && !address.getSector().equals("")) {
-			strAddress.append(address.getSector());
-			strAddress.append(",");
-		}
-
-		if (address.getCity() != null && !address.getCity().equals("")) {
-			strAddress.append(address.getCity());
-			strAddress.append(",");
-		}
-
-		strAddress.append(address.getCountry());
-
-		GeoApiContext context = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY);
-		context.setRetryTimeout(0, TimeUnit.SECONDS);
-		GeocodingResult[] results = GeocodingApi.geocode(context, strAddress.toString()).await();
-
-		double latitude = results[0].geometry.location.lat;
-		double longitude = results[0].geometry.location.lng;
-
-		coordonateGps = new CoordonateGps(latitude, longitude);
 
 		return coordonateGps;
 	}
 
-	public static String getCoordAddress(String codJudet, String localitate, String strada, String numar) {
+	public static String getCoordAddressFromService(String codJudet, String localitate, String strada, String numar) {
 
 		StringBuilder strAddress = new StringBuilder();
 
@@ -106,22 +122,19 @@ public class MapUtils {
 
 		strAddress.append("Romania");
 
-		GeoApiContext context = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY);
-		context.setQueryRateLimit(2);
-		context.setRetryTimeout(0, TimeUnit.SECONDS);
+		GeoApiContext context = GoogleContext.getContext();
+
 		GeocodingResult[] results = null;
 		try {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
-			
+
 		} catch (Exception e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, strAddress.toString()));
 			latitude = -1;
 			longitude = -1;
 			return e.toString();
-			
+
 		}
-		
-		
 
 		if (results.length > 0) {
 			latitude = results[0].geometry.location.lat;
@@ -129,6 +142,201 @@ public class MapUtils {
 		}
 
 		return latitude + "," + longitude;
+	}
+
+	public static List<DistantaRuta> getDistantaPuncte(String strCoordonate) {
+
+		List<DistantaRuta> listDistante = new ArrayList<>();
+
+		if (strCoordonate == null)
+			return listDistante;
+
+		if (strCoordonate.isEmpty())
+			return listDistante;
+
+		if (!strCoordonate.contains(":"))
+			return listDistante;
+
+		if (!strCoordonate.contains("-"))
+			return listDistante;
+
+		String[] arrayCoords = strCoordonate.split("-");
+
+		List<String> wayPoints = new ArrayList<>();
+
+		DirectionsRoute[] routes = null;
+
+		try {
+
+			for (int i = 1; i < arrayCoords.length - 1; i++) {
+
+				wayPoints.add(arrayCoords[i].replace(":", ","));
+
+			}
+
+			String[] arrayPoints = wayPoints.toArray(new String[wayPoints.size()]);
+
+			GeoApiContext context = GoogleContext.getContextDist();
+
+			LatLng start = new LatLng(Double.parseDouble(arrayCoords[0].split(":")[0]), Double.parseDouble(arrayCoords[0].split(":")[1]));
+
+			LatLng stop = new LatLng(Double.parseDouble(arrayCoords[arrayCoords.length - 1].split(":")[0]),
+					Double.parseDouble(arrayCoords[arrayCoords.length - 1].split(":")[1]));
+
+			routes = DirectionsApi.newRequest(context).mode(TravelMode.DRIVING).origin(start).destination(stop).waypoints(arrayPoints).mode(TravelMode.DRIVING)
+					.optimizeWaypoints(false).await();
+
+			for (int i = 0; i < routes[0].legs.length; i++) {
+				DistantaRuta distanta = new DistantaRuta();
+				distanta.setPozitie(i);
+				distanta.setDistanta(routes[0].legs[i].distance.inMeters);
+				listDistante.add(distanta);
+
+			}
+
+		} catch (Exception ex) {
+			MailOperations.sendMail("traseuBorderou: " + ex.toString());
+		}
+
+		return listDistante;
+
+	}
+
+	public static int getGoogleDistance(LatLng startPoint, LatLng stopPoint) throws Exception {
+
+		DistanceMatrix req;
+
+		int dist;
+
+		GeoApiContext context = GoogleContext.getContext();
+
+		req = DistanceMatrixApi.newRequest(context).origins(startPoint).destinations(stopPoint).await();
+
+		dist = (int) req.rows[0].elements[0].distance.inMeters;
+
+		return dist;
+
+	}
+
+	public static boolean containsLocation(LatLng point, List<LatLng> polygon, boolean geodesic) {
+		final int size = polygon.size();
+		if (size == 0) {
+			return false;
+		}
+		double lat3 = deg2rad(point.lat);
+		double lng3 = deg2rad(point.lng);
+		LatLng prev = polygon.get(size - 1);
+		double lat1 = deg2rad(prev.lat);
+		double lng1 = deg2rad(prev.lng);
+		int nIntersect = 0;
+		for (LatLng point2 : polygon) {
+			double dLng3 = wrap(lng3 - lng1, -Math.PI, Math.PI);
+			// Special case: point equal to vertex is inside.
+			if (lat3 == lat1 && dLng3 == 0) {
+				return true;
+			}
+			double lat2 = deg2rad(point2.lat);
+			double lng2 = deg2rad(point2.lng);
+			// Offset longitudes by -lng1.
+			if (intersects(lat1, lat2, wrap(lng2 - lng1, -Math.PI, Math.PI), lat3, dLng3, geodesic)) {
+				++nIntersect;
+			}
+			lat1 = lat2;
+			lng1 = lng2;
+		}
+		return (nIntersect & 1) != 0;
+	}
+
+	/**
+	 * Wraps the given value into the inclusive-exclusive interval between min
+	 * and max.
+	 * 
+	 * @param n
+	 *            The value to wrap.
+	 * @param min
+	 *            The minimum.
+	 * @param max
+	 *            The maximum.
+	 */
+	static double wrap(double n, double min, double max) {
+		return (n >= min && n < max) ? n : (mod(n - min, max - min) + min);
+	}
+
+	/**
+	 * Returns the non-negative remainder of x / m.
+	 * 
+	 * @param x
+	 *            The operand.
+	 * @param m
+	 *            The modulus.
+	 */
+	static double mod(double x, double m) {
+		return ((x % m) + m) % m;
+	}
+
+	/**
+	 * Computes whether the vertical segment (lat3, lng3) to South Pole
+	 * intersects the segment (lat1, lng1) to (lat2, lng2). Longitudes are
+	 * offset by -lng1; the implicit lng1 becomes 0.
+	 */
+	private static boolean intersects(double lat1, double lat2, double lng2, double lat3, double lng3, boolean geodesic) {
+		// Both ends on the same side of lng3.
+		if ((lng3 >= 0 && lng3 >= lng2) || (lng3 < 0 && lng3 < lng2)) {
+			return false;
+		}
+		// Point is South Pole.
+		if (lat3 <= -Math.PI / 2) {
+			return false;
+		}
+		// Any segment end is a pole.
+		if (lat1 <= -Math.PI / 2 || lat2 <= -Math.PI / 2 || lat1 >= Math.PI / 2 || lat2 >= Math.PI / 2) {
+			return false;
+		}
+		if (lng2 <= -Math.PI) {
+			return false;
+		}
+		double linearLat = (lat1 * (lng2 - lng3) + lat2 * lng3) / lng2;
+		// Northern hemisphere and point under lat-lng line.
+		if (lat1 >= 0 && lat2 >= 0 && lat3 < linearLat) {
+			return false;
+		}
+		// Southern hemisphere and point above lat-lng line.
+		if (lat1 <= 0 && lat2 <= 0 && lat3 >= linearLat) {
+			return true;
+		}
+		// North Pole.
+		if (lat3 >= Math.PI / 2) {
+			return true;
+		}
+		// Compare lat3 with latitude on the GC/Rhumb segment corresponding to
+		// lng3.
+		// Compare through a strictly-increasing function (tan() or mercator())
+		// as convenient.
+		return geodesic ? Math.tan(lat3) >= tanLatGC(lat1, lat2, lng2, lng3) : mercator(lat3) >= mercatorLatRhumb(lat1, lat2, lng2, lng3);
+	}
+
+	/**
+	 * Returns tan(latitude-at-lng3) on the great circle (lat1, lng1) to (lat2,
+	 * lng2). lng1==0. See http://williams.best.vwh.net/avform.htm .
+	 */
+	private static double tanLatGC(double lat1, double lat2, double lng2, double lng3) {
+		return (Math.tan(lat1) * Math.sin(lng2 - lng3) + Math.tan(lat2) * Math.sin(lng3)) / Math.sin(lng2);
+	}
+
+	/**
+	 * Returns mercator Y corresponding to latitude. See
+	 * http://en.wikipedia.org/wiki/Mercator_projection .
+	 */
+	static double mercator(double lat) {
+		return Math.log(Math.tan(lat * 0.5 + Math.PI / 4));
+	}
+
+	/**
+	 * Returns mercator(latitude-at-lng3) on the Rhumb line (lat1, lng1) to
+	 * (lat2, lng2). lng1==0.
+	 */
+	private static double mercatorLatRhumb(double lat1, double lat2, double lng2, double lng3) {
+		return (mercator(lat1) * (lng2 - lng3) + mercator(lat2) * lng3) / lng2;
 	}
 
 }

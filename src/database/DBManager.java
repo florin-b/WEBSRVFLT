@@ -3,6 +3,7 @@ package database;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -30,27 +31,22 @@ public class DBManager {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			ds = (DataSource) envContext.lookup("jdbc/myoracle_prod");
 		} catch (NamingException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, null));
 		}
 
 		return ds;
 	}
 
 	public DataSource getProdDataSource() {
-		Properties props = new Properties();
-		FileInputStream fis = null;
+
 		OracleDataSource oracleDS = null;
 		try {
-			fis = new FileInputStream("db.properties");
-			props.load(fis);
 			oracleDS = new OracleDataSource();
 			oracleDS.setURL("jdbc:oracle:thin:@10.1.3.94:1521:prd002");
 			oracleDS.setUser("WEBSAP");
 			oracleDS.setPassword("2INTER7");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(Utils.getStackTrace(e, null));
 		}
 		return oracleDS;
 	}
@@ -63,7 +59,7 @@ public class DBManager {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			ds = (DataSource) envContext.lookup("jdbc/myoracle_test");
 		} catch (NamingException e) {
-			System.out.println(e.toString());
+			logger.error(Utils.getStackTrace(e, null));
 		}
 
 		return ds;
@@ -80,10 +76,8 @@ public class DBManager {
 			oracleDS.setURL("jdbc:oracle:thin:@10.1.3.89:1527:tes");
 			oracleDS.setUser("WEBSAP");
 			oracleDS.setPassword("2INTER7");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (IOException | SQLException e) {
+			logger.error(Utils.getStackTrace(e, null));
 		}
 		return oracleDS;
 	}
@@ -99,7 +93,26 @@ public class DBManager {
 				conn.close();
 
 		} catch (Exception ex) {
+			logger.error(Utils.getStackTrace(ex, null));
+		}
 
+	}
+
+	public static void closeConnection(PreparedStatement stmt, ResultSet rs, Connection conn) {
+
+		try {
+
+			if (stmt != null)
+				stmt.close();
+
+			if (rs != null)
+				rs.close();
+
+			if (conn != null)
+				conn.close();
+
+		} catch (Exception ex) {
+			logger.error(Utils.getStackTrace(ex, null));
 		}
 
 	}

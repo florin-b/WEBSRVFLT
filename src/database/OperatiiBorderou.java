@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import beans.BeanEvenimentTableta;
+import predicates.EvPredicates;
 import queries.SqlQueries;
 import utils.Utils;
 import utils.UtilsFormatting;
@@ -91,13 +92,13 @@ public class OperatiiBorderou {
 				eveniment.setData(rs.getString("data"));
 				eveniment.setOra(rs.getString("ora"));
 				eveniment.setGps(rs.getString("gps"));
-				eveniment.setKmBord(Integer.valueOf(rs.getString("fms")));
+				eveniment.setKmBord((int)Double.parseDouble(rs.getString("fms")));
 				listEvenimente.add(eveniment);
 
 			}
 
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
 		}
 
 		verificaPlecariClient(listEvenimente);
@@ -171,12 +172,14 @@ public class OperatiiBorderou {
 			iterator.add(evPlecare);
 
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e) + " device = " + idDevice + " date = " + dateComp);
+			String extraInfo = idDevice + " , " + dateComp;
+			logger.error(Utils.getStackTrace(e, extraInfo));
 		}
 
 	}
 
-	public Date getMaxDateEveniment(List<BeanEvenimentTableta> listEvenimente, String codBorderou) {
+	// Obsolete
+	public Date getMaxDateEveniment1(List<BeanEvenimentTableta> listEvenimente, String codBorderou) {
 
 		DateFormat sdf = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", Locale.US);
 		Date date1 = null;
@@ -214,6 +217,32 @@ public class OperatiiBorderou {
 		return UtilsFormatting.addDays(date2, 0);
 	}
 
+	public Date getMaxDateEveniment(List<BeanEvenimentTableta> listEvenimente, String codBorderou) {
+
+		Date maxDate;
+
+		try {
+
+			if (listEvenimente == null)
+				return new Date();
+
+			if (listEvenimente.isEmpty())
+				return new Date();
+
+			maxDate = listEvenimente.stream().filter(EvPredicates.isEvTableta(codBorderou)).filter(EvPredicates.isDateNotNull()).map(r -> r.getDateObj())
+					.max(Date::compareTo).get();
+
+			if (maxDate == null)
+				maxDate = new Date();
+
+		} catch (Exception ex) {
+			logger.error(Utils.getStackTrace(ex, codBorderou));
+			maxDate = new Date();
+		}
+
+		return maxDate;
+	}
+
 	public static String getCoordFromArchive(String codBorderou, String data) {
 
 		DBManager manager = new DBManager();
@@ -241,7 +270,8 @@ public class OperatiiBorderou {
 			}
 
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			String extraInfo = codBorderou + " , " + data;
+			logger.error(Utils.getStackTrace(e, extraInfo));
 		}
 
 		return results;
@@ -263,13 +293,12 @@ public class OperatiiBorderou {
 			ResultSet rs = stmt.getResultSet();
 
 			while (rs.next()) {
-
 				sosire = String.valueOf(rs.getString("sosire"));
 
 			}
 
 		} catch (SQLException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, codBorderou));
 		}
 
 		return sosire;

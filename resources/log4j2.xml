@@ -3,7 +3,7 @@
 
 
 	<Properties>
-		<Property name="log-path">c:/webapplogs/</Property>
+		<Property name="log-path">webapplogs/</Property>
 	</Properties>
 
 	<Appenders>

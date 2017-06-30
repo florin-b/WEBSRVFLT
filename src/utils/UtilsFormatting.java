@@ -31,11 +31,61 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, stringDate));
 		}
 
 		return formattedDate;
 	}
+	
+	
+	
+	public static String formatDateSmall(String stringDate) {
+		String formattedDate = "";
+
+		if (stringDate != null && stringDate.trim().length() == 0)
+			return "";
+
+		try {
+
+			String pattern = "dd-MMM-yy HH:mm:ss";
+			SimpleDateFormat formatInit = new SimpleDateFormat(pattern, Locale.US);
+			Date date = formatInit.parse(stringDate);
+
+			SimpleDateFormat formatFinal = new SimpleDateFormat("dd-MMM-yy HH:mm", Locale.US);
+
+			formattedDate = formatFinal.format(date);
+
+		} catch (ParseException e) {
+			logger.error(Utils.getStackTrace(e, stringDate));
+		}
+
+		return formattedDate;
+	}
+	
+	
+	public static String formatDateAfis(String stringDate) {
+		String formattedDate = "";
+
+		if (stringDate != null && stringDate.trim().length() == 0)
+			return "";
+
+		try {
+
+			String pattern = "dd-MMM-yy HH:mm";
+			SimpleDateFormat formatInit = new SimpleDateFormat(pattern, Locale.US);
+			Date date = formatInit.parse(stringDate);
+
+			SimpleDateFormat formatFinal = new SimpleDateFormat("yyyyMMdd HHmm", Locale.US);
+
+			formattedDate = formatFinal.format(date);
+
+		} catch (ParseException e) {
+			logger.error(Utils.getStackTrace(e, stringDate));
+		}
+
+		return formattedDate;
+	}
+	
 
 	public static String formatDateSimple(String stringDate) {
 		String formattedDate = "";
@@ -54,7 +104,7 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, stringDate));
 		}
 
 		return formattedDate;
@@ -77,30 +127,34 @@ public class UtilsFormatting {
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, stringDate));
 		}
 
 		return formattedDate;
 	}
 
 	public static String formatDateLocal(String stringDate) {
-		String formattedDate = "";
+		String formattedDate;
+
+		if (stringDate.contains("null"))
+			return "";
 
 		if (stringDate != null && stringDate.trim().length() == 0)
 			return "";
 
+		String pattern = "yyyyMMdd HHmmss";
+		SimpleDateFormat formatInit = new SimpleDateFormat(pattern, Locale.US);
+		SimpleDateFormat formatFinal = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("en"));
+
 		try {
 
-			String pattern = "yyyyMMdd HHmmss";
-			SimpleDateFormat formatInit = new SimpleDateFormat(pattern, Locale.US);
 			Date date = formatInit.parse(stringDate);
-
-			SimpleDateFormat formatFinal = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("ro"));
 
 			formattedDate = formatFinal.format(date);
 
 		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
+			logger.error(Utils.getStackTrace(e, stringDate));
+			formattedDate = formatFinal.format(new Date());
 		}
 
 		return formattedDate;
@@ -111,13 +165,13 @@ public class UtilsFormatting {
 	}
 
 	public static String getCurrentDate() {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", new Locale("ro"));
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", new Locale("en"));
 		return dateFormat.format(new Date());
 	}
 
 	public static boolean isDateChronological(String strDate1, Date strDate2) {
 
-		DateFormat format1 = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("ro"));
+		DateFormat format1 = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", new Locale("en"));
 		Date date1 = null;
 
 		try {
@@ -127,7 +181,8 @@ public class UtilsFormatting {
 				return false;
 
 		} catch (ParseException e) {
-			logger.error(Utils.getStackTrace(e));
+			String extraInfo = strDate1 + " , " + strDate2;
+			logger.error(Utils.getStackTrace(e, extraInfo));
 		}
 
 		return true;

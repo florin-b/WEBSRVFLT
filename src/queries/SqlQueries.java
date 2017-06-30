@@ -11,10 +11,10 @@ public class SqlQueries {
 		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
 		sqlString.append(" c.pct = a.plecare),'0,0') plec_long, a.adr_plecare, ");
 		sqlString.append(" a.sosire, ");
-		sqlString.append(" nvl((select b.latitude from sapprd.zgpsdepcoord b where b.tdlnr = a.sosire ");
-		sqlString.append(" ),'0,0') sosire_lat, ");
-		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b where b.tdlnr = a.sosire ");
-		sqlString.append(" ),'0,0') sosire_long, a.adr_sosire ");
+		sqlString.append(" nvl((select b.latitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
+		sqlString.append(" c.pct = a.sosire),'0,0') sosire_lat, ");
+		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b , sapprd.zgpsdep c where b.id = c.gpsid and ");
+		sqlString.append(" c.pct = a.sosire),'0,0') sosire_long, a.adr_sosire ");
 		sqlString.append(" from websap.bord_ends a where a.tknum=?");
 
 		return sqlString.toString();
@@ -84,7 +84,7 @@ public class SqlQueries {
 		sqlString.append(" select a.poz, c.nume, decode(a.cod_client,'', a.cod_furnizor, a.cod_client) cod_client, ");
 		sqlString.append(" decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) cod_adresa,  b.city1, b.street, b.house_num1, b.region, a.name1, ");
 		sqlString.append(
-				" nvl(e.latitudine,'-1') latitudine, nvl(e.longitudine,'-1') longitudine, nvl(f.latitude,'-1') lat_fil, nvl(f.longitude,'-1') long_fil ");
+				" nvl(trim(e.latitudine),'-1') latitudine, nvl(trim(e.longitudine),'-1') longitudine, nvl(f.latitude,'-1') lat_fil, nvl(f.longitude,'-1') long_fil ");
 		sqlString.append(" from sapprd.zdocumentesms a, sapprd.adrc b, clienti c, sapprd.zcoordcomenzi d, sapprd.zcoordadrese e, sapprd.ZGPSDEPCOORD f ");
 		sqlString.append(" where a.nr_bord =:codBorderou ");
 		sqlString.append(" and c.cod = a.cod_client and e.idadresa(+) = decode(a.cod_client,'',a.adresa_furnizor, a.adresa_client) ");
@@ -160,7 +160,7 @@ public class SqlQueries {
 		StringBuilder sqlString = new StringBuilder();
 
 		sqlString.append(
-				" select to_char(trunc(to_date(daten,'yyyymmdd')),'DD-Mon-YY','NLS_DATE_LANGUAGE = ROMANIAN')||' '||to_char(to_date(uaten,'HH24:MI:SS'),'HH24:MI:SS') ");
+				" select to_char(trunc(to_date(daten,'yyyymmdd')),'DD-Mon-YY','NLS_DATE_LANGUAGE = AMERICAN')||' '||to_char(to_date(uaten,'HH24:MI:SS'),'HH24:MI:SS') ");
 		sqlString.append(" sosire from sapprd.vttk where mandt = '900' and daten <> '00000000' and tknum =? ");
 
 		return sqlString.toString();
@@ -169,6 +169,17 @@ public class SqlQueries {
 	public static String getDataEmitereBorderou() {
 		StringBuilder sqlString = new StringBuilder();
 		sqlString.append("select masina, dataemitere from websap.date_borderou");
+		return sqlString.toString();
+	}
+
+	public static String getDateCalculDistanta() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select to_char(record_time,'dd-Mon-yy hh24:mi:ss') data_rec, latitude, longitude, mileage ");
+		sqlString.append(" from gps_date where ");
+		sqlString.append(" record_time between to_date(?,'dd-mm-yy hh24:mi:ss') and to_date(?,'dd-mm-yy hh24:mi:ss') ");
+		sqlString.append(" and device_id =(select distinct id from gps_masini where nr_masina=?)  order by record_time ");
+
 		return sqlString.toString();
 	}
 

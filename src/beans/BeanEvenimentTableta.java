@@ -1,5 +1,12 @@
 package beans;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import utils.UtilsFormatting;
+
 public class BeanEvenimentTableta {
 
 	private String client;
@@ -28,6 +35,19 @@ public class BeanEvenimentTableta {
 
 	public String getData() {
 		return data;
+	}
+
+	public Date getDateObj() {
+		String dataEv = getData() + " " + getOra();
+		Date evDate = null;
+		try {
+			evDate = new SimpleDateFormat("dd-MMM-yy HH:mm:ss", Locale.US).parse(UtilsFormatting.formatDateSimple(dataEv));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return evDate;
+
 	}
 
 	public void setData(String data) {

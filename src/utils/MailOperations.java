@@ -9,7 +9,9 @@ public class MailOperations {
 	public static void sendMail(String mailMessage) {
 
 		String to = "florin.brasoveanu@arabesque.ro";
-		String from = "Flota WS";
+		String from = "Flota";
+		
+		
 		String host = "mail.arabesque.ro";
 
 		Properties properties = System.getProperties();
@@ -24,7 +26,7 @@ public class MailOperations {
 
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-			message.setSubject("Flota WS");
+			message.setSubject("Flota");
 
 			message.setText(mailMessage);
 
