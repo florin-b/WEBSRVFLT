@@ -11,6 +11,7 @@ import com.google.maps.DirectionsApi;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
+import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
@@ -85,6 +86,8 @@ public class MapUtils {
 			double longitude = results[0].geometry.location.lng;
 
 			coordonateGps = new CoordonateGps(latitude, longitude);
+		} catch (OverQueryLimitException q) {
+			
 		} catch (Exception e) {
 
 			logger.error(Utils.getStackTrace(e, ""));
@@ -128,6 +131,7 @@ public class MapUtils {
 		try {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
 
+		} catch (OverQueryLimitException q) {
 		} catch (Exception e) {
 			logger.error(Utils.getStackTrace(e, strAddress.toString()));
 			latitude = -1;
@@ -194,7 +198,8 @@ public class MapUtils {
 
 			}
 
-		} catch (Exception ex) {
+		} catch (OverQueryLimitException q) {
+			} catch (Exception ex) {
 			MailOperations.sendMail("traseuBorderou: " + ex.toString());
 		}
 
@@ -206,13 +211,18 @@ public class MapUtils {
 
 		DistanceMatrix req;
 
-		int dist;
+		int dist = 0;
 
-		GeoApiContext context = GoogleContext.getContext();
+		try {
+			GeoApiContext context = GoogleContext.getContext();
 
-		req = DistanceMatrixApi.newRequest(context).origins(startPoint).destinations(stopPoint).await();
+			req = DistanceMatrixApi.newRequest(context).origins(startPoint).destinations(stopPoint).await();
 
-		dist = (int) req.rows[0].elements[0].distance.inMeters;
+			dist = (int) req.rows[0].elements[0].distance.inMeters;
+		} catch (OverQueryLimitException q) {
+		} catch (Exception ex) {
+			MailOperations.sendMail("traseuBorderou: " + ex.toString());
+		}
 
 		return dist;
 

@@ -5,16 +5,30 @@ public class SqlQueries {
 	public static String getStartStopBorderou() {
 		StringBuilder sqlString = new StringBuilder();
 
-		sqlString.append(" select a.plecare, ");
-		sqlString.append(" nvl((select b.latitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
-		sqlString.append(" c.pct = a.plecare),'0,0') plec_lat, ");
-		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
-		sqlString.append(" c.pct = a.plecare),'0,0') plec_long, a.adr_plecare, ");
+		sqlString.append(" select a.plecare,");
+		sqlString.append(" (case a.tip_plecare ");
+		sqlString.append(
+				"   when 'VSTEL' then (nvl((select b.latitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and c.pct = a.plecare),'0,0')) ");
+		sqlString.append("    when 'WERKA' then (nvl((select b.latitude from sapprd.zgpsdepcoord b where b.tdlnr = a.plecare),'0,0')) ");
+		sqlString.append("   else '0,0' end) plec_lat, ");
+		sqlString.append(" (case a.tip_plecare ");
+		sqlString.append(
+				"    when 'VSTEL' then (nvl((select b.longitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and c.pct = a.plecare),'0,0')) ");
+		sqlString.append("   when 'WERKA' then (nvl((select b.longitude from sapprd.zgpsdepcoord b where b.tdlnr = a.plecare),'0,0')) ");
+		sqlString.append("    else '0,0' end) plec_long, ");
+		sqlString.append(" a.adr_plecare, ");
 		sqlString.append(" a.sosire, ");
-		sqlString.append(" nvl((select b.latitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and ");
-		sqlString.append(" c.pct = a.sosire),'0,0') sosire_lat, ");
-		sqlString.append(" nvl((select b.longitude from sapprd.zgpsdepcoord b , sapprd.zgpsdep c where b.id = c.gpsid and ");
-		sqlString.append(" c.pct = a.sosire),'0,0') sosire_long, a.adr_sosire ");
+		sqlString.append("(case a.tip_sosire ");
+		sqlString.append(
+				"   when 'VSTEZ' then (nvl((select b.latitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and c.pct = a.sosire),'0,0')) ");
+		sqlString.append("   when 'WERKZ' then (nvl((select b.latitude from sapprd.zgpsdepcoord b where b.tdlnr = a.sosire),'0,0')) ");
+		sqlString.append("    else '0,0' end) sosire_lat, ");
+		sqlString.append(" (case a.tip_sosire ");
+		sqlString.append(
+				"   when 'VSTEZ' then (nvl((select b.longitude from sapprd.zgpsdepcoord b, sapprd.zgpsdep c where b.id = c.gpsid and c.pct = a.sosire),'0,0')) ");
+		sqlString.append("  when 'WERKZ' then (nvl((select b.longitude from sapprd.zgpsdepcoord b where b.tdlnr = a.sosire),'0,0')) ");
+		sqlString.append("  else '0,0' end) sosire_long, ");
+		sqlString.append(" a.adr_sosire ");
 		sqlString.append(" from websap.bord_ends a where a.tknum=?");
 
 		return sqlString.toString();

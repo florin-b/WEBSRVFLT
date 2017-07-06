@@ -68,7 +68,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001672494";
+		String codBorderou = "0001675572";
 
 	
 

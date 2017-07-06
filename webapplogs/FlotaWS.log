@@ -482,3 +482,76 @@ Extra:
 	at test.TestWS.testBorderou(TestWS.java:98)
 	at test.TestWS.main(TestWS.java:32)
 Extra: 
+30-Jun-2017 12:00:38 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API.
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.geocodeAddress(MapUtils.java:82)
+	at database.OperatiiTraseu.setCoordBound(OperatiiTraseu.java:337)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:316)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:98)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 
+30-Jun-2017 12:01:32 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API.
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.geocodeAddress(MapUtils.java:82)
+	at database.OperatiiTraseu.setCoordBound(OperatiiTraseu.java:337)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:316)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:98)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 
+06-Jul-2017 11:28:29 [main] ERROR database.OperatiiTraseu - java.sql.SQLSyntaxErrorException: ORA-00923: cuvântul cheie FROM nu este gãsit în locul aºteptat
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:951)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:513)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:227)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:208)
+	at oracle.jdbc.driver.T4CPreparedStatement.executeForDescribe(T4CPreparedStatement.java:886)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1175)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1296)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3613)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:3657)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.executeQuery(OraclePreparedStatementWrapper.java:1495)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:280)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:98)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 0001672494
+06-Jul-2017 11:32:03 [main] ERROR database.OperatiiTraseu - java.sql.SQLException: Invalid column name
+	at oracle.jdbc.driver.OracleStatement.getColumnIndex(OracleStatement.java:3724)
+	at oracle.jdbc.driver.OracleResultSetImpl.findColumn(OracleResultSetImpl.java:2799)
+	at oracle.jdbc.driver.OracleResultSet.getString(OracleResultSet.java:498)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:297)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:98)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 0001672494
+06-Jul-2017 11:33:27 [main] ERROR database.OperatiiTraseu - java.sql.SQLException: Invalid column name
+	at oracle.jdbc.driver.OracleStatement.getColumnIndex(OracleStatement.java:3724)
+	at oracle.jdbc.driver.OracleResultSetImpl.findColumn(OracleResultSetImpl.java:2799)
+	at oracle.jdbc.driver.OracleResultSet.getString(OracleResultSet.java:498)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:297)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:98)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 0001672494
+06-Jul-2017 11:35:46 [main] ERROR database.OperatiiTraseu - java.sql.SQLException: Invalid column name
+	at oracle.jdbc.driver.OracleStatement.getColumnIndex(OracleStatement.java:3724)
+	at oracle.jdbc.driver.OracleResultSetImpl.findColumn(OracleResultSetImpl.java:2799)
+	at oracle.jdbc.driver.OracleResultSet.getString(OracleResultSet.java:498)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:297)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:98)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 0001672494
