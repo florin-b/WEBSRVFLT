@@ -166,4 +166,8 @@ public class FlotaWS {
 		return false;
 	}
 
+	public String getAdresaCoordonate(double lat, double lng) {
+		return MapUtils.getAdresaCoordonate(lat, lng);
+	}
+
 }

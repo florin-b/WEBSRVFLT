@@ -3,6 +3,7 @@ package utils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -62,6 +63,16 @@ public class Utils {
 
 		return result.toString();
 
+	}
+
+	public static String flattenToAscii(String string) {
+		StringBuilder sb = new StringBuilder(string.length());
+		String localString = Normalizer.normalize(string, Normalizer.Form.NFD);
+		for (char c : localString.toCharArray()) {
+			if (c <= '\u007F')
+				sb.append(c);
+		}
+		return sb.toString();
 	}
 
 	public static String getStackTrace(Exception ex, String extraInfo) {

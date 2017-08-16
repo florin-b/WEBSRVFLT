@@ -2,7 +2,6 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +11,7 @@ import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.OverQueryLimitException;
+import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
@@ -22,6 +22,7 @@ import beans.CoordonateGps;
 import beans.DistantaRuta;
 import beans.GoogleContext;
 import beans.StandardAddress;
+import enums.EnumJudete;
 
 public class MapUtils {
 
@@ -87,7 +88,7 @@ public class MapUtils {
 
 			coordonateGps = new CoordonateGps(latitude, longitude);
 		} catch (OverQueryLimitException q) {
-			
+
 		} catch (Exception e) {
 
 			logger.error(Utils.getStackTrace(e, ""));
@@ -199,7 +200,7 @@ public class MapUtils {
 			}
 
 		} catch (OverQueryLimitException q) {
-			} catch (Exception ex) {
+		} catch (Exception ex) {
 			MailOperations.sendMail("traseuBorderou: " + ex.toString());
 		}
 
@@ -226,6 +227,52 @@ public class MapUtils {
 
 		return dist;
 
+	}
+
+	public static String getAdresaCoordonate(double lat, double lng) {
+
+		String adresa = "";
+
+		GeoApiContext context = GoogleContext.getContext();
+
+		try {
+			GeocodingResult[] results = GeocodingApi.reverseGeocode(context, new LatLng(lat, lng)).await();
+
+			String localitate = "";
+			String judet = "";
+
+			for (int j = 0; j < results[0].addressComponents.length; j++) {
+
+				AddressComponentType[] adrComponentType = results[0].addressComponents[j].types;
+
+				for (int k = 0; k < adrComponentType.length; k++) {
+					if (adrComponentType[k] == AddressComponentType.LOCALITY) {
+						localitate = Utils.flattenToAscii(results[0].addressComponents[j].shortName);
+						break;
+					}
+
+					if (adrComponentType[k] == AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_1) {
+						judet = Utils.flattenToAscii(results[0].addressComponents[j].shortName);
+						break;
+					}
+
+				}
+
+				judet = EnumJudete.getNumeJudet(judet);
+
+				if (!judet.isEmpty()) {
+					adresa = localitate + " / " + judet;
+
+				}
+
+			}
+
+		} catch (Exception e) {
+			MailOperations.sendMail("FlotaWS" + e.toString());
+			System.out.println(e.toString());
+		}
+
+		return adresa;
 	}
 
 	public static boolean containsLocation(LatLng point, List<LatLng> polygon, boolean geodesic) {

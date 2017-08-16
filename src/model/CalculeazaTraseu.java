@@ -93,6 +93,9 @@ public class CalculeazaTraseu {
 
 				distanta = MapUtils.distanceXtoY(traseu.getLatitudine(), traseu.getLongitudine(), pozitieClient.getLatitudine(), pozitieClient.getLongitudine(),
 						"K");
+				
+				
+				
 
 				if (conditiiSosire(traseu, distanta, pozitieClient, maxEventDate)) {
 					pozitieClient.setKmBord(traseu.getKm());
