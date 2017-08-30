@@ -233,7 +233,7 @@ public class MapUtils {
 
 		String adresa = "";
 
-		GeoApiContext context = GoogleContext.getContext();
+		GeoApiContext context = GoogleContext.getContextRevGeo();
 
 		try {
 			GeocodingResult[] results = GeocodingApi.reverseGeocode(context, new LatLng(lat, lng)).await();
@@ -246,7 +246,7 @@ public class MapUtils {
 				AddressComponentType[] adrComponentType = results[0].addressComponents[j].types;
 
 				for (int k = 0; k < adrComponentType.length; k++) {
-					if (adrComponentType[k] == AddressComponentType.LOCALITY) {
+					if (adrComponentType[k] == AddressComponentType.LOCALITY || adrComponentType[k] == AddressComponentType.SUBLOCALITY) {
 						localitate = Utils.flattenToAscii(results[0].addressComponents[j].shortName);
 						break;
 					}
@@ -258,8 +258,6 @@ public class MapUtils {
 
 				}
 
-				judet = EnumJudete.getNumeJudet(judet);
-
 				if (!judet.isEmpty()) {
 					adresa = localitate + " / " + judet;
 
@@ -269,7 +267,7 @@ public class MapUtils {
 
 		} catch (Exception e) {
 			MailOperations.sendMail("FlotaWS" + e.toString());
-			System.out.println(e.toString());
+			adresa = e.toString();
 		}
 
 		return adresa;

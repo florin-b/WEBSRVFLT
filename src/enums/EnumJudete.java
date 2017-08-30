@@ -10,11 +10,11 @@ public enum EnumJudete {
 					"40", "B"), BUZAU("BUZAU", "10", "BZ"), CALARASI("CALARASI", "51", "CL"), CARAS("CARAS-SEVERIN", "11", "CS"), CLUJ("CLUJ", "12",
 							"CJ"), CONSTANTA("CONSTANTA", "13", "CT"), COVASNA("COVASNA", "14", "CV"), DAMBOVITA("DAMBOVITA", "15", "DB"), DOLJ("DOLJ", "16",
 									"DJ"), GALATI("GALATI", "17", "GL"), GIURGIU("GIURGIU", "52", "GR"), GORJ("GORJ", "18", "GJ"), HARGHITA("HARGHITA", "19",
-											"HR"), HUNEDOARA("HUNEDOARA", "20", "HG"), IALOMITA("IALOMITA", "21", "IL"), IASI("IASI", "22", "IS"), ILFOV(
+											"HR"), HUNEDOARA("HUNEDOARA", "20", "HD"), IALOMITA("IALOMITA", "21", "IL"), IASI("IASI", "22", "IS"), ILFOV(
 													"ILFOV", "23", "IF"), MARAMURES("MARAMURES", "24", "MM"), MEHEDINTI("MEHEDINTI", "25", "MH"), MURES("MURES",
 															"26", "MS"), NEAMT("NEAMT", "27", "NT"), OLT("OLT", "28", "OT"), PRAHOVA("PRAHOVA", "29",
 																	"PH"), SALAJ("SALAJ", "31", "SJ"), SATU_MARE("SATU-MARE", "30", "SM"), SIBIU("SIBIU", "32",
-																			"SM"), SUCEAVA("SUCEAVA", "33", "SV"), TELEORMAN("TELEORMAN", "34", "TR"), TIMIS(
+																			"SB"), SUCEAVA("SUCEAVA", "33", "SV"), TELEORMAN("TELEORMAN", "34", "TR"), TIMIS(
 																					"TIMIS", "35", "TM"), TULCEA("TULCEA", "36", "TL"), VALCEA("VALCEA", "38",
 																							"VL"), VASLUI("VASLUI", "37", "VS"), VRANCEA("VRANCEA", "39", "VN");
 
@@ -68,6 +68,12 @@ public enum EnumJudete {
 	}
 
 	public static String getNumeJudet(String abr) {
+
+		if (abr.toUpperCase().contains("BUCURESTI")) {
+			return "BUCURESTI";
+
+		}
+
 		for (EnumJudete enumJ : EnumJudete.values()) {
 			if (enumJ.abr.equals(abr))
 				return enumJ.nume;

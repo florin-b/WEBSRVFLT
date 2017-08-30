@@ -11,5 +11,7 @@ public class Constants {
 	public static String GOOGLE_MAPS_API_KEY = "AIzaSyAmslp9dA-gCEl18PYfxkvZ-BqUFp4Pi3o";
 
 	public static String GOOGLE_MAPS_API_KEY_DIST = "AIzaSyCB31MHkq7XyPaEMwB1IC0zN2lK1-i4mc4";
+	
+	public static String GOOGLE_MAPS_API_KEY_REV_GEO = "AIzaSyDuZrxbUtw7A0w15dqinnxOUcmfieGe-Kk";
 
 }

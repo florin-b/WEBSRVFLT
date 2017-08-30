@@ -106,7 +106,7 @@ public class OperatiiTraseu {
 
 				pozitie.setNumeClient(rs.getString("nume"));
 				pozitie.setCodAdresa(rs.getString("cod_adresa"));
-				pozitie.setNumeClientGed(rs.getString("name1"));
+				pozitie.setNumeClientGed(rs.getString("nume"));
 				pozitie.setTipClient(EnumTipClient.DISTRIBUTIE);
 
 				listPozitii.add(pozitie);

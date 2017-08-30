@@ -29,11 +29,9 @@ public class TestWS {
 
 	public static void main(String[] args) throws SQLException {
 
-		//testBorderou();
-		
-		System.out.println(MapUtils.getAdresaCoordonate(44.611319  ,            26.535115));
-		
-		
+		 testBorderou();
+
+		//System.out.println( MapUtils.getAdresaCoordonate(46.076 ,	24.412));
 
 	}
 
@@ -68,9 +66,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001674048";
-
-	
+		String codBorderou = "0001682184";
 
 		DateBorderou dateBorderou = null;
 		try {
@@ -100,6 +96,8 @@ public class TestWS {
 			e.printStackTrace();
 		}
 
+	
+		
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("Diff = " + estimatedTime);
 

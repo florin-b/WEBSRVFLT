@@ -11,6 +11,8 @@ public class GoogleContext {
 	private static GeoApiContext instance;
 
 	private static GeoApiContext instanceDist;
+	
+	private static GeoApiContext instanceRevGeo;
 
 	private GoogleContext() {
 
@@ -46,6 +48,17 @@ public class GoogleContext {
 		}
 
 		return instanceDist;
+	}
+	
+	public static GeoApiContext getContextRevGeo() {
+		if (instanceRevGeo == null) {
+			instanceRevGeo = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY_REV_GEO);
+			instanceRevGeo.setQueryRateLimit(2);
+			instanceRevGeo.setRetryTimeout(0, TimeUnit.SECONDS);
+			instanceRevGeo.setConnectTimeout(1, TimeUnit.SECONDS);
+		}
+
+		return instanceRevGeo;
 	}
 
 }
