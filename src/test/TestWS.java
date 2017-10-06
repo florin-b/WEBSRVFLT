@@ -30,6 +30,9 @@ public class TestWS {
 	public static void main(String[] args) throws SQLException {
 
 		 testBorderou();
+		
+		
+		//logger.error("123");
 
 		//System.out.println( MapUtils.getAdresaCoordonate(46.076 ,	24.412));
 
@@ -66,7 +69,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001682184";
+		String codBorderou = "0001724711";
 
 		DateBorderou dateBorderou = null;
 		try {

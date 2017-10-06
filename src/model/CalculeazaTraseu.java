@@ -134,13 +134,21 @@ public class CalculeazaTraseu {
 		return rezultatTraseu.stream().filter(EvPredicates.isPlecareDateNotNull()).map(r -> r.getPlecare().getDateObject()).max(Date::compareTo).get();
 	}
 
+	private Date getMinDateTraseu() {
+		return rezultatTraseu.stream().filter(EvPredicates.isPlecareDateNotNull()).map(r -> r.getPlecare().getDateObject()).min(Date::compareTo).get();
+	}
+
 	private boolean condSuplimentSosire(TraseuBorderou traseuBorderou, PozitieClient pozitieClient) {
 
 		if (getCoordEveniment(pozitieClient.getCodClient(), EvenimentClient.SOSIRE) != null)
 			return false;
 
 		if (dataStartBorderou == null)
-			return true;
+			if (pozitieClient.isStartBord())
+				return true;
+			else
+				return false;
+
 
 		try {
 
