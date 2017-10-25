@@ -95,13 +95,13 @@ public class SqlQueries {
 	public static String getCoordClientiBorderouAll() {
 		StringBuilder sqlString = new StringBuilder();
 
-		sqlString.append(" select a.poz, c.nume, a.cod cod_client,");
+		sqlString.append(" select a.poz, a.nume, a.cod cod_client,");
 		sqlString.append(" a.adresa cod_adresa,  b.city1, b.street,");
-		sqlString.append(" b.house_num1, b.region, a.nume,  nvl(trim(e.latitude),'-1') latitudine,");
+		sqlString.append(" b.house_num1, b.region,  nvl(trim(e.latitude),'-1') latitudine,");
 		sqlString.append(" nvl(trim(e.longitude),'-1') longitudine, nvl(f.latitude,'-1') lat_fil,");
 		sqlString.append(" nvl(f.longitude,'-1') long_fil  from sapprd.zdocumentebord a,");
-		sqlString.append(" sapprd.adrc b, clienti c,  sapprd.zadreseclienti e,");
-		sqlString.append(" sapprd.ZGPSDEPCOORD f  where a.nr_bord =?  and c.cod = a.cod ");
+		sqlString.append(" sapprd.adrc b,   sapprd.zadreseclienti e,");
+		sqlString.append(" sapprd.ZGPSDEPCOORD f  where a.nr_bord =?  ");
 		sqlString.append(" and e.codclient(+) = a.cod and e.codadresa(+)= a.adresa ");
 		sqlString.append(" and b.client = '900' and f.tdlnr(+) = a.cod ");
 		sqlString.append(" and b.addrnumber = a.adresa ");
