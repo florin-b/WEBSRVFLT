@@ -91,6 +91,9 @@ public class OperatiiTraseu {
 
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
+				
+				if (rs.getString("nume").contains("INCHIRIAT"))
+					continue;
 
 				PozitieClient pozitie = new PozitieClient();
 				pozitie.setPoz(Integer.valueOf(rs.getString("poz")));

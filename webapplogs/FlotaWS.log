@@ -1,2 +1,26 @@
 07-Sep-2017 13:11:53 [main] ERROR test.TestWS - 123
 06-Oct-2017 13:45:46 [main] ERROR test.TestWS - 123
+09-Nov-2017 12:00:00 [main] ERROR utils.MapUtils - java.lang.ArrayIndexOutOfBoundsException: 0
+	at utils.MapUtils.geocodeAddress(MapUtils.java:86)
+	at database.OperatiiTraseu.setCoordBound(OperatiiTraseu.java:337)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:299)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:97)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 
+09-Nov-2017 12:09:52 [main] ERROR utils.MapUtils - java.lang.ArrayIndexOutOfBoundsException: 0
+	at utils.MapUtils.geocodeAddress(MapUtils.java:86)
+	at database.OperatiiTraseu.setCoordBound(OperatiiTraseu.java:337)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:299)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:97)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 
+09-Nov-2017 12:14:46 [main] ERROR utils.MapUtils - java.lang.ArrayIndexOutOfBoundsException: 0
+	at utils.MapUtils.geocodeAddress(MapUtils.java:89)
+	at database.OperatiiTraseu.setCoordBound(OperatiiTraseu.java:337)
+	at database.OperatiiTraseu.getStartStopBorderou(OperatiiTraseu.java:299)
+	at database.OperatiiTraseu.getCoordClientiBorderou(OperatiiTraseu.java:124)
+	at test.TestWS.testBorderou(TestWS.java:97)
+	at test.TestWS.main(TestWS.java:32)
+Extra: 

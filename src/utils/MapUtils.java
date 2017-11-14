@@ -51,7 +51,10 @@ public class MapUtils {
 	}
 
 	public static CoordonateGps geocodeAddress(StandardAddress address) throws Exception {
-		CoordonateGps coordonateGps = new CoordonateGps(0, 0);
+		CoordonateGps coordonateGps;
+
+		double latitude = 0;
+		double longitude = 0;
 
 		try {
 
@@ -83,16 +86,22 @@ public class MapUtils {
 
 			GeocodingResult[] results = GeocodingApi.geocode(context, strAddress.toString()).await();
 
-			double latitude = results[0].geometry.location.lat;
-			double longitude = results[0].geometry.location.lng;
+			if (results.length > 0) {
+				latitude = results[0].geometry.location.lat;
+				longitude = results[0].geometry.location.lng;
+			}
 
-			coordonateGps = new CoordonateGps(latitude, longitude);
 		} catch (OverQueryLimitException q) {
+			latitude = 0;
+			longitude = 0;
 
 		} catch (Exception e) {
-
+			latitude = 0;
+			longitude = 0;
 			logger.error(Utils.getStackTrace(e, ""));
 		}
+
+		coordonateGps = new CoordonateGps(latitude, longitude);
 
 		return coordonateGps;
 	}

@@ -31,6 +31,9 @@ public class SqlQueries {
 		sqlString.append(" a.adr_sosire ");
 		sqlString.append(" from websap.bord_ends a where a.tknum=?");
 
+		
+		
+		
 		return sqlString.toString();
 
 	}
