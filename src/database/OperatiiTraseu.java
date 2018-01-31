@@ -91,7 +91,7 @@ public class OperatiiTraseu {
 
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
-				
+
 				if (rs.getString("nume").contains("INCHIRIAT"))
 					continue;
 
@@ -132,6 +132,7 @@ public class OperatiiTraseu {
 			listPozitii.add(0, listBorder.get(0));
 			listPozitii.add(listPozitii.size(), listBorder.get(1));
 			listBorder.get(1).setPoz(listPozitii.size() - 1);
+
 		}
 
 		return listPozitii;

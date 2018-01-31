@@ -124,7 +124,13 @@ public class CalculeazaTraseu {
 
 		}
 
-		if (traseu.getViteza() == 0 && distanta <= getDistanta(pozitieClient.getTipClient()) && condSuplimentSosire(traseu, pozitieClient))
+		boolean conditiiSuplimentare;
+		if (pozitieClient.isStopBord())
+			conditiiSuplimentare = true;
+		else
+			conditiiSuplimentare = condSuplimentSosire(traseu, pozitieClient);
+
+		if (traseu.getViteza() == 0 && distanta <= getDistanta(pozitieClient.getTipClient()) && conditiiSuplimentare)
 			return true;
 
 		return false;
@@ -148,7 +154,6 @@ public class CalculeazaTraseu {
 				return true;
 			else
 				return false;
-
 
 		try {
 

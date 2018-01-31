@@ -142,6 +142,8 @@ public class MapUtils {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
 
 		} catch (OverQueryLimitException q) {
+			latitude = -1;
+			longitude = -1;
 		} catch (Exception e) {
 			logger.error(Utils.getStackTrace(e, strAddress.toString()));
 			latitude = -1;
