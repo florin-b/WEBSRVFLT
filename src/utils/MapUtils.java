@@ -24,6 +24,7 @@ import beans.DistantaRuta;
 import beans.GoogleContext;
 import beans.StandardAddress;
 import model.AdreseService;
+import model.Distanta;
 
 public class MapUtils {
 
@@ -31,6 +32,7 @@ public class MapUtils {
 
 	private static final int MAX_KEYS = 7;
 	private static final int MAX_KEYS_PUNCTE = 7;
+	private static final int MAX_KEYS_LOCALITATI = 3;
 
 	public static double distanceXtoY(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double theta = lon1 - lon2;
@@ -355,6 +357,39 @@ public class MapUtils {
 		return adresa;
 	}
 
+	public static int getDistantaLocalitatiKM(String jud1, String loc1, String jud2, String loc2) {
+
+		int distanta = 0;
+
+		Random rand = new Random(System.currentTimeMillis());
+		int value = rand.nextInt((MAX_KEYS_LOCALITATI - 1) + 1) + 1;
+
+		DirectionsRoute[] routes = null;
+
+		GeoApiContext context = GoogleContext.getContextLocalitati(value);
+
+		String start = "Romania, " + jud1.trim().toUpperCase() + ", " + loc1.trim().toUpperCase();
+		String stop = "Romania, " + jud2.trim().toUpperCase() + ", " + loc2.trim().toUpperCase();
+
+		try {
+			routes = DirectionsApi.newRequest(context).mode(TravelMode.DRIVING).origin(start).destination(stop).mode(TravelMode.DRIVING)
+					.optimizeWaypoints(false).await();
+
+			for (int i = 0; i < routes[0].legs.length; i++) {
+
+				distanta = (int) routes[0].legs[i].distance.inMeters / 1000;
+
+			}
+
+		} catch (Exception e) {
+			distanta = 0;
+			MailOperations.sendMail("FlotaWS" + e.toString());
+		}
+
+		return distanta;
+
+	}
+
 	public static boolean containsLocation(LatLng point, List<LatLng> polygon, boolean geodesic) {
 		final int size = polygon.size();
 		if (size == 0) {
@@ -384,48 +419,24 @@ public class MapUtils {
 		return (nIntersect & 1) != 0;
 	}
 
-	/**
-	 * Wraps the given value into the inclusive-exclusive interval between min
-	 * and max.
-	 * 
-	 * @param n
-	 *            The value to wrap.
-	 * @param min
-	 *            The minimum.
-	 * @param max
-	 *            The maximum.
-	 */
 	static double wrap(double n, double min, double max) {
 		return (n >= min && n < max) ? n : (mod(n - min, max - min) + min);
 	}
 
-	/**
-	 * Returns the non-negative remainder of x / m.
-	 * 
-	 * @param x
-	 *            The operand.
-	 * @param m
-	 *            The modulus.
-	 */
 	static double mod(double x, double m) {
 		return ((x % m) + m) % m;
 	}
 
-	/**
-	 * Computes whether the vertical segment (lat3, lng3) to South Pole
-	 * intersects the segment (lat1, lng1) to (lat2, lng2). Longitudes are
-	 * offset by -lng1; the implicit lng1 becomes 0.
-	 */
 	private static boolean intersects(double lat1, double lat2, double lng2, double lat3, double lng3, boolean geodesic) {
-		// Both ends on the same side of lng3.
+
 		if ((lng3 >= 0 && lng3 >= lng2) || (lng3 < 0 && lng3 < lng2)) {
 			return false;
 		}
-		// Point is South Pole.
+
 		if (lat3 <= -Math.PI / 2) {
 			return false;
 		}
-		// Any segment end is a pole.
+
 		if (lat1 <= -Math.PI / 2 || lat2 <= -Math.PI / 2 || lat1 >= Math.PI / 2 || lat2 >= Math.PI / 2) {
 			return false;
 		}
@@ -433,45 +444,30 @@ public class MapUtils {
 			return false;
 		}
 		double linearLat = (lat1 * (lng2 - lng3) + lat2 * lng3) / lng2;
-		// Northern hemisphere and point under lat-lng line.
+
 		if (lat1 >= 0 && lat2 >= 0 && lat3 < linearLat) {
 			return false;
 		}
-		// Southern hemisphere and point above lat-lng line.
+
 		if (lat1 <= 0 && lat2 <= 0 && lat3 >= linearLat) {
 			return true;
 		}
-		// North Pole.
+
 		if (lat3 >= Math.PI / 2) {
 			return true;
 		}
-		// Compare lat3 with latitude on the GC/Rhumb segment corresponding to
-		// lng3.
-		// Compare through a strictly-increasing function (tan() or mercator())
-		// as convenient.
+
 		return geodesic ? Math.tan(lat3) >= tanLatGC(lat1, lat2, lng2, lng3) : mercator(lat3) >= mercatorLatRhumb(lat1, lat2, lng2, lng3);
 	}
 
-	/**
-	 * Returns tan(latitude-at-lng3) on the great circle (lat1, lng1) to (lat2,
-	 * lng2). lng1==0. See http://williams.best.vwh.net/avform.htm .
-	 */
 	private static double tanLatGC(double lat1, double lat2, double lng2, double lng3) {
 		return (Math.tan(lat1) * Math.sin(lng2 - lng3) + Math.tan(lat2) * Math.sin(lng3)) / Math.sin(lng2);
 	}
 
-	/**
-	 * Returns mercator Y corresponding to latitude. See
-	 * http://en.wikipedia.org/wiki/Mercator_projection .
-	 */
 	static double mercator(double lat) {
 		return Math.log(Math.tan(lat * 0.5 + Math.PI / 4));
 	}
 
-	/**
-	 * Returns mercator(latitude-at-lng3) on the Rhumb line (lat1, lng1) to
-	 * (lat2, lng2). lng1==0.
-	 */
 	private static double mercatorLatRhumb(double lat1, double lat2, double lng2, double lng3) {
 		return (mercator(lat1) * (lng2 - lng3) + mercator(lat2) * lng3) / lng2;
 	}

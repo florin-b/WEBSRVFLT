@@ -32,6 +32,10 @@ public class GoogleContext {
 	private static GeoApiContext instancePuncte6;
 	private static GeoApiContext instancePuncte7;
 
+	private static GeoApiContext instanceLocalitati1;
+	private static GeoApiContext instanceLocalitati2;
+	private static GeoApiContext instanceLocalitati3;
+
 	private GoogleContext() {
 
 	}
@@ -212,7 +216,7 @@ public class GoogleContext {
 	}
 
 	public static GeoApiContext getContextPuncte(int contextNumber) {
-		
+
 		System.out.println("Context " + contextNumber);
 
 		switch (contextNumber) {
@@ -317,6 +321,60 @@ public class GoogleContext {
 		}
 
 		return instancePuncte7;
+	}
+
+	public static GeoApiContext getContextLocalitati1() {
+		if (instanceLocalitati1 == null) {
+			instanceLocalitati1 = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY_DIST_LOC_01);
+			instanceLocalitati1.setQueryRateLimit(2);
+			instanceLocalitati1.setRetryTimeout(0, TimeUnit.SECONDS);
+			instanceLocalitati1.setConnectTimeout(1, TimeUnit.SECONDS);
+
+		}
+
+		return instanceLocalitati1;
+	}
+
+	
+	public static GeoApiContext getContextLocalitati(int contextNumber) {
+
+		System.out.println("Context " + contextNumber);
+
+		switch (contextNumber) {
+		case 1:
+			return getContextLocalitati1();
+		case 2:
+			return getContextLocalitati2();
+		case 3:
+		default:
+			return getContextLocalitati3();
+
+		}
+	}
+	
+	
+	public static GeoApiContext getContextLocalitati2() {
+		if (instanceLocalitati2 == null) {
+			instanceLocalitati2 = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY_DIST_LOC_02);
+			instanceLocalitati2.setQueryRateLimit(2);
+			instanceLocalitati2.setRetryTimeout(0, TimeUnit.SECONDS);
+			instanceLocalitati2.setConnectTimeout(1, TimeUnit.SECONDS);
+
+		}
+
+		return instanceLocalitati2;
+	}
+
+	public static GeoApiContext getContextLocalitati3() {
+		if (instanceLocalitati3 == null) {
+			instanceLocalitati3 = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY_DIST_LOC_03);
+			instanceLocalitati3.setQueryRateLimit(2);
+			instanceLocalitati3.setRetryTimeout(0, TimeUnit.SECONDS);
+			instanceLocalitati3.setConnectTimeout(1, TimeUnit.SECONDS);
+
+		}
+
+		return instanceLocalitati3;
 	}
 
 }

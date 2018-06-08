@@ -31,16 +31,7 @@ public class TestWS {
 
 		try {
 
-			//System.out.println("Coordonate localitate 1 : " + MapUtils.getCoordAddressFromService("17", "Pechea", "STRADA RAZOARE  NR 92", ""));
-			
-			//System.out.println("Coordonate localitate 2 : " + MapUtils.getCoordLocalitateFromService("17", "Pechea", "STRADA RAZOARE  NR 92" , ""));
-			
-			
-			System.out.println(MapUtils.getDistantaPuncte("44.509892:25.9845856-44.4383705:25.987329-44.4666237:26.0215887-44.3783526:25.9449231-44.4383705:25.987329"));
-			
-			//System.out.println("Adresa coordonate: " + MapUtils.getAdresaCoordonate(44.73333299999999,24.6500001));
-			
-			//System.out.println("is oras: " + new AdreseService().isOras("", "calarasi "," calarasi"));
+			System.out.println(MapUtils.getDistantaLocalitatiKM("bucuresti", "bucuresti", "galati", "galati"));
 			
 
 		} catch (Exception e) {

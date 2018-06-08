@@ -92,23 +92,20 @@ public class FlotaWS {
 		return retVal;
 	}
 
-	
 	public String getCoordonateLocalitate(String codJudet, String localitate, String strada, String numar) {
 		return MapUtils.getCoordLocalitateFromService(codJudet, localitate, strada, numar);
 	}
-	
-	
+
 	public String getCoordAddress(String codJudet, String localitate, String strada, String numar) {
 		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
 	}
-	
-	
+
 	/*
-	public String getCoordonateAdresa(String codJudet, String localitate, String strada, String numar) {
-		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
-	}
-	*/
-	
+	 * public String getCoordonateAdresa(String codJudet, String localitate,
+	 * String strada, String numar) { return
+	 * MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
+	 * }
+	 */
 
 	public boolean getStartBorderou(String codSofer) {
 		Set<RezultatTraseu> rezultat = new HashSet<RezultatTraseu>();
@@ -176,10 +173,12 @@ public class FlotaWS {
 		return MapUtils.getDistantaPuncte(coordonate);
 	}
 
-	
-
 	public String getAdresaCoordonate(double lat, double lng) {
 		return MapUtils.getAdresaCoordonate(lat, lng);
+	}
+
+	public int getDistantaLocalitatiKM(String jud1, String loc1, String jud2, String loc2) {
+		return MapUtils.getDistantaLocalitatiKM(jud1, loc1, jud2, loc2);
 	}
 
 }

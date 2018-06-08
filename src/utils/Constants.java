@@ -36,6 +36,10 @@ public class Constants {
 	public static String GOOGLE_MAPS_API_KEY_DIST_06 = "AIzaSyD5GhVs4E5uRl2b9cqSU-yi8xPgu63Ms-8";	
 	public static String GOOGLE_MAPS_API_KEY_DIST_07 = "AIzaSyBi50cw20JpOQtm7y3MYeIS8iCV76u4AQY";
 	
+	public static String GOOGLE_MAPS_API_KEY_DIST_LOC_01 = "AIzaSyAt00YhmNdwGqpB-maQZ7ezUstaZEvsOF0";
+	public static String GOOGLE_MAPS_API_KEY_DIST_LOC_02 = "AIzaSyCYqYaJPfI5F85KeSYizOhY93W9bUgRANw";
+	public static String GOOGLE_MAPS_API_KEY_DIST_LOC_03 = "AIzaSyAs9oSS4YySKlq71-LzPgL2gAx_jPRkui8";
+	
 	
 
 
