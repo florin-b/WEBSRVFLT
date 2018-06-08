@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,11 +23,14 @@ import beans.CoordonateGps;
 import beans.DistantaRuta;
 import beans.GoogleContext;
 import beans.StandardAddress;
-import enums.EnumJudete;
+import model.AdreseService;
 
 public class MapUtils {
 
 	private static final Logger logger = LogManager.getLogger(MapUtils.class);
+
+	private static final int MAX_KEYS = 7;
+	private static final int MAX_KEYS_PUNCTE = 7;
 
 	public static double distanceXtoY(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double theta = lon1 - lon2;
@@ -106,36 +110,100 @@ public class MapUtils {
 		return coordonateGps;
 	}
 
-	public static String getCoordAddressFromService(String codJudet, String localitate, String strada, String numar) {
+	public static String getCoordLocalitateFromService(String codJudet, String localitate, String strada, String numar) {
 
-		StringBuilder strAddress = new StringBuilder();
+		StringBuilder strAddress;
 
 		double latitude = 0;
 		double longitude = 0;
 
-		if (strada != null && !strada.trim().equals("")) {
-			strAddress.append(strada.trim());
-			strAddress.append(",");
-		}
+		Random rand = new Random(System.currentTimeMillis());
+		int value = rand.nextInt((MAX_KEYS - 1) + 1) + 1;
 
-		if (numar != null && !numar.trim().equals("")) {
-			strAddress.append(numar.trim());
-			strAddress.append(",");
-		}
+		strAddress = new StringBuilder();
+		strAddress.append("Romania, ");
 
 		if (codJudet != null && !codJudet.trim().equals("")) {
 			strAddress.append(UtilsAdrese.getNumeJudet(codJudet.trim()));
-			strAddress.append(",");
 		}
 
 		if (localitate != null && !localitate.trim().equals("")) {
+			strAddress.append(", ");
 			strAddress.append(localitate.trim());
-			strAddress.append(",");
 		}
 
-		strAddress.append("Romania");
+		if (new AdreseService().isOras(codJudet, localitate, "")) {
+			if (strada != null && !strada.trim().equals("")) {
+				strAddress.append(", ");
+				strAddress.append(strada.trim());
 
-		GeoApiContext context = GoogleContext.getContext();
+			}
+
+			if (numar != null && !numar.trim().equals("")) {
+				strAddress.append(", ");
+				strAddress.append(numar.trim());
+			}
+		}
+
+		GeoApiContext context = GoogleContext.getContext(value);
+
+		GeocodingResult[] results = null;
+		try {
+			results = GeocodingApi.geocode(context, strAddress.toString()).await();
+
+		} catch (OverQueryLimitException q) {
+			latitude = -1;
+			longitude = -1;
+		} catch (Exception e) {
+			logger.error(Utils.getStackTrace(e, strAddress.toString()));
+			latitude = -1;
+			longitude = -1;
+			return e.toString();
+
+		}
+
+		if (results.length > 0) {
+			latitude = results[0].geometry.location.lat;
+			longitude = results[0].geometry.location.lng;
+		}
+
+		return latitude + "," + longitude;
+	}
+
+	public static String getCoordAddressFromService(String codJudet, String localitate, String strada, String numar) {
+
+		StringBuilder strAddress;
+
+		double latitude = 0;
+		double longitude = 0;
+
+		Random rand = new Random(System.currentTimeMillis());
+		int value = rand.nextInt((MAX_KEYS - 1) + 1) + 1;
+
+		strAddress = new StringBuilder();
+		strAddress.append("Romania, ");
+
+		if (codJudet != null && !codJudet.trim().equals("")) {
+			strAddress.append(UtilsAdrese.getNumeJudet(codJudet.trim()));
+		}
+
+		if (localitate != null && !localitate.trim().equals("")) {
+			strAddress.append(", ");
+			strAddress.append(localitate.trim());
+		}
+
+		if (strada != null && !strada.trim().equals("")) {
+			strAddress.append(", ");
+			strAddress.append(strada.trim());
+
+		}
+
+		if (numar != null && !numar.trim().equals("")) {
+			strAddress.append(", ");
+			strAddress.append(numar.trim());
+		}
+
+		GeoApiContext context = GoogleContext.getContext(value);
 
 		GeocodingResult[] results = null;
 		try {
@@ -163,6 +231,9 @@ public class MapUtils {
 	public static List<DistantaRuta> getDistantaPuncte(String strCoordonate) {
 
 		List<DistantaRuta> listDistante = new ArrayList<>();
+
+		Random rand = new Random(System.currentTimeMillis());
+		int value = rand.nextInt((MAX_KEYS_PUNCTE - 1) + 1) + 1;
 
 		if (strCoordonate == null)
 			return listDistante;
@@ -192,7 +263,7 @@ public class MapUtils {
 
 			String[] arrayPoints = wayPoints.toArray(new String[wayPoints.size()]);
 
-			GeoApiContext context = GoogleContext.getContextDist();
+			GeoApiContext context = GoogleContext.getContextPuncte(value);
 
 			LatLng start = new LatLng(Double.parseDouble(arrayCoords[0].split(":")[0]), Double.parseDouble(arrayCoords[0].split(":")[1]));
 

@@ -12,13 +12,13 @@ import org.apache.logging.log4j.Logger;
 import com.google.maps.model.LatLng;
 
 import beans.DateBorderou;
-import beans.DistantaRuta;
 import beans.PozitieClient;
 import beans.RezultatTraseu;
 import beans.TraseuBorderou;
 import database.OperatiiBorderou;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
+import model.AdreseService;
 import model.CalculeazaTraseu;
 import utils.MapUtils;
 import utils.Utils;
@@ -29,12 +29,24 @@ public class TestWS {
 
 	public static void main(String[] args) throws SQLException {
 
-		 testBorderou();
-		
-		
-		//logger.error("123");
+		try {
 
-		//System.out.println( MapUtils.getAdresaCoordonate(46.076 ,	24.412));
+			//System.out.println("Coordonate localitate 1 : " + MapUtils.getCoordAddressFromService("17", "Pechea", "STRADA RAZOARE  NR 92", ""));
+			
+			//System.out.println("Coordonate localitate 2 : " + MapUtils.getCoordLocalitateFromService("17", "Pechea", "STRADA RAZOARE  NR 92" , ""));
+			
+			
+			System.out.println(MapUtils.getDistantaPuncte("44.509892:25.9845856-44.4383705:25.987329-44.4666237:26.0215887-44.3783526:25.9449231-44.4383705:25.987329"));
+			
+			//System.out.println("Adresa coordonate: " + MapUtils.getAdresaCoordonate(44.73333299999999,24.6500001));
+			
+			//System.out.println("is oras: " + new AdreseService().isOras("", "calarasi "," calarasi"));
+			
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -69,7 +81,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001780672";
+		String codBorderou = "0001827305";
 
 		DateBorderou dateBorderou = null;
 		try {
@@ -99,8 +111,6 @@ public class TestWS {
 			e.printStackTrace();
 		}
 
-	
-		
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("Diff = " + estimatedTime);
 

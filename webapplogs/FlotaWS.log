@@ -24,3 +24,12 @@ Extra:
 	at test.TestWS.testBorderou(TestWS.java:97)
 	at test.TestWS.main(TestWS.java:32)
 Extra: 
+29-May-2018 14:57:11 [main] ERROR utils.MapUtils - java.lang.IllegalStateException: Invalid API key.
+	at com.google.maps.GeoApiContext.checkContext(GeoApiContext.java:150)
+	at com.google.maps.GeoApiContext.getWithPath(GeoApiContext.java:105)
+	at com.google.maps.GeoApiContext.get(GeoApiContext.java:74)
+	at com.google.maps.PendingResultBase.makeRequest(PendingResultBase.java:79)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:55)
+	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:143)
+	at test.TestWS.main(TestWS.java:36)
+Extra: Romania, ARGES, Stefanesti

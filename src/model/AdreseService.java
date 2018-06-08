@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import beans.CoordonateGps;
 import database.DBManager;
 import database.DatabaseUtils;
+import queries.SqlQueries;
 import utils.MapUtils;
 import utils.Utils;
 
@@ -90,6 +91,43 @@ public class AdreseService {
 		conn.close();
 
 		return coordonate;
+	}
+
+	public boolean isOras(String codJudet, String numeLocalitate, String numeJudet) {
+
+		boolean isOras = false;
+
+		String sqlQuery = "";
+
+		if (codJudet == null && numeJudet == null)
+			return false;
+
+		if (codJudet != null && codJudet.trim().length() > 0)
+			sqlQuery = " select 1 from sapprd.zoraseromania where mandt = '900' and codJudet = ? and oras = ? ";
+		else if (numeJudet != null && numeJudet.trim().length() > 0)
+			sqlQuery = " select 1 from sapprd.zoraseromania where mandt = '900' and numeJudet = ? and oras = ? ";
+
+		try (Connection conn = new DBManager().getProdDataSource().getConnection(); PreparedStatement stmt = conn.prepareStatement(sqlQuery);) {
+
+			if (codJudet != null && codJudet.trim().length() > 0)
+				stmt.setString(1, codJudet);
+			else if (numeJudet != null && numeJudet.trim().length() > 0)
+				stmt.setString(1, numeJudet.trim().toUpperCase());
+
+			stmt.setString(2, numeLocalitate.trim().toUpperCase());
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+				isOras = true;
+			}
+
+		} catch (SQLException e) {
+			logger.error(Utils.getStackTrace(e, codJudet + numeLocalitate));
+		}
+
+		return isOras;
 	}
 
 }

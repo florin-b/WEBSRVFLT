@@ -58,6 +58,15 @@ public enum EnumJudete {
 		return "";
 	}
 
+	public static String getAbrJudet(String numeJudet) {
+		for (EnumJudete enumJ : EnumJudete.values()) {
+			if (enumJ.nume.equals(numeJudet))
+				return enumJ.abr;
+
+		}
+		return "";
+	}
+
 	public static String getNumeJudet(int codJudet) {
 		for (EnumJudete enumJ : EnumJudete.values()) {
 			if (Integer.valueOf(enumJ.cod) == codJudet)
