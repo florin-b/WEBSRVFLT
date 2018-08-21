@@ -19,6 +19,7 @@ import database.OperatiiBorderou;
 import database.OperatiiMasina;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
+import maps.MapsServices;
 import model.CalculeazaTraseu;
 import model.Distanta;
 import utils.MailOperations;
@@ -179,6 +180,10 @@ public class FlotaWS {
 
 	public int getDistantaLocalitatiKM(String jud1, String loc1, String jud2, String loc2) {
 		return MapUtils.getDistantaLocalitatiKM(jud1, loc1, jud2, loc2);
+	}
+
+	public String getZonaBucuresti(String codJudet, String localitate, String strada, String numar) {
+		return MapsServices.getZonaBucuresti(codJudet, localitate, strada, numar).toString();
 	}
 
 }

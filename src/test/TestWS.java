@@ -18,8 +18,10 @@ import beans.TraseuBorderou;
 import database.OperatiiBorderou;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
-import model.AdreseService;
+import enums.EnumZona;
+import maps.MapsOperations;
 import model.CalculeazaTraseu;
+import model.DataLoad;
 import utils.MapUtils;
 import utils.Utils;
 
@@ -31,7 +33,14 @@ public class TestWS {
 
 		try {
 
-			System.out.println(MapUtils.getDistantaLocalitatiKM("bucuresti", "bucuresti", "galati", "galati"));
+			//System.out.println(MapUtils.getDistantaLocalitatiKM("bucuresti", "bucuresti", "galati", "galati"));
+			
+			
+			beans.LatLng lt = new beans.LatLng(44.542374, 26.034253);
+			
+			//System.out.println("Zona = " + getZonaBucuresti(lt));
+			
+			System.out.println("Zona = " + getZonaBucuresti("17", "Galati", "Siderurgistilor", "35"));
 			
 
 		} catch (Exception e) {
@@ -41,6 +50,58 @@ public class TestWS {
 
 	}
 
+	
+	public static EnumZona getZonaBucuresti(String codJudet, String localitate, String strada, String numar) {
+
+		EnumZona zonaBuc = EnumZona.NEDEFINITA;
+
+		try {
+
+			String[] coords =  MapUtils.getCoordLocalitateFromService(codJudet, localitate, strada, numar).split(",");
+			
+			beans.LatLng point = new beans.LatLng(Double.valueOf(coords[0]), Double.valueOf(coords[1]));
+			
+			for (EnumZona zn : EnumZona.values()) {
+				List<beans.LatLng> pointsList = DataLoad.getZona(zn);
+
+				boolean contains = MapsOperations.containsPoint(point, pointsList, true);
+
+				if (contains)
+					return zn;
+
+			}
+		} catch (Exception e) {
+
+		}
+
+		return zonaBuc;
+	}
+	
+	
+	public static EnumZona getZonaBucuresti(beans.LatLng point) {
+
+		EnumZona zonaBuc = EnumZona.NEDEFINITA;
+
+		try {
+
+			for (EnumZona zn : EnumZona.values()) {
+				List<beans.LatLng> pointsList = DataLoad.getZona(zn);
+
+				boolean contains = MapsOperations.containsPoint(point, pointsList, true);
+
+				if (contains)
+					return zn;
+
+			}
+		} catch (Exception e) {
+
+		}
+
+		return zonaBuc;
+	}
+	
+	
+	
 	private static void testPoly() {
 		List<LatLng> points = new ArrayList<>();
 
