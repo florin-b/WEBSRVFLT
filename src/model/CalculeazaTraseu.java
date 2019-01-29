@@ -23,6 +23,7 @@ import beans.RezultatTraseu;
 import beans.TraseuBorderou;
 import database.OperatiiBorderou;
 import database.OperatiiMasina;
+import enums.EnumTipDet;
 import enums.EnumTipClient;
 import predicates.EvPredicates;
 import utils.Constants;
@@ -100,7 +101,7 @@ public class CalculeazaTraseu {
 
 				}
 
-				if (conditiiPlecare(traseu, pozitieClient)) {
+				if (conditiiPlecare(traseu, distanta, pozitieClient)) {
 					adaugaEveniment(pozitieClient, traseu, EvenimentClient.PLECARE);
 
 				}
@@ -219,9 +220,15 @@ public class CalculeazaTraseu {
 		}
 	}
 
-	private boolean conditiiPlecare(TraseuBorderou traseu, PozitieClient pozitieClient) {
+	private boolean conditiiPlecare(TraseuBorderou traseu, double distanta, PozitieClient pozitieClient) {
+
+		boolean condSuplFiliala = true;
+
+		if (pozitieClient.isStartBord())
+			condSuplFiliala = distanta > getDistanta(pozitieClient.getTipClient());
+
 		if (traseu.getViteza() > getViteza(pozitieClient.getTipClient()) && getCoordEveniment(pozitieClient.getCodClient(), EvenimentClient.SOSIRE) != null
-				&& getCoordEveniment(pozitieClient.getCodClient(), EvenimentClient.PLECARE) == null)
+				&& getCoordEveniment(pozitieClient.getCodClient(), EvenimentClient.PLECARE) == null && condSuplFiliala)
 			return true;
 
 		return false;
@@ -495,9 +502,14 @@ public class CalculeazaTraseu {
 					pozitie.setLongitudine(Double.valueOf(coords[1]));
 					traseu.setKmBord(evenimTableta.getKmBord());
 				}
-				if (eveniment == EvenimentClient.PLECARE)
+
+				if (eveniment == EvenimentClient.PLECARE) {
+
+					if (traseu.getNumeClient().startsWith("Start borderou"))
+						pozitie.setTipDet(EnumTipDet.SOF);
+
 					traseu.setPlecare(pozitie);
-				else
+				} else
 					traseu.setSosire(pozitie);
 
 				break;

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import enums.EnumTipDet;
 import utils.UtilsFormatting;
 
 public class PozitieGps {
@@ -12,6 +13,7 @@ public class PozitieGps {
 	private String data;
 	private double latitudine;
 	private double longitudine;
+	private EnumTipDet tipDet = EnumTipDet.GPS;
 
 	public PozitieGps() {
 
@@ -21,6 +23,7 @@ public class PozitieGps {
 		this.data = data;
 		this.latitudine = latitudine;
 		this.longitudine = longitudine;
+		this.tipDet = EnumTipDet.GPS;
 	}
 
 	public String getData() {
@@ -65,6 +68,14 @@ public class PozitieGps {
 		this.longitudine = longitudine;
 	}
 
+	public String getTipDet() {
+		return tipDet.toString();
+	}
+
+	public void setTipDet(EnumTipDet tipDet) {
+		this.tipDet = tipDet;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -101,7 +112,7 @@ public class PozitieGps {
 
 	@Override
 	public String toString() {
-		return "LocatieGps [data=" + UtilsFormatting.formatDateSmall(data) + ", latitudine=" + latitudine + ", longitudine=" + longitudine + "]";
+		return "PozitieGps [data=" + data + ", latitudine=" + latitudine + ", longitudine=" + longitudine + ", tipDet=" + tipDet.toString() + "]";
 	}
 
 }

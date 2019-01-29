@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import beans.CoordonateGps;
 import database.DBManager;
-import database.DatabaseUtils;
+//import database.DatabaseUtils;
 import queries.SqlQueries;
 import utils.MapUtils;
 import utils.Utils;
@@ -32,8 +32,10 @@ public class AdreseService {
 			stmt.setString(3, String.valueOf(coords.getLongitude()));
 
 			status = stmt.execute();
+			
+			stmt.close();
 
-			DatabaseUtils.closeConnections(stmt);
+			//DatabaseUtils.closeConnections(stmt);
 
 		} catch (SQLException e) {
 			logger.error(Utils.getStackTrace(e, codAdresa));
@@ -62,7 +64,10 @@ public class AdreseService {
 				coords.setLongitude(Double.parseDouble(rs.getString("longitudine")));
 			}
 
-			DatabaseUtils.closeConnections(rs, stmt);
+			rs.close();
+			stmt.close();
+			
+			//DatabaseUtils.closeConnections(rs, stmt);
 
 		} catch (SQLException e) {
 			logger.error(Utils.getStackTrace(e, codAdresa));

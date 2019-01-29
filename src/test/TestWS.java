@@ -33,15 +33,7 @@ public class TestWS {
 
 		try {
 
-			//System.out.println(MapUtils.getDistantaLocalitatiKM("bucuresti", "bucuresti", "galati", "galati"));
-			
-			
-			beans.LatLng lt = new beans.LatLng(44.542374, 26.034253);
-			
-			//System.out.println("Zona = " + getZonaBucuresti(lt));
-			
-			System.out.println("Zona = " + getZonaBucuresti("17", "Galati", "Siderurgistilor", "35"));
-			
+			testBorderou();			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -130,10 +122,12 @@ public class TestWS {
 	private static void testBorderou() {
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
+		
+		
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001827305";
+		String codBorderou = "0001946120";
 
 		DateBorderou dateBorderou = null;
 		try {

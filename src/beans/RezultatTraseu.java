@@ -1,5 +1,7 @@
 package beans;
 
+import enums.EnumTipDet;
+
 public class RezultatTraseu implements Comparable<RezultatTraseu> {
 
 	private int poz;
@@ -109,8 +111,8 @@ public class RezultatTraseu implements Comparable<RezultatTraseu> {
 
 	@Override
 	public String toString() {
-		return "RezultatTraseu [poz=" + poz + ", codClient=" + codClient + ", numeClient=" + numeClient + ", numeClientGed=" + numeClientGed + ", codAdresa="
-				+ codAdresa + ", sosire=" + sosire + ", plecare=" + plecare + ", kmBord=" + kmBord + "]\n";
+		return "RezultatTraseu [poz=" + poz + ", codClient=" + codClient + ", numeClient=" + numeClient + ", sosire=" + sosire + ", plecare=" + plecare
+				+ ", kmBord=" + kmBord + ", codAdresa=" + codAdresa + ", numeClientGed=" + numeClientGed + "]";
 	}
 
 	public int compareTo(RezultatTraseu that) {

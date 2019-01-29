@@ -66,6 +66,8 @@ public class FlotaWS {
 
 		rezultat = calculeaza.getStareTraseu();
 
+		System.out.println("Rezultat:" + rezultat);
+		
 		return rezultat;
 	}
 

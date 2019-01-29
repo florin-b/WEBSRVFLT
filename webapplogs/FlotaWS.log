@@ -33,3 +33,91 @@ Extra:
 	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:143)
 	at test.TestWS.main(TestWS.java:36)
 Extra: Romania, ARGES, Stefanesti
+09-Jan-2019 10:27:16 [main] ERROR database.OperatiiTraseu - java.sql.SQLSyntaxErrorException: ORA-01031: privilegii insuficiente
+ORA-06512: la "SYS.DBMS_SESSION", linia 130
+ORA-06512: la "WEBSAP.SET_BORDEROU_CONTEXT", linia 4
+ORA-06512: la linia 1
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:951)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:513)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:227)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CCallableStatement.doOall8(T4CCallableStatement.java:205)
+	at oracle.jdbc.driver.T4CCallableStatement.executeForRows(T4CCallableStatement.java:1043)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1336)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3613)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3714)
+	at oracle.jdbc.driver.OracleCallableStatement.execute(OracleCallableStatement.java:4755)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1378)
+	at database.OperatiiTraseu.getDateBorderou(OperatiiTraseu.java:250)
+	at test.TestWS.testBorderou(TestWS.java:132)
+	at test.TestWS.main(TestWS.java:36)
+Extra: 0001938871
+09-Jan-2019 19:50:09 [main] ERROR database.OperatiiTraseu - java.sql.SQLSyntaxErrorException: ORA-01031: privilegii insuficiente
+ORA-06512: la "SYS.DBMS_SESSION", linia 130
+ORA-06512: la "WEBSAP.SET_BORDEROU_CONTEXT", linia 4
+ORA-06512: la linia 1
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:951)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:513)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:227)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CCallableStatement.doOall8(T4CCallableStatement.java:205)
+	at oracle.jdbc.driver.T4CCallableStatement.executeForRows(T4CCallableStatement.java:1043)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1336)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3613)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3714)
+	at oracle.jdbc.driver.OracleCallableStatement.execute(OracleCallableStatement.java:4755)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1378)
+	at database.OperatiiTraseu.getDateBorderou(OperatiiTraseu.java:250)
+	at test.TestWS.testBorderou(TestWS.java:132)
+	at test.TestWS.main(TestWS.java:36)
+Extra: 0001938871
+09-Jan-2019 19:54:26 [main] ERROR database.OperatiiTraseu - java.sql.SQLSyntaxErrorException: ORA-01031: privilegii insuficiente
+ORA-06512: la "SYS.DBMS_SESSION", linia 130
+ORA-06512: la "WEBSAP.SET_BORDEROU_CONTEXT", linia 4
+ORA-06512: la linia 1
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:951)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:513)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:227)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CCallableStatement.doOall8(T4CCallableStatement.java:205)
+	at oracle.jdbc.driver.T4CCallableStatement.executeForRows(T4CCallableStatement.java:1043)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1336)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3613)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3714)
+	at oracle.jdbc.driver.OracleCallableStatement.execute(OracleCallableStatement.java:4755)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1378)
+	at database.OperatiiTraseu.getDateBorderou(OperatiiTraseu.java:250)
+	at test.TestWS.testBorderou(TestWS.java:132)
+	at test.TestWS.main(TestWS.java:36)
+Extra: 0001938871
+09-Jan-2019 19:56:10 [main] ERROR database.OperatiiTraseu - java.sql.SQLSyntaxErrorException: ORA-01031: privilegii insuficiente
+ORA-06512: la "SYS.DBMS_SESSION", linia 130
+ORA-06512: la "WEBSAP.SET_BORDEROU_CONTEXT", linia 4
+ORA-06512: la linia 1
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:951)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:513)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:227)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CCallableStatement.doOall8(T4CCallableStatement.java:205)
+	at oracle.jdbc.driver.T4CCallableStatement.executeForRows(T4CCallableStatement.java:1043)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1336)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3613)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3714)
+	at oracle.jdbc.driver.OracleCallableStatement.execute(OracleCallableStatement.java:4755)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1378)
+	at database.OperatiiTraseu.getDateBorderou(OperatiiTraseu.java:250)
+	at test.TestWS.testBorderou(TestWS.java:132)
+	at test.TestWS.main(TestWS.java:36)
+Extra: 0001938871
