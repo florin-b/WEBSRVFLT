@@ -435,7 +435,7 @@ public class CalculeazaTraseu {
 		if (traseuFinal.last().getSosire() != null)
 			dataStopBorderou = traseuFinal.last().getSosire().getData();
 		else
-			dataStopBorderou = UtilsFormatting.getCurrentDate();
+			dataStopBorderou = UtilsFormatting.getCurrentDate24();
 
 		for (RezultatTraseu traseu : traseuFinal) {
 

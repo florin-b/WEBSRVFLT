@@ -168,6 +168,12 @@ public class UtilsFormatting {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", new Locale("en"));
 		return dateFormat.format(new Date());
 	}
+	
+	public static String getCurrentDate24() {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", new Locale("en"));
+		return dateFormat.format(new Date());
+	}	
+	
 
 	public static boolean isDateChronological(String strDate1, Date strDate2) {
 

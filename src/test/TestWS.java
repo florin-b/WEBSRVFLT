@@ -122,12 +122,10 @@ public class TestWS {
 	private static void testBorderou() {
 		OperatiiTraseu operatiiTraseu = new OperatiiTraseu();
 
-		
-		
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0001946120";
+		String codBorderou = "0002005510";
 
 		DateBorderou dateBorderou = null;
 		try {
