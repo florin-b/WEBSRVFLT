@@ -19,6 +19,7 @@ import database.OperatiiBorderou;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import enums.EnumZona;
+import main.FlotaWS;
 import maps.MapsOperations;
 import model.CalculeazaTraseu;
 import model.DataLoad;
@@ -33,7 +34,20 @@ public class TestWS {
 
 		try {
 
-			testBorderou();			
+			//testBorderou();
+			
+			
+			
+			 //System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("36", "TUDOR VLADIMIRESCU", "", ""));
+			
+			//System.out.println("Adresa coord: " + new FlotaWS().getAdresaCoordonate(45.1900393,28.7975196));
+			
+			
+			//System.out.println("Coordonate: " + new FlotaWS().getCoordonateLocalitate("17", "Tecuci", "", ""));
+			
+			
+			System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

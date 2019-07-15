@@ -23,6 +23,7 @@ public class GoogleContext {
 	private static GeoApiContext instance5;
 	private static GeoApiContext instance6;
 	private static GeoApiContext instance7;
+	private static GeoApiContext instanceKey;
 
 	private static GeoApiContext instancePuncte1;
 	private static GeoApiContext instancePuncte2;
@@ -64,6 +65,12 @@ public class GoogleContext {
 		}
 	}
 
+	
+	public static GeoApiContext getContextGoogleKey()
+	{
+		return getContextKey();
+	}
+	
 	public static GeoApiContext getContext() {
 		if (instance == null) {
 			instance = new GeoApiContext().setApiKey(Constants.GOOGLE_MAPS_API_KEY);
@@ -215,6 +222,19 @@ public class GoogleContext {
 		return instance7;
 	}
 
+	public static GeoApiContext getContextKey() {
+		if (instanceKey == null) {
+			instanceKey = new GeoApiContext().setApiKey(Constants.GOOGLE_PAYED_KEY);
+			instanceKey.setQueryRateLimit(2);
+			instanceKey.setRetryTimeout(0, TimeUnit.SECONDS);
+			instanceKey.setConnectTimeout(1, TimeUnit.SECONDS);
+
+		}
+
+		return instanceKey;
+	}	
+	
+	
 	public static GeoApiContext getContextPuncte(int contextNumber) {
 
 		System.out.println("Context " + contextNumber);

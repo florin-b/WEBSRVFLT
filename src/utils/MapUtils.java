@@ -88,7 +88,7 @@ public class MapUtils {
 
 			strAddress.append(address.getCountry());
 
-			GeoApiContext context = GoogleContext.getContext();
+			GeoApiContext context = GoogleContext.getContextKey();
 
 			GeocodingResult[] results = GeocodingApi.geocode(context, strAddress.toString()).await();
 
@@ -147,8 +147,10 @@ public class MapUtils {
 			}
 		}
 
-		GeoApiContext context = GoogleContext.getContext(value);
+		//GeoApiContext context = GoogleContext.getContext(value);
 
+		GeoApiContext context = GoogleContext.getContextKey();
+		
 		GeocodingResult[] results = null;
 		try {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
@@ -156,6 +158,7 @@ public class MapUtils {
 		} catch (OverQueryLimitException q) {
 			latitude = -1;
 			longitude = -1;
+			logger.error(Utils.getStackTrace(q, strAddress.toString()));
 		} catch (Exception e) {
 			logger.error(Utils.getStackTrace(e, strAddress.toString()));
 			latitude = -1;
@@ -205,13 +208,16 @@ public class MapUtils {
 			strAddress.append(numar.trim());
 		}
 
-		GeoApiContext context = GoogleContext.getContext(value);
+		//GeoApiContext context = GoogleContext.getContext(value);
+		
+		GeoApiContext context = GoogleContext.getContextKey();
 
 		GeocodingResult[] results = null;
 		try {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
 
 		} catch (OverQueryLimitException q) {
+			logger.error(Utils.getStackTrace(q, strAddress.toString()));
 			latitude = -1;
 			longitude = -1;
 		} catch (Exception e) {
@@ -265,7 +271,9 @@ public class MapUtils {
 
 			String[] arrayPoints = wayPoints.toArray(new String[wayPoints.size()]);
 
-			GeoApiContext context = GoogleContext.getContextPuncte(value);
+			//GeoApiContext context = GoogleContext.getContextPuncte(value);
+			
+			GeoApiContext context = GoogleContext.getContextKey();
 
 			LatLng start = new LatLng(Double.parseDouble(arrayCoords[0].split(":")[0]), Double.parseDouble(arrayCoords[0].split(":")[1]));
 
@@ -299,7 +307,7 @@ public class MapUtils {
 		int dist = 0;
 
 		try {
-			GeoApiContext context = GoogleContext.getContext();
+			GeoApiContext context = GoogleContext.getContextKey();
 
 			req = DistanceMatrixApi.newRequest(context).origins(startPoint).destinations(stopPoint).await();
 
@@ -317,7 +325,8 @@ public class MapUtils {
 
 		String adresa = "";
 
-		GeoApiContext context = GoogleContext.getContextRevGeo();
+		//GeoApiContext context = GoogleContext.getContextRevGeo();
+		GeoApiContext context = GoogleContext.getContextKey();
 
 		try {
 			GeocodingResult[] results = GeocodingApi.reverseGeocode(context, new LatLng(lat, lng)).await();
@@ -366,7 +375,8 @@ public class MapUtils {
 
 		DirectionsRoute[] routes = null;
 
-		GeoApiContext context = GoogleContext.getContextLocalitati(value);
+		//GeoApiContext context = GoogleContext.getContextLocalitati(value);
+		GeoApiContext context = GoogleContext.getContextKey();
 
 		String start = "Romania, " + jud1.trim().toUpperCase() + ", " + loc1.trim().toUpperCase();
 		String stop = "Romania, " + jud2.trim().toUpperCase() + ", " + loc2.trim().toUpperCase();
