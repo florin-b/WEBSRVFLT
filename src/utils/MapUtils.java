@@ -147,10 +147,10 @@ public class MapUtils {
 			}
 		}
 
-		//GeoApiContext context = GoogleContext.getContext(value);
+		// GeoApiContext context = GoogleContext.getContext(value);
 
 		GeoApiContext context = GoogleContext.getContextKey();
-		
+
 		GeocodingResult[] results = null;
 		try {
 			results = GeocodingApi.geocode(context, strAddress.toString()).await();
@@ -182,19 +182,22 @@ public class MapUtils {
 		double latitude = 0;
 		double longitude = 0;
 
-		Random rand = new Random(System.currentTimeMillis());
-		int value = rand.nextInt((MAX_KEYS - 1) + 1) + 1;
-
 		strAddress = new StringBuilder();
-		strAddress.append("Romania, ");
+		// strAddress.append("Romania, ");
+
+		String prefixJudet = "";
 
 		if (codJudet != null && !codJudet.trim().equals("")) {
-			strAddress.append(UtilsAdrese.getNumeJudet(codJudet.trim()));
+
+			if (!codJudet.equals("40"))
+				prefixJudet = "Judet ";
+
+			strAddress.append(prefixJudet + UtilsAdrese.getNumeJudet(codJudet.trim()));
 		}
 
 		if (localitate != null && !localitate.trim().equals("")) {
 			strAddress.append(", ");
-			strAddress.append(localitate.trim());
+			strAddress.append("Localitate " + localitate.trim());
 		}
 
 		if (strada != null && !strada.trim().equals("")) {
@@ -208,9 +211,9 @@ public class MapUtils {
 			strAddress.append(numar.trim());
 		}
 
-		//GeoApiContext context = GoogleContext.getContext(value);
-		
 		GeoApiContext context = GoogleContext.getContextKey();
+
+		System.out.println(strAddress.toString());
 
 		GeocodingResult[] results = null;
 		try {
@@ -228,9 +231,43 @@ public class MapUtils {
 
 		}
 
-		if (results.length > 0) {
+		/*
+		 * if (results.length > 0) { latitude =
+		 * results[0].geometry.location.lat; longitude =
+		 * results[0].geometry.location.lng; }
+		 */
+
+		if (results != null && results.length == 1) {
 			latitude = results[0].geometry.location.lat;
 			longitude = results[0].geometry.location.lng;
+		} else if (results != null && results.length > 1) {
+			String locGoogle;
+
+			outerloop: for (int i = 0; i < results.length; i++) {
+
+				for (int j = 0; j < results[i].addressComponents.length; j++) {
+
+					AddressComponentType[] adrComponentType = results[i].addressComponents[j].types;
+
+					for (int k = 0; k < adrComponentType.length; k++) {
+						if (adrComponentType[k] == AddressComponentType.LOCALITY || adrComponentType[k] == AddressComponentType.SUBLOCALITY) {
+							locGoogle = Utils.flattenToAscii(results[i].addressComponents[j].shortName);
+
+							if (locGoogle.toLowerCase().contains(localitate.toLowerCase())) {
+								latitude = results[i].geometry.location.lat;
+								longitude = results[i].geometry.location.lng;
+
+								break outerloop;
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
 		}
 
 		return latitude + "," + longitude;
@@ -271,8 +308,8 @@ public class MapUtils {
 
 			String[] arrayPoints = wayPoints.toArray(new String[wayPoints.size()]);
 
-			//GeoApiContext context = GoogleContext.getContextPuncte(value);
-			
+			// GeoApiContext context = GoogleContext.getContextPuncte(value);
+
 			GeoApiContext context = GoogleContext.getContextKey();
 
 			LatLng start = new LatLng(Double.parseDouble(arrayCoords[0].split(":")[0]), Double.parseDouble(arrayCoords[0].split(":")[1]));
@@ -325,7 +362,6 @@ public class MapUtils {
 
 		String adresa = "";
 
-		//GeoApiContext context = GoogleContext.getContextRevGeo();
 		GeoApiContext context = GoogleContext.getContextKey();
 
 		try {
@@ -375,7 +411,7 @@ public class MapUtils {
 
 		DirectionsRoute[] routes = null;
 
-		//GeoApiContext context = GoogleContext.getContextLocalitati(value);
+		// GeoApiContext context = GoogleContext.getContextLocalitati(value);
 		GeoApiContext context = GoogleContext.getContextKey();
 
 		String start = "Romania, " + jud1.trim().toUpperCase() + ", " + loc1.trim().toUpperCase();

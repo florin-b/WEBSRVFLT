@@ -8,6 +8,9 @@ public class Constants {
 	public static double VITEZA_MINIMA_PLECARE_CLIENT = 10;
 	public static double VITEZA_MINIMA_PLECARE_FILIALA = 20;
 	public static String BEANS_XML = "mybeans.xml";
+	
+	
+	
 	public static String GOOGLE_MAPS_API_KEY = "AIzaSyAmslp9dA-gCEl18PYfxkvZ-BqUFp4Pi3o";
 
 	public static String GOOGLE_MAPS_API_KEY_DIST = "AIzaSyAs60CiMm4MiFySEFpVBhE67NhtCrr93LM";
@@ -41,7 +44,7 @@ public class Constants {
 	public static String GOOGLE_MAPS_API_KEY_DIST_LOC_03 = "AIzaSyAs9oSS4YySKlq71-LzPgL2gAx_jPRkui8";
 	
 	
-
+	public static String GOOGLE_PAYED_KEY = "AIzaSyDkYyLbUm5o3gnlwiH2l8A7M-WvWnazqDI";
 
 
 	

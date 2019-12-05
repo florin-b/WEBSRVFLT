@@ -103,12 +103,7 @@ public class FlotaWS {
 		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
 	}
 
-	/*
-	 * public String getCoordonateAdresa(String codJudet, String localitate,
-	 * String strada, String numar) { return
-	 * MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
-	 * }
-	 */
+
 
 	public boolean getStartBorderou(String codSofer) {
 		Set<RezultatTraseu> rezultat = new HashSet<RezultatTraseu>();

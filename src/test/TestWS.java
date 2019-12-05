@@ -38,7 +38,11 @@ public class TestWS {
 			
 			
 			
-			 //System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("36", "TUDOR VLADIMIRESCU", "", ""));
+			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("17", "TECUCI", "MURES NR.19", ""));
+			
+			
+			System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("13", "Constanta", "Baba Novac nr. 4", ""));
+			
 			
 			//System.out.println("Adresa coord: " + new FlotaWS().getAdresaCoordonate(45.1900393,28.7975196));
 			
@@ -46,7 +50,7 @@ public class TestWS {
 			//System.out.println("Coordonate: " + new FlotaWS().getCoordonateLocalitate("17", "Tecuci", "", ""));
 			
 			
-			System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
+			//System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
 			
 
 		} catch (Exception e) {
@@ -139,7 +143,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0002005510";
+		String codBorderou = "0002070790";
 
 		DateBorderou dateBorderou = null;
 		try {
