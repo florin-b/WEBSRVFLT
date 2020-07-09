@@ -377,8 +377,11 @@ public class CalculeazaTraseu {
 							dataStopBorderou = traseu.getSosire().getData();
 						} else {
 							dataStopBorderou = new OperatiiBorderou().getDataSosireFiliala(codBorderou);
-							if (dataStopBorderou.length() > 0)
-								traseu.setSosire(new PozitieGps(dataStopBorderou, 0, 0));
+							if (dataStopBorderou.length() > 0) {
+								PozitieGps p = new PozitieGps(dataStopBorderou, 0, 0);
+								p.setTipDet(EnumTipDet.SAP);
+								traseu.setSosire(p);
+							}
 						}
 					}
 				}

@@ -121,3 +121,161 @@ ORA-06512: la linia 1
 	at test.TestWS.testBorderou(TestWS.java:132)
 	at test.TestWS.main(TestWS.java:36)
 Extra: 0001938871
+27-May-2019 11:07:55 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:212)
+	at main.FlotaWS.getCoordAddress(FlotaWS.java:103)
+	at test.TestWS.main(TestWS.java:41)
+Extra: Romania, TULCEA, TUDOR VLADIMIRESCU
+27-May-2019 11:08:02 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:212)
+	at main.FlotaWS.getCoordAddress(FlotaWS.java:103)
+	at test.TestWS.main(TestWS.java:41)
+Extra: Romania, TULCEA, TUDOR VLADIMIRESCU
+27-May-2019 11:08:09 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:212)
+	at main.FlotaWS.getCoordAddress(FlotaWS.java:103)
+	at test.TestWS.main(TestWS.java:41)
+Extra: Romania, TULCEA, TUDOR VLADIMIRESCU
+27-May-2019 11:08:20 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:212)
+	at main.FlotaWS.getCoordAddress(FlotaWS.java:103)
+	at test.TestWS.main(TestWS.java:41)
+Extra: Romania, TULCEA, TUDOR VLADIMIRESCU
+10-Jul-2019 09:52:43 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at main.FlotaWS.getCoordonateLocalitate(FlotaWS.java:99)
+	at test.TestWS.main(TestWS.java:44)
+Extra: Romania, GALATI, Tecuci
+10-Jul-2019 09:53:05 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at main.FlotaWS.getCoordonateLocalitate(FlotaWS.java:99)
+	at test.TestWS.main(TestWS.java:44)
+Extra: Romania, GALATI, Tecuci
+11-Jul-2019 11:08:13 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+11-Jul-2019 11:08:27 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+11-Jul-2019 11:08:38 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+11-Jul-2019 11:08:56 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+11-Jul-2019 11:09:01 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+11-Jul-2019 11:09:13 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+11-Jul-2019 11:09:55 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:154)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+15-Jul-2019 10:01:04 [main] ERROR utils.MapUtils - java.lang.IllegalStateException: Invalid API key.
+	at com.google.maps.GeoApiContext.checkContext(GeoApiContext.java:150)
+	at com.google.maps.GeoApiContext.getWithPath(GeoApiContext.java:105)
+	at com.google.maps.GeoApiContext.get(GeoApiContext.java:74)
+	at com.google.maps.PendingResultBase.makeRequest(PendingResultBase.java:79)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:55)
+	at utils.MapUtils.getCoordLocalitateFromService(MapUtils.java:156)
+	at maps.MapsServices.getZonaBucuresti(MapsServices.java:17)
+	at main.FlotaWS.getZonaBucuresti(FlotaWS.java:188)
+	at test.TestWS.main(TestWS.java:47)
+Extra: Romania, CALARASI, Slobozia
+15-Jul-2019 10:04:50 [main] ERROR utils.MapUtils - com.google.maps.errors.OverQueryLimitException: You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account
+	at com.google.maps.errors.ApiException.from(ApiException.java:48)
+	at com.google.maps.GeocodingApi$Response.getError(GeocodingApi.java:84)
+	at com.google.maps.internal.OkHttpPendingResult.parseResponse(OkHttpPendingResult.java:236)
+	at com.google.maps.internal.OkHttpPendingResult.await(OkHttpPendingResult.java:152)
+	at com.google.maps.PendingResultBase.await(PendingResultBase.java:56)
+	at utils.MapUtils.getCoordAddressFromService(MapUtils.java:215)
+	at main.FlotaWS.getCoordAddress(FlotaWS.java:103)
+	at test.TestWS.main(TestWS.java:41)
+Extra: Romania, TULCEA, TUDOR VLADIMIRESCU
