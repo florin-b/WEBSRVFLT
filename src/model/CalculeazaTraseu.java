@@ -122,6 +122,20 @@ public class CalculeazaTraseu {
 
 			if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
 				return false;
+			
+			
+			for (RezultatTraseu rezTraseu : rezultatTraseu){
+				if ((rezTraseu.getNumeClient() != null && rezTraseu.getNumeClient().contains("Stop borderou")) || (rezTraseu.getNumeClientGed() != null && rezTraseu.getNumeClientGed().contains("Stop borderou")))
+					if (rezTraseu.getPlecare() != null)
+					{
+						int minuteCursa = Utils.dateDiffMinutes(rezTraseu.getPlecare().getData() +":00", traseu.getDataInreg());
+						
+						if (minuteCursa < Constants.MIN_MINUTE_CURSA)
+							return false;
+						
+					}
+				
+			}
 
 		}
 

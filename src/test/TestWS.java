@@ -34,14 +34,15 @@ public class TestWS {
 
 		try {
 
-			//testBorderou();
+			testBorderou();
 			
+			//System.out.println(Utils.dateDiff("27-Oct-20 08:46:00", "27-Oct-20 15:25:01"));
 			
 			
 			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("17", "TECUCI", "MURES NR.19", ""));
 			
 			
-			System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("13", "Constanta", "Baba Novac nr. 4", ""));
+			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 1", "STRADA CUTESCU-STORK CECI", ""));
 			
 			
 			//System.out.println("Adresa coord: " + new FlotaWS().getAdresaCoordonate(45.1900393,28.7975196));
@@ -143,7 +144,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0002070790";
+		String codBorderou = "0002302229";
 
 		DateBorderou dateBorderou = null;
 		try {
