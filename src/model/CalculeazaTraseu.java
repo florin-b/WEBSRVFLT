@@ -114,28 +114,36 @@ public class CalculeazaTraseu {
 
 	private boolean conditiiSosire(TraseuBorderou traseu, double distanta, PozitieClient pozitieClient, Date maxDate) {
 
+		
+		
 		if (pozitieClient.isStopBord()) {
 
 			if (borderouNotStarted(traseu, pozitieClient)) {
 				return false;
 			}
 
+			if (!isClientLivrat())
+				return false;
+
 			if (!UtilsFormatting.isDateChronological(traseu.getDataInreg(), maxDate))
 				return false;
-			
-			
-			for (RezultatTraseu rezTraseu : rezultatTraseu){
-				if ((rezTraseu.getNumeClient() != null && rezTraseu.getNumeClient().contains("Stop borderou")) || (rezTraseu.getNumeClientGed() != null && rezTraseu.getNumeClientGed().contains("Stop borderou")))
-					if (rezTraseu.getPlecare() != null)
-					{
-						int minuteCursa = Utils.dateDiffMinutes(rezTraseu.getPlecare().getData() +":00", traseu.getDataInreg());
-						
-						if (minuteCursa < Constants.MIN_MINUTE_CURSA)
-							return false;
-						
-					}
-				
-			}
+
+			/*
+			 * for (RezultatTraseu rezTraseu : rezultatTraseu){ if
+			 * ((rezTraseu.getNumeClient() != null &&
+			 * rezTraseu.getNumeClient().contains("Stop borderou")) ||
+			 * (rezTraseu.getNumeClientGed() != null &&
+			 * rezTraseu.getNumeClientGed().contains("Stop borderou"))) if
+			 * (rezTraseu.getPlecare() != null) { int minuteCursa =
+			 * Utils.dateDiffMinutes(rezTraseu.getPlecare().getData() +":00",
+			 * traseu.getDataInreg());
+			 * 
+			 * if (minuteCursa < Constants.MIN_MINUTE_CURSA) return false;
+			 * 
+			 * }
+			 * 
+			 * }
+			 */
 
 		}
 
@@ -188,6 +196,8 @@ public class CalculeazaTraseu {
 
 	private boolean borderouNotStarted(TraseuBorderou traseu, PozitieClient pozitieClient) {
 
+		
+		
 		for (RezultatTraseu rezultat : rezultatTraseu) {
 
 			for (PozitieClient pozitie : pozitiiClienti) {
@@ -208,6 +218,33 @@ public class CalculeazaTraseu {
 
 		return false;
 
+	}
+
+	private boolean isClientLivrat() {
+		boolean isLivrat = false;
+
+		int nrClienti = pozitiiClienti.size();
+
+		if (nrClienti > 2 ) {
+			
+			String numeClient;
+			for (RezultatTraseu rezTraseu : rezultatTraseu) {
+				numeClient = rezTraseu.getNumeClient() + " " + rezTraseu.getNumeClientGed();
+
+				if (!numeClient.contains("Start borderou")) {
+
+					if (rezTraseu.getPlecare() != null) {
+						isLivrat = true;
+						break;
+					}
+
+				}
+			}
+			
+		} else
+			isLivrat = true;
+
+		return isLivrat;
 	}
 
 	private double getDistanta(EnumTipClient tipClient) {
@@ -299,6 +336,9 @@ public class CalculeazaTraseu {
 				evenim.setCodAdresa(pozitieClient.getCodAdresa());
 				evenim.setNumeClientGed(pozitieClient.getNumeClientGed());
 				rezultatTraseu.add(evenim);
+				
+			
+				
 			}
 
 			if (tipEveniment == EvenimentClient.PLECARE) {
@@ -316,6 +356,8 @@ public class CalculeazaTraseu {
 			}
 
 		}
+		
+	
 
 	}
 

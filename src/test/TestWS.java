@@ -144,7 +144,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0002302229";
+		String codBorderou = "0002290410";
 
 		DateBorderou dateBorderou = null;
 		try {

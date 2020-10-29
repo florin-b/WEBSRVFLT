@@ -111,8 +111,8 @@ public class RezultatTraseu implements Comparable<RezultatTraseu> {
 
 	@Override
 	public String toString() {
-		return "RezultatTraseu [poz=" + poz + ", codClient=" + codClient + ", numeClient=" + numeClient + ", sosire=" + sosire + ", plecare=" + plecare
-				+ ", kmBord=" + kmBord + ", codAdresa=" + codAdresa + ", numeClientGed=" + numeClientGed + "]";
+		return "RezultatTraseu [poz=" + poz + "\n codClient=" + codClient + "\n numeClient=" + numeClient + "\n sosire=" + sosire + "\n plecare=" + plecare
+				+ "\n kmBord=" + kmBord + "\n codAdresa=" + codAdresa + "\n numeClientGed=" + numeClientGed + "]";
 	}
 
 	public int compareTo(RezultatTraseu that) {
