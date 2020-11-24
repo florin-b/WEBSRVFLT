@@ -39,7 +39,7 @@ public class TestWS {
 
 			//testBorderou();
 			
-			System.out.println("arondare Buc: " +  getArondareBucuresti("40", "Bucuresti", "Soseaua Industriilor", ""));
+			System.out.println("arondare Buc: " +  getArondareFiliala("52", "Giurgiu", "", ""));
 			
 			
 			
@@ -259,8 +259,8 @@ public class TestWS {
 
 	}
 
-	public static String getArondareBucuresti(String codJudet, String localitate, String strada, String numar) {
-		return MapsServices.getArondareBucuresti(codJudet, localitate, strada, numar).toString();
+	public static String getArondareFiliala(String codJudet, String localitate, String strada, String numar) {
+		return MapsServices.getArondareFiliala(codJudet, localitate, strada, numar).toString();
 	}
 	
 }

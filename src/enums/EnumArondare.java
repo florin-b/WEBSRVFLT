@@ -1,5 +1,5 @@
 package enums;
 
 public enum EnumArondare {
-	NORD, VEST, EST, NEDEFINIT
+	BU12, BU11, BU10, NEDEFINIT
 }

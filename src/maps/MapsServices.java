@@ -35,7 +35,7 @@ public class MapsServices {
 		return zonaBuc;
 	}
 
-	public static EnumArondare getArondareBucuresti(String codJudet, String localitate, String strada, String numar) {
+	public static EnumArondare getArondareFiliala(String codJudet, String localitate, String strada, String numar) {
 		EnumArondare zonaArondata = EnumArondare.NEDEFINIT;
 
 		try {
