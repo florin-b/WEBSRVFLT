@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import beans.LatLng;
+import enums.EnumArondare;
 import enums.EnumZona;
 
 public class DataLoad {
@@ -60,4 +61,45 @@ public class DataLoad {
 
 	}
 
+	
+	public static List<LatLng> getArondare(EnumArondare arondare) throws ParserConfigurationException, SAXException, IOException {
+
+		List<LatLng> coords = new ArrayList<LatLng>();
+
+		InputStream iStream = DataLoad.class.getClassLoader().getResourceAsStream(DataFiles.getArondareFile(arondare));
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(iStream);
+
+		doc.getDocumentElement().normalize();
+
+		NodeList nList = doc.getElementsByTagName("trkpt");
+
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+
+			Node nNode = nList.item(temp);
+
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) nNode;
+
+				double lat = Double.parseDouble(eElement.getAttribute("lat"));
+				double lon = Double.parseDouble(eElement.getAttribute("lon"));
+
+				LatLng coord = new LatLng(lat, lon);
+
+				coords.add(coord);
+
+			}
+
+		}
+
+		return coords;
+
+	}	
+	
+	
+	
 }

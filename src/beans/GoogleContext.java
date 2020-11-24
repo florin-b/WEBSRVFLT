@@ -222,6 +222,8 @@ public class GoogleContext {
 		return instance7;
 	}
 
+	
+	
 	public static GeoApiContext getContextKey() {
 		if (instanceKey == null) {
 			instanceKey = new GeoApiContext().setApiKey(Constants.GOOGLE_PAYED_KEY);

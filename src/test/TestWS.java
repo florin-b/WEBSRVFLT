@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.support.GenericTypeAwareAutowireCandidateResolver;
 
 import com.google.maps.model.LatLng;
 
@@ -17,10 +18,12 @@ import beans.RezultatTraseu;
 import beans.TraseuBorderou;
 import database.OperatiiBorderou;
 import database.OperatiiTraseu;
+import enums.EnumArondare;
 import enums.EnumCoordClienti;
 import enums.EnumZona;
 import main.FlotaWS;
 import maps.MapsOperations;
+import maps.MapsServices;
 import model.CalculeazaTraseu;
 import model.DataLoad;
 import utils.MapUtils;
@@ -34,7 +37,13 @@ public class TestWS {
 
 		try {
 
-			testBorderou();
+			//testBorderou();
+			
+			System.out.println("arondare Buc: " +  getArondareBucuresti("40", "Bucuresti", "Soseaua Industriilor", ""));
+			
+			
+			
+			
 			
 			//System.out.println(Utils.dateDiff("27-Oct-20 08:46:00", "27-Oct-20 15:25:01"));
 			
@@ -144,7 +153,7 @@ public class TestWS {
 		System.out.println("Start");
 		long startTime = System.currentTimeMillis();
 
-		String codBorderou = "0002290410";
+		String codBorderou = "0002290524";
 
 		DateBorderou dateBorderou = null;
 		try {
@@ -250,4 +259,8 @@ public class TestWS {
 
 	}
 
+	public static String getArondareBucuresti(String codJudet, String localitate, String strada, String numar) {
+		return MapsServices.getArondareBucuresti(codJudet, localitate, strada, numar).toString();
+	}
+	
 }

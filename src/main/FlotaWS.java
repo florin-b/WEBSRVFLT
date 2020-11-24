@@ -182,5 +182,9 @@ public class FlotaWS {
 	public String getZonaBucuresti(String codJudet, String localitate, String strada, String numar) {
 		return MapsServices.getZonaBucuresti(codJudet, localitate, strada, numar).toString();
 	}
+	
+	public String getArondareBucuresti(String codJudet, String localitate, String strada, String numar) {
+		return MapsServices.getArondareBucuresti(codJudet, localitate, strada, numar).toString();
+	}
 
 }
