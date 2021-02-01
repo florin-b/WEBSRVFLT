@@ -39,7 +39,7 @@ public class TestWS {
 
 			//testBorderou();
 			
-			System.out.println("arondare Buc: " +  getArondareFiliala("52", "Giurgiu", "", ""));
+			System.out.println("arondare Buc: " +  getArondareFiliala("40", "SECTOR 3", "STRADA CORBENI NR 30", ""));
 			
 			
 			
@@ -48,7 +48,7 @@ public class TestWS {
 			//System.out.println(Utils.dateDiff("27-Oct-20 08:46:00", "27-Oct-20 15:25:01"));
 			
 			
-			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("17", "TECUCI", "MURES NR.19", ""));
+			System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 3", "STRADA CORBENI NR 30", ""));
 			
 			
 			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 1", "STRADA CUTESCU-STORK CECI", ""));

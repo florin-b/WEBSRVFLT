@@ -131,7 +131,7 @@ public class MapUtils {
 
 		if (localitate != null && !localitate.trim().equals("")) {
 			strAddress.append(", ");
-			strAddress.append(localitate.trim());
+			strAddress.append("Localitate " + localitate.trim());
 		}
 
 		if (new AdreseService().isOras(codJudet, localitate, "")) {
@@ -147,7 +147,7 @@ public class MapUtils {
 			}
 		}
 
-		// GeoApiContext context = GoogleContext.getContext(value);
+		
 
 		GeoApiContext context = GoogleContext.getContextKey();
 

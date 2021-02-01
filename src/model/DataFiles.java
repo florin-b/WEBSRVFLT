@@ -24,18 +24,9 @@ public class DataFiles {
 	
 	
 	public static String getArondareFile(EnumArondare arondare) {
-
-		switch (arondare) {
-		case BU12:
-			return "resources/BU12.xml";
-		case BU10:
-			return "resources/BU10.xml";
-		case BU11:
-			return "resources/BU11.xml";
-		default:
-			return null;
-
-		}
+		
+		return "resources/" + arondare +".xml";
+		
 
 	}
 
