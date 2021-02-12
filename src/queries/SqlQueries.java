@@ -201,5 +201,15 @@ public class SqlQueries {
 
 		return sqlString.toString();
 	}
+	
+	public static String getDateLocalitate(){
+		StringBuilder sqlString = new StringBuilder();
+		
+		sqlString.append("select a.razakm, b.latitudine, b.longitudine from SAPPRD.zoraseromania a, SAPPRD.zcoordlocalitati b ");
+		sqlString.append(" where a.mandt='900' and b.mandt='900' and "); 
+		sqlString.append(" a.codjudet =? and a.numejudet = b.judet and  trim(upper(a.oras)) =? and a.oras = b.localitate");
+		
+		return sqlString.toString();
+	}
 
 }

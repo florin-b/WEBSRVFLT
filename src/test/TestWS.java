@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.support.GenericTypeAwareAutowireCandidateResolver;
 
 import com.google.maps.model.LatLng;
 
@@ -18,14 +17,13 @@ import beans.RezultatTraseu;
 import beans.TraseuBorderou;
 import database.OperatiiBorderou;
 import database.OperatiiTraseu;
-import enums.EnumArondare;
 import enums.EnumCoordClienti;
 import enums.EnumZona;
-import main.FlotaWS;
 import maps.MapsOperations;
 import maps.MapsServices;
 import model.CalculeazaTraseu;
 import model.DataLoad;
+import model.OperatiiLocalitati;
 import utils.MapUtils;
 import utils.Utils;
 
@@ -36,10 +34,13 @@ public class TestWS {
 	public static void main(String[] args) throws SQLException {
 
 		try {
+			
+			
+			System.out.println(new OperatiiLocalitati().isAdresaInRaza(45.845362, 27.425546, "17", "Tecuci"));
 
 			//testBorderou();
 			
-			System.out.println("arondare Buc: " +  getArondareFiliala("40", "SECTOR 3", "STRADA CORBENI NR 30", ""));
+			//System.out.println("arondare Buc: " +  getArondareFiliala("40", "SECTOR 3", "STRADA CORBENI NR 30", ""));
 			
 			
 			
@@ -48,7 +49,7 @@ public class TestWS {
 			//System.out.println(Utils.dateDiff("27-Oct-20 08:46:00", "27-Oct-20 15:25:01"));
 			
 			
-			System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 3", "STRADA CORBENI NR 30", ""));
+			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 1", "STRADA CIOBANULUI", ""));
 			
 			
 			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 1", "STRADA CUTESCU-STORK CECI", ""));

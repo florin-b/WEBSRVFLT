@@ -22,6 +22,7 @@ import enums.EnumCoordClienti;
 import maps.MapsServices;
 import model.CalculeazaTraseu;
 import model.Distanta;
+import model.OperatiiLocalitati;
 import utils.MailOperations;
 import utils.MapUtils;
 import utils.Utils;
@@ -185,6 +186,10 @@ public class FlotaWS {
 	
 	public String getArondareFiliala(String codJudet, String localitate, String strada, String numar) {
 		return MapsServices.getArondareFiliala(codJudet, localitate, strada, numar).toString();
+	}
+	
+	public boolean isAdresaInRaza(double lat, double lon, String codJudet, String localitate){
+		return new OperatiiLocalitati().isAdresaInRaza(lat, lon, codJudet, localitate);
 	}
 
 }
