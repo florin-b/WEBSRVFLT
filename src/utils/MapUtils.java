@@ -119,8 +119,7 @@ public class MapUtils {
 		double latitude = 0;
 		double longitude = 0;
 
-		Random rand = new Random(System.currentTimeMillis());
-		int value = rand.nextInt((MAX_KEYS - 1) + 1) + 1;
+		
 
 		strAddress = new StringBuilder();
 		strAddress.append("Romania, ");
@@ -183,7 +182,6 @@ public class MapUtils {
 		double longitude = 0;
 
 		strAddress = new StringBuilder();
-		// strAddress.append("Romania, ");
 
 		String prefixJudet = "";
 
@@ -231,11 +229,6 @@ public class MapUtils {
 
 		}
 
-		/*
-		 * if (results.length > 0) { latitude =
-		 * results[0].geometry.location.lat; longitude =
-		 * results[0].geometry.location.lng; }
-		 */
 
 		if (results != null && results.length == 1) {
 			latitude = results[0].geometry.location.lat;

@@ -97,7 +97,7 @@ public class FlotaWS {
 	}
 
 	public String getCoordonateLocalitate(String codJudet, String localitate, String strada, String numar) {
-		return MapUtils.getCoordLocalitateFromService(codJudet, localitate, strada, numar);
+		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
 	}
 
 	public String getCoordAddress(String codJudet, String localitate, String strada, String numar) {

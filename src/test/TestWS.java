@@ -36,7 +36,7 @@ public class TestWS {
 		try {
 			
 			
-			System.out.println(new OperatiiLocalitati().isAdresaInRaza(45.845362, 27.425546, "17", "Tecuci"));
+		//	System.out.println(new OperatiiLocalitati().isAdresaInRaza(45.845362, 27.425546, "17", "Adam"));
 
 			//testBorderou();
 			
