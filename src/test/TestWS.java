@@ -19,6 +19,7 @@ import database.OperatiiBorderou;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import enums.EnumZona;
+import main.FlotaWS;
 import maps.MapsOperations;
 import maps.MapsServices;
 import model.CalculeazaTraseu;
@@ -40,7 +41,7 @@ public class TestWS {
 
 			//testBorderou();
 			
-			//System.out.println("arondare Buc: " +  getArondareFiliala("40", "SECTOR 3", "STRADA CORBENI NR 30", ""));
+			System.out.println("arondare filiala: " +  getArondareFiliala("24", "Baia Mare", "STRADA galati", ""));
 			
 			
 			
@@ -62,6 +63,8 @@ public class TestWS {
 			
 			
 			//System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
+			
+		
 			
 
 		} catch (Exception e) {

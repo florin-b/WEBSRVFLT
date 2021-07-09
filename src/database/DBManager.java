@@ -58,7 +58,7 @@ public class DBManager {
 		try {
 
 			oracleDS = new OracleDataSource();
-			oracleDS.setURL("jdbc:oracle:thin:@10.1.3.81:1521/PRD");
+			oracleDS.setURL("jdbc:oracle:thin:@10.1.3.76:1521/PRD");
 			oracleDS.setUser("WEBSAP");
 			oracleDS.setPassword("2INTER7");
 

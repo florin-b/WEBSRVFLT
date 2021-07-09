@@ -64,7 +64,7 @@ public class DataLoad {
 	
 	public static List<LatLng> getArondare(EnumArondare arondare) throws ParserConfigurationException, SAXException, IOException {
 
-		List<LatLng> coords = new ArrayList<LatLng>();
+		List<LatLng> coords = new ArrayList<>();
 
 		InputStream iStream = DataLoad.class.getClassLoader().getResourceAsStream(DataFiles.getArondareFile(arondare));
 
