@@ -188,6 +188,10 @@ public class FlotaWS {
 		return MapsServices.getArondareFiliala(codJudet, localitate, strada, numar).toString();
 	}
 	
+	public String getArondareFilialaCoords(double lat, double lon) {
+		return MapsServices.getArondareFiliala(lat, lon);
+	}
+	
 	public boolean isAdresaInRaza(double lat, double lon, String codJudet, String localitate){
 		return new OperatiiLocalitati().isAdresaInRaza(lat, lon, codJudet, localitate);
 	}

@@ -41,16 +41,16 @@ public class MapsServices {
 		try {
 
 			String[] coords = MapUtils.getCoordLocalitateFromService(codJudet, localitate, strada, numar).split(",");
-			
+
 			System.out.println("getArondareFiliala: " + coords[0] + " , " + coords[1]);
 
 			beans.LatLng point = new beans.LatLng(Double.valueOf(coords[0]), Double.valueOf(coords[1]));
 
 			for (EnumArondare ar : EnumArondare.values()) {
-				
+
 				if (ar == EnumArondare.NEDEFINIT)
 					continue;
-				
+
 				List<beans.LatLng> pointsList = DataLoad.getArondare(ar);
 
 				boolean contains = MapsOperations.containsPoint(point, pointsList, true);
@@ -63,6 +63,36 @@ public class MapsServices {
 		}
 
 		return zonaArondata;
+	}
+
+	public static String getArondareFiliala(double lat, double lon) {
+		StringBuilder zoneArondate = new StringBuilder();
+
+		beans.LatLng point = new beans.LatLng(lat, lon);
+
+		try {
+			for (EnumArondare ar : EnumArondare.values()) {
+
+				if (ar == EnumArondare.NEDEFINIT)
+					continue;
+
+				List<beans.LatLng> pointsList = DataLoad.getArondare(ar);
+
+				boolean containsPoint = MapsOperations.containsPoint(point, pointsList, true);
+
+				if (containsPoint) {
+					if (zoneArondate.toString().isEmpty())
+						zoneArondate.append(ar.toString());
+					else
+						zoneArondate.append(",").append(ar.toString());
+				}
+
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+
+		return zoneArondate.toString();
 	}
 
 }

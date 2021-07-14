@@ -41,10 +41,10 @@ public class TestWS {
 
 			//testBorderou();
 			
-			System.out.println("arondare filiala: " +  getArondareFiliala("24", "Baia Mare", "STRADA galati", ""));
+			//System.out.println("arondare filiala: " +  getArondareFiliala("24", "Baia Mare", "STRADA galati", ""));
 			
 			
-			
+			System.out.println("arondare filiala: " +  getArondareFiliala(45.057191, 28.689223));
 			
 			
 			//System.out.println(Utils.dateDiff("27-Oct-20 08:46:00", "27-Oct-20 15:25:01"));
@@ -265,6 +265,10 @@ public class TestWS {
 
 	public static String getArondareFiliala(String codJudet, String localitate, String strada, String numar) {
 		return MapsServices.getArondareFiliala(codJudet, localitate, strada, numar).toString();
+	}
+	
+	public static String getArondareFiliala(double lat, double lon) {
+		return MapsServices.getArondareFiliala(lat, lon);
 	}
 	
 }
