@@ -31,9 +31,6 @@ public class SqlQueries {
 		sqlString.append(" a.adr_sosire ");
 		sqlString.append(" from websap.bord_ends a where a.tknum=?");
 
-		
-		
-		
 		return sqlString.toString();
 
 	}
@@ -86,7 +83,7 @@ public class SqlQueries {
 
 		return sqlString.toString();
 	}
-	
+
 	public static String getEvenimentStop() {
 		StringBuilder sqlString = new StringBuilder();
 
@@ -201,14 +198,26 @@ public class SqlQueries {
 
 		return sqlString.toString();
 	}
-	
-	public static String getDateLocalitate(){
+
+	public static String getDateLocalitate() {
 		StringBuilder sqlString = new StringBuilder();
-		
+
 		sqlString.append("select a.razakm, b.latitudine, b.longitudine from SAPPRD.zoraseromania a, SAPPRD.zcoordlocalitati b ");
-		sqlString.append(" where a.mandt='900' and b.mandt='900' and "); 
+		sqlString.append(" where a.mandt='900' and b.mandt='900' and ");
 		sqlString.append(" a.codjudet =? and a.numejudet = b.judet and  trim(upper(a.oras)) =? and a.oras = b.localitate");
-		
+
+		return sqlString.toString();
+	}
+
+	public static String getTraseuMasina() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select c.latitude, ");
+		sqlString.append(" c.longitude, nvl(c.mileage,0) kilo from gps_masini b, gps_date c ");
+		sqlString.append(" where b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id  ");
+		sqlString.append(" and c.record_time between to_date(:dataStart,'dd-mm-yy hh24:mi','NLS_DATE_LANGUAGE = AMERICAN') and ");
+		sqlString.append(" to_date(:dataStop,'dd-mm-yy hh24:mi','NLS_DATE_LANGUAGE = AMERICAN') order by c.record_time");
+
 		return sqlString.toString();
 	}
 

@@ -1,7 +1,11 @@
 package maps;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import beans.PunctPoligon;
+import beans.TraseuBorderou;
+import database.OperatiiTraseu;
 import enums.EnumArondare;
 import enums.EnumZona;
 import model.DataLoad;
@@ -93,6 +97,62 @@ public class MapsServices {
 		}
 
 		return zoneArondate.toString();
+	}
+
+	public int traseuInPoligon(String dataStart, String dataStop, String nrAuto, String filiala) {
+
+		List<TraseuBorderou> traseuMasina = new OperatiiTraseu().getTraseuMasina(nrAuto, dataStart, dataStop);
+		List<PunctPoligon> innerPoints = new ArrayList<>();
+		int distanta = 0;
+		int totalDist = 0;
+
+		try {
+
+			List<beans.LatLng> polygonPoints = DataLoad.getArondare(EnumArondare.valueOf(filiala));
+			boolean pointIn = false;
+
+			for (TraseuBorderou traseu : traseuMasina) {
+
+				beans.LatLng point = new beans.LatLng(traseu.getLatitudine(), traseu.getLongitudine());
+
+				if (MapsOperations.containsPoint(point, polygonPoints, true)) {
+					PunctPoligon punct = new PunctPoligon();
+					punct.setPunct(point);
+					punct.setPointIn(pointIn);
+					punct.setKm(traseu.getKm());
+					innerPoints.add(punct);
+					pointIn = true;
+				} else
+					pointIn = false;
+
+			}
+
+			int crntPos = 0;
+			for (PunctPoligon pnct : innerPoints) {
+
+				if (!pnct.isPointIn()) {
+					crntPos++;
+					continue;
+				}
+
+				/*
+				distanta = MapUtils.distanceXtoY(pnct.getPunct().getLat(), pnct.getPunct().getLng(), innerPoints.get(crntPos - 1).getPunct().getLat(),
+						innerPoints.get(crntPos - 1).getPunct().getLng(), "N");
+						*/
+				
+				distanta = pnct.getKm() - innerPoints.get(crntPos - 1).getKm();
+
+				totalDist += distanta;
+
+				crntPos++;
+
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
+
+		return totalDist;
 	}
 
 }

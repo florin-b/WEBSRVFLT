@@ -70,6 +70,40 @@ public class OperatiiTraseu {
 
 	}
 
+	public List<TraseuBorderou> getTraseuMasina(String nrAuto, String dataStart, String dataStop) {
+
+		DBManager manager = new DBManager();
+
+		List<TraseuBorderou> listTraseu = new ArrayList<>();
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SqlQueries.getTraseuMasina(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
+
+			stmt.setString(1, nrAuto);
+			stmt.setString(2, dataStart);
+			stmt.setString(3, dataStop);
+
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+				TraseuBorderou pozitie = new TraseuBorderou();
+				pozitie.setLatitudine(rs.getDouble("latitude"));
+				pozitie.setLongitudine(rs.getDouble("longitude"));
+				pozitie.setKm(rs.getInt("kilo"));
+				listTraseu.add(pozitie);
+
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
+
+		return listTraseu;
+
+	}
+
 	public List<PozitieClient> getCoordClientiBorderou(String codBorderou, EnumCoordClienti stareClienti) throws SQLException {
 		List<PozitieClient> listPozitii = new ArrayList<>();
 

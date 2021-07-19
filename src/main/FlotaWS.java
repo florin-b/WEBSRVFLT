@@ -195,5 +195,9 @@ public class FlotaWS {
 	public boolean isAdresaInRaza(double lat, double lon, String codJudet, String localitate){
 		return new OperatiiLocalitati().isAdresaInRaza(lat, lon, codJudet, localitate);
 	}
+	
+	public int traseuInPoligon(String dataStart, String dataStop, String nrAuto, String filiala){
+		return new MapsServices().traseuInPoligon(dataStart, dataStop, nrAuto, filiala);
+	}
 
 }

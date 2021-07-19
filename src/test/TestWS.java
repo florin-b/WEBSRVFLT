@@ -19,12 +19,10 @@ import database.OperatiiBorderou;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import enums.EnumZona;
-import main.FlotaWS;
 import maps.MapsOperations;
 import maps.MapsServices;
 import model.CalculeazaTraseu;
 import model.DataLoad;
-import model.OperatiiLocalitati;
 import utils.MapUtils;
 import utils.Utils;
 
@@ -44,7 +42,7 @@ public class TestWS {
 			//System.out.println("arondare filiala: " +  getArondareFiliala("24", "Baia Mare", "STRADA galati", ""));
 			
 			
-			System.out.println("arondare filiala: " +  getArondareFiliala(45.057191, 28.689223));
+		//	System.out.println("arondare filiala: " +  getArondareFiliala(45.057191, 28.689223));
 			
 			
 			//System.out.println(Utils.dateDiff("27-Oct-20 08:46:00", "27-Oct-20 15:25:01"));
@@ -65,6 +63,7 @@ public class TestWS {
 			//System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
 			
 		
+			System.out.println(new MapsServices().traseuInPoligon("13-07-2021 00:00", "13-07-2021 14:00", "GL08ARS", "DJ10"));
 			
 
 		} catch (Exception e) {
