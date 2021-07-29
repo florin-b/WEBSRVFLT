@@ -19,6 +19,7 @@ import database.OperatiiBorderou;
 import database.OperatiiTraseu;
 import enums.EnumCoordClienti;
 import enums.EnumZona;
+import main.FlotaWS;
 import maps.MapsOperations;
 import maps.MapsServices;
 import model.CalculeazaTraseu;
@@ -34,6 +35,8 @@ public class TestWS {
 
 		try {
 			
+			
+			new FlotaWS().getStareBorderou("0002456141");
 			
 		//	System.out.println(new OperatiiLocalitati().isAdresaInRaza(45.845362, 27.425546, "17", "Adam"));
 
@@ -63,7 +66,7 @@ public class TestWS {
 			//System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
 			
 		
-			System.out.println(new MapsServices().traseuInPoligon("13-07-2021 00:00", "13-07-2021 14:00", "GL08ARS", "DJ10"));
+		//	System.out.println(new MapsServices().traseuInPoligon("13-07-2021 00:00", "13-07-2021 14:00", "GL08ARS", "DJ10"));
 			
 
 		} catch (Exception e) {

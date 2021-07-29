@@ -135,11 +135,6 @@ public class MapsServices {
 					continue;
 				}
 
-				/*
-				distanta = MapUtils.distanceXtoY(pnct.getPunct().getLat(), pnct.getPunct().getLng(), innerPoints.get(crntPos - 1).getPunct().getLat(),
-						innerPoints.get(crntPos - 1).getPunct().getLng(), "N");
-						*/
-				
 				distanta = pnct.getKm() - innerPoints.get(crntPos - 1).getKm();
 
 				totalDist += distanta;

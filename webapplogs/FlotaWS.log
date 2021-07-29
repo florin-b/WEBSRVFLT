@@ -451,3 +451,24 @@ Caused by: java.net.ConnectException: Connection refused: connect
 	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:405)
 	... 15 more
 Extra: 0002290524
+29-Jul-2021 13:16:05 [main] ERROR main.FlotaWS - java.sql.SQLException: ORA-01427: o subinterogare de o singurã linie returneazã mai mult decât o linie
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:951)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:513)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:227)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:208)
+	at oracle.jdbc.driver.T4CPreparedStatement.executeForDescribe(T4CPreparedStatement.java:886)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1175)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1296)
+	at oracle.jdbc.driver.OracleStatement.doScrollExecuteCommon(OracleStatement.java:4721)
+	at oracle.jdbc.driver.OraclePreparedStatement.doScrollPstmtExecuteUpdate(OraclePreparedStatement.java:10613)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3611)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:3657)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.executeQuery(OraclePreparedStatementWrapper.java:1495)
+	at database.OperatiiTraseu.getTraseuBorderou(OperatiiTraseu.java:60)
+	at main.FlotaWS.getStareBorderou(FlotaWS.java:56)
+	at test.TestWS.main(TestWS.java:39)
+Extra: 0002456141

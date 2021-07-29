@@ -36,9 +36,16 @@ public class OperatiiTraseu {
 
 		DBManager manager = new DBManager();
 
-		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
-				+ " nvl(c.speed,0) viteza from gps_masini b, gps_date c  where " + " b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id  "
-				+ " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') + 6  order by c.record_time ";
+
+		
+		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, " 
+				 + " nvl(c.speed,0) viteza from websap.gps_masini b, websap.gps_date c " 
+				 + " where ( b.nr_masina = replace(:nrMasina,'-','') or b.nr_masina = (select distinct replace(nrleasing,'-','') " 
+				 + " from sapprd.aufk where replace(ktext,'-','')=replace(:nrMasina,'-','') and trim(nrleasing) != '' and phas1='X')) " 
+				 + " and c.device_id = b.id " 
+				 + " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') " 
+				 + " and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') + 6 order by c.record_time ";
+		
 
 		List<TraseuBorderou> listTraseu = new ArrayList<>();
 
@@ -46,8 +53,9 @@ public class OperatiiTraseu {
 				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
 			stmt.setString(1, dateBorderou.getNrMasina());
-			stmt.setString(2, dateBorderou.getDataEmitere());
+			stmt.setString(2, dateBorderou.getNrMasina());
 			stmt.setString(3, dateBorderou.getDataEmitere());
+			stmt.setString(4, dateBorderou.getDataEmitere());
 
 			stmt.executeQuery();
 
