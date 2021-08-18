@@ -36,7 +36,7 @@ public class TestWS {
 		try {
 			
 			
-			new FlotaWS().getStareBorderou("0002456141");
+			//new FlotaWS().getStareBorderou("0002456141");
 			
 		//	System.out.println(new OperatiiLocalitati().isAdresaInRaza(45.845362, 27.425546, "17", "Adam"));
 
@@ -57,7 +57,7 @@ public class TestWS {
 			//System.out.println("Coordonate: " +  new FlotaWS().getCoordAddress("40", "SECTOR 1", "STRADA CUTESCU-STORK CECI", ""));
 			
 			
-			//System.out.println("Adresa coord: " + new FlotaWS().getAdresaCoordonate(45.1900393,28.7975196));
+			System.out.println("Adresa coord: " + new FlotaWS().getAdresaCoordonate(45.313,27.927));
 			
 			
 			//System.out.println("Coordonate: " + new FlotaWS().getCoordonateLocalitate("17", "Tecuci", "", ""));

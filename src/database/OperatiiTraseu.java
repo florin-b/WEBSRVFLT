@@ -36,7 +36,6 @@ public class OperatiiTraseu {
 
 		DBManager manager = new DBManager();
 
-
 		
 		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, " 
 				 + " nvl(c.speed,0) viteza from websap.gps_masini b, websap.gps_date c " 
