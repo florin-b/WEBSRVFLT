@@ -370,6 +370,7 @@ public class MapUtils {
 				for (int k = 0; k < adrComponentType.length; k++) {
 					if (adrComponentType[k] == AddressComponentType.LOCALITY || adrComponentType[k] == AddressComponentType.SUBLOCALITY || adrComponentType[k] == AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_2) {
 						localitate = Utils.flattenToAscii(results[0].addressComponents[j].shortName);
+						localitate = localitate.replace("Comuna", "").replace("Satul", "").replace("Municipiul", "");
 						break;
 					}
 
