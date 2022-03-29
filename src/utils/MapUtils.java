@@ -270,9 +270,6 @@ public class MapUtils {
 
 		List<DistantaRuta> listDistante = new ArrayList<>();
 
-		Random rand = new Random(System.currentTimeMillis());
-		int value = rand.nextInt((MAX_KEYS_PUNCTE - 1) + 1) + 1;
-
 		if (strCoordonate == null)
 			return listDistante;
 
@@ -294,14 +291,14 @@ public class MapUtils {
 		try {
 
 			for (int i = 1; i < arrayCoords.length - 1; i++) {
-
 				wayPoints.add(arrayCoords[i].replace(":", ","));
 
 			}
 
 			String[] arrayPoints = wayPoints.toArray(new String[wayPoints.size()]);
-
-			// GeoApiContext context = GoogleContext.getContextPuncte(value);
+			
+			if (arrayPoints.length == 0)
+				return listDistante;
 
 			GeoApiContext context = GoogleContext.getContextKey();
 
@@ -323,7 +320,7 @@ public class MapUtils {
 
 		} catch (OverQueryLimitException q) {
 		} catch (Exception ex) {
-			MailOperations.sendMail("traseuBorderou: " + ex.toString());
+			MailOperations.sendMail("traseuBorderou: " + ex.toString() + " , " + strCoordonate);
 		}
 
 		return listDistante;
@@ -344,7 +341,7 @@ public class MapUtils {
 			dist = (int) req.rows[0].elements[0].distance.inMeters;
 		} catch (OverQueryLimitException q) {
 		} catch (Exception ex) {
-			MailOperations.sendMail("traseuBorderou: " + ex.toString());
+			MailOperations.sendMail("traseuBorderou: " + ex.toString() + " , " + startPoint.toString() + " , " + stopPoint.toString());
 		}
 
 		return dist;
