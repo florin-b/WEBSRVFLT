@@ -45,7 +45,7 @@ public class MapUtils {
 		} else if (unit == "N") {
 			dist = dist * 0.8684;
 		}
-		return (dist);
+		return dist;
 	}
 
 	private static double deg2rad(double deg) {
@@ -119,8 +119,6 @@ public class MapUtils {
 		double latitude = 0;
 		double longitude = 0;
 
-		
-
 		strAddress = new StringBuilder();
 		strAddress.append("Romania, ");
 
@@ -145,8 +143,6 @@ public class MapUtils {
 				strAddress.append(numar.trim());
 			}
 		}
-
-		
 
 		GeoApiContext context = GoogleContext.getContextKey();
 
@@ -174,7 +170,7 @@ public class MapUtils {
 		return latitude + "," + longitude;
 	}
 
-	public static String getCoordAddressFromService(String codJudet, String localitate, String strada, String numar) {
+	public static String getCoordAddressFromService(String codJudet, String localitate, String strada, String numar, String tara) {
 
 		StringBuilder strAddress;
 
@@ -184,18 +180,31 @@ public class MapUtils {
 		strAddress = new StringBuilder();
 
 		String prefixJudet = "";
-
+		
 		if (codJudet != null && !codJudet.trim().equals("")) {
 
-			if (!codJudet.equals("40"))
+			if (!codJudet.equals("40") && (tara.isEmpty() || tara.toUpperCase().equals("RO")))
 				prefixJudet = "Judet ";
 
-			strAddress.append(prefixJudet + UtilsAdrese.getNumeJudet(codJudet.trim()));
+			if (tara.isEmpty() || tara.toUpperCase().equals("RO"))
+				strAddress.append(prefixJudet + UtilsAdrese.getNumeJudet(codJudet.trim()));
+			else if (tara.toUpperCase().equals("HU")) {
+				strAddress.append("Hungary, ");
+				strAddress.append(prefixJudet + UtilsAdrese.getNumeJudetHU(codJudet.trim()));
+			} else if (tara.toUpperCase().equals("RS")) {
+				strAddress.append("Serbia, ");
+				strAddress.append(prefixJudet + UtilsAdrese.getNumeJudetSerbia(codJudet.trim()));
+			}
+			
 		}
 
 		if (localitate != null && !localitate.trim().equals("")) {
 			strAddress.append(", ");
-			strAddress.append("Localitate " + localitate.trim());
+
+			if (tara.isEmpty() || tara.toUpperCase().equals("RO"))
+				strAddress.append("Localitate " + localitate.trim());
+			else
+				strAddress.append(localitate.trim());
 		}
 
 		if (strada != null && !strada.trim().equals("")) {
@@ -228,7 +237,6 @@ public class MapUtils {
 			return e.toString();
 
 		}
-
 
 		if (results != null && results.length == 1) {
 			latitude = results[0].geometry.location.lat;
@@ -296,9 +304,6 @@ public class MapUtils {
 			}
 
 			String[] arrayPoints = wayPoints.toArray(new String[wayPoints.size()]);
-			
-			if (arrayPoints.length == 0)
-				return listDistante;
 
 			GeoApiContext context = GoogleContext.getContextKey();
 
@@ -320,7 +325,7 @@ public class MapUtils {
 
 		} catch (OverQueryLimitException q) {
 		} catch (Exception ex) {
-			MailOperations.sendMail("traseuBorderou: " + ex.toString() + " , " + strCoordonate);
+			
 		}
 
 		return listDistante;
@@ -362,10 +367,11 @@ public class MapUtils {
 
 			for (int j = 0; j < results[0].addressComponents.length; j++) {
 
-				AddressComponentType[] adrComponentType = results[0].addressComponents[j].types; 
+				AddressComponentType[] adrComponentType = results[0].addressComponents[j].types;
 
 				for (int k = 0; k < adrComponentType.length; k++) {
-					if (localitate.isEmpty() && (adrComponentType[k] == AddressComponentType.LOCALITY || adrComponentType[k] == AddressComponentType.SUBLOCALITY || adrComponentType[k] == AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_2)) {
+					if (localitate.isEmpty() && (adrComponentType[k] == AddressComponentType.LOCALITY || adrComponentType[k] == AddressComponentType.SUBLOCALITY
+							|| adrComponentType[k] == AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_2)) {
 						localitate = Utils.flattenToAscii(results[0].addressComponents[j].shortName);
 						localitate = localitate.replace("Comuna", "").replace("Satul", "").replace("Municipiul", "").replace("Orasul", "");
 						break;
@@ -397,12 +403,8 @@ public class MapUtils {
 
 		int distanta = 0;
 
-		Random rand = new Random(System.currentTimeMillis());
-		int value = rand.nextInt((MAX_KEYS_LOCALITATI - 1) + 1) + 1;
-
 		DirectionsRoute[] routes = null;
 
-		// GeoApiContext context = GoogleContext.getContextLocalitati(value);
 		GeoApiContext context = GoogleContext.getContextKey();
 
 		String start = "Romania, " + jud1.trim().toUpperCase() + ", " + loc1.trim().toUpperCase();

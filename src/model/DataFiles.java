@@ -37,6 +37,7 @@ public class DataFiles {
 		case DJ10:
 			return "resources/DJ10.xml";
 		case GL10:
+		case GL90:
 			return "resources/GL10.xml";
 		case HD10:
 			return "resources/HD10.xml";
@@ -52,6 +53,8 @@ public class DataFiles {
 			return "resources/PH10.xml";
 		case SB10:
 			return "resources/SB10.xml";
+		case SV10:
+			return "resources/SV10.xml";
 		case TM10:
 			return "resources/TM10.xml";
 		case VN10:

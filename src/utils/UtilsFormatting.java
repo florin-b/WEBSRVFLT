@@ -194,6 +194,26 @@ public class UtilsFormatting {
 		return true;
 
 	}
+	
+	public static String formatDate(String strDate) {
+
+		String formatted = "";
+
+		try {
+			SimpleDateFormat formatFinal = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = formatFinal.parse(strDate);
+
+			String pattern = "dd-MM-yyyy";
+			SimpleDateFormat formatInit = new SimpleDateFormat(pattern, new Locale("ro"));
+
+			formatted = formatInit.format(date);
+		} catch (ParseException p) {
+
+		}
+
+		return formatted;
+
+	}
 
 	public static Date addDays(Date date, int days) {
 		Calendar cal = Calendar.getInstance();

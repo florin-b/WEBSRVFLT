@@ -36,9 +36,18 @@ public class TestWS {
 		try {
 			
 			
-			// new FlotaWS().getStareBorderou("0002543471");
+			 new FlotaWS().getStareBorderou("0003035588");
 			
-			MapUtils.getDistantaPuncte("-46.870841:26.467040");
+			//System.out.println("res: " + MapUtils.getDistantaPuncte("44.7773922:28.0967007-44.1835384:28.597208"));
+			
+			
+		//	System.out.println("res: " + MapUtils.getCoordAddressFromService("34", "UDA-CLOCOCIOV", "", "", ""));
+			
+			//testGps();
+			
+			//System.out.println("res: " + MapUtils.getCoordAddressFromService("02", "Foldeak", "", "", "HU"));
+			
+		//	System.out.println("res: " + MapUtils.getCoordAddressFromService("02", "Sid", "", "", "RS"));
 			
 		//	System.out.println(new OperatiiLocalitati().isAdresaInRaza(45.845362, 27.425546, "17", "Adam"));
 
@@ -68,9 +77,21 @@ public class TestWS {
 			//System.out.println("Zona Buc: " + new FlotaWS().getZonaBucuresti("40", "Bucuresti", "Piata Romana", ""));
 			
 		
-		//	System.out.println(new MapsServices().traseuInPoligon("13-07-2021 00:00", "13-07-2021 14:00", "GL08ARS", "DJ10"));
+			//System.out.println(new MapsServices().traseuInPoligon("13-05-2024 00:00", "13-05-2024 21:00", "GL08ARS", "DJ10"));
+			
+			//System.out.println(new OperatiiPoligoane().traseuInPoligon("23-05-2024 00:00", "23-05-2024 23:59", "GL06XCK", "GL90","LOG", "ARD"));
 			
 
+			//System.out.println("Dist = " +  MapUtils.distanceXtoY(47.047328,21.912935,47.04601,21.904787, "K") * 1000);
+			
+			//System.out.println( new OperatiiDiurna().calculeazaDiurna("GL-07-XAP" , "GL10" , "01-05-2024", "31-05-2024"));
+			
+			//System.out.println(UtilsFormatting.formatDate("2024-05-06"));
+			
+			
+			
+			//System.out.println("getDistantaTraseu: " + new FlotaWS().getDistantaTraseu("24-10-24 00:00:00", "24-10-24 14:19:00", "GL08XCI"));
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -151,7 +172,7 @@ public class TestWS {
 	}
 
 	private static void testGps() {
-		System.out.println(MapUtils.getCoordAddressFromService("17", "Galati", "STRADA timisului", "1"));
+		System.out.println(MapUtils.getCoordAddressFromService("17", "Galati", "STRADA timisului", "1", ""));
 
 	}
 

@@ -85,7 +85,7 @@ public class AdreseService {
 		CoordonateGps coords = getCoordAddressFromDB(conn, codAddress);
 
 		if (coords.getLatitude() == 0) {
-			coordonate = MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
+			coordonate = MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar,"");
 			CoordonateGps coordsNew = new CoordonateGps(Double.parseDouble(coordonate.split(",")[0]), Double.parseDouble(coordonate.split(",")[1]));
 			saveCoordAdresa(conn, codAddress, coordsNew);
 

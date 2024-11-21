@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import beans.BeanBoundBorderou;
 import beans.CoordonateGps;
 import beans.DateBorderou;
+import beans.LatLng;
 import beans.PozitieClient;
 import beans.StandardAddress;
 import beans.TraseuBorderou;
@@ -36,15 +37,12 @@ public class OperatiiTraseu {
 
 		DBManager manager = new DBManager();
 
-		
-		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, " 
-				 + " nvl(c.speed,0) viteza from websap.gps_masini b, websap.gps_date c " 
-				 + " where ( b.nr_masina = replace(:nrMasina,'-','') or b.nr_masina = (select distinct replace(nrleasing,'-','') " 
-				 + " from sapprd.aufk where replace(ktext,'-','')=replace(:nrMasina,'-','') and trim(nrleasing) != '' and phas1='X')) " 
-				 + " and c.device_id = b.id " 
-				 + " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') " 
-				 + " and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') + 6 order by c.record_time ";
-		
+		String sqlString = " select to_char(c.record_time,'dd-Mon-yy hh24:mi:ss', 'NLS_DATE_LANGUAGE = AMERICAN') datarec , c.latitude, c.longitude, nvl(c.mileage,0) kilo, "
+				+ " nvl(c.speed,0) viteza from websap.gps_masini b, websap.gps_date c "
+				+ " where ( b.nr_masina = replace(:nrMasina,'-','') or b.nr_masina = (select distinct replace(nrleasing,'-','') "
+				+ " from sapprd.aufk where replace(ktext,'-','')=replace(:nrMasina,'-','') and trim(nrleasing) != '' and phas1='X')) "
+				+ " and c.device_id = b.id " + " and c.record_time between to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') "
+				+ " and to_date(:dataEmitere,'dd-mm-yy hh24:mi:ss','NLS_DATE_LANGUAGE = AMERICAN') + 6 order by c.record_time ";
 
 		List<TraseuBorderou> listTraseu = new ArrayList<>();
 
@@ -111,6 +109,43 @@ public class OperatiiTraseu {
 
 	}
 
+	public List<TraseuBorderou> getTraseuMasinaPlus(String nrAuto, String dataStart, String dataStop) {
+
+		DBManager manager = new DBManager();
+
+		List<TraseuBorderou> listTraseu = new ArrayList<>();
+
+		try (Connection conn = manager.getProdDataSource().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SqlQueries.getTraseuMasinaPlus(), ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_READ_ONLY);) {
+
+			stmt.setString(1, nrAuto);
+			stmt.setString(2, dataStart);
+			stmt.setString(3, dataStop);
+
+			stmt.executeQuery();
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+				TraseuBorderou pozitie = new TraseuBorderou();
+				pozitie.setLatitudine(rs.getDouble("latitude"));
+				pozitie.setLongitudine(rs.getDouble("longitude"));
+				pozitie.setKm(rs.getInt("kilo"));
+				pozitie.setViteza(rs.getInt("speed"));
+				pozitie.setDataInreg(rs.getString("record_time"));
+				listTraseu.add(pozitie);
+
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
+
+		return listTraseu;
+
+	}
+
 	public List<PozitieClient> getCoordClientiBorderou(String codBorderou, EnumCoordClienti stareClienti) throws SQLException {
 		List<PozitieClient> listPozitii = new ArrayList<>();
 
@@ -123,11 +158,21 @@ public class OperatiiTraseu {
 
 		if (stareClienti == EnumCoordClienti.NEVIZITATI)
 			sqlString = SqlQueries.getCoordClientiNevisit();
+		
+		
 
 		try (Connection conn = manager.getProdDataSource().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
 			stmt.setString(1, codBorderou);
+			
+			if (stareClienti == EnumCoordClienti.TOTI) {
+				stmt.setString(2, codBorderou);
+				stmt.setString(3, codBorderou);
+				stmt.setString(4, codBorderou);
+				stmt.setString(5, codBorderou);
+			}
+			
 			stmt.executeQuery();
 
 			ResultSet rs = stmt.getResultSet();
@@ -423,6 +468,31 @@ public class OperatiiTraseu {
 		}
 
 		return address;
+	}
+
+	public LatLng getCoordonateFiliala(String filiala) {
+
+		LatLng coordFiliala = new LatLng(0, 0);
+
+		DBManager manager = new DBManager();
+
+		try (Connection conn = manager.getProdDataSource().getConnection(); PreparedStatement stmt = conn.prepareStatement(SqlQueries.getCoordonateFiliala())) {
+
+			stmt.setString(1, filiala);
+
+			stmt.execute();
+			ResultSet rs = stmt.getResultSet();
+
+			if (rs.next()) {
+				coordFiliala.setLat(rs.getDouble("latitude"));
+				coordFiliala.setLng(rs.getDouble("longitude"));
+			}
+
+		} catch (SQLException e) {
+			logger.error(Utils.getStackTrace(e, filiala));
+		}
+
+		return coordFiliala;
 	}
 
 	private EnumTipClient getTipClient(PozitieClient pozitieClient) {

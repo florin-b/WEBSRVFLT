@@ -92,7 +92,7 @@ public class SqlQueries {
 		return sqlString.toString();
 	}
 
-	public static String getCoordClientiBorderouAll() {
+	public static String getCoordClientiBorderouAll_old() {
 		StringBuilder sqlString = new StringBuilder();
 
 		sqlString.append(" select a.poz, a.nume, a.cod cod_client,");
@@ -108,6 +108,48 @@ public class SqlQueries {
 		sqlString.append(" order by a.poz ");
 
 		return sqlString.toString();
+	}
+	
+	
+	public static String getCoordClientiBorderouAll() {
+		
+		StringBuilder sqlString = new StringBuilder();
+		
+		sqlString.append(" select a.poz, a.nume, a.cod cod_client, a.adresa cod_adresa,  b.city1, b.street, b.house_num1, b.region, ");
+		sqlString.append(" nvl(trim(e.latitude),nvl( ");
+		sqlString.append(" (select am.lat_ ");
+		sqlString.append(" from sapprd.zlips_amb am join sapprd.lips l on am.mandt=l.mandt and am.vbeln=l.vbeln and am.posnr=l.posnr ");
+		sqlString.append(" join sapprd.vbpa p on p.mandt=l.mandt and p.vbeln=l.vbeln and p.PARVW = 'WE' ");
+		sqlString.append(" join sapprd.vttp b on am.mandt=b.mandt and am.vbeln=b.vbeln ");
+		sqlString.append(" where am.LONG_ <>' ' and am.lat_ <> ' ' and  am.LONG_ <>'0' and am.lat_ <> '0'  and am.mandt='900' and ROWNUM = 1 ");
+		sqlString.append(" and b.tknum = :bord and p.kunnr = a.cod and p.adrnr = a.adresa), ");
+		sqlString.append(" nvl( ");
+		sqlString.append(" (select am.LAT_PRED ");
+		sqlString.append(" from sapprd.ZCOM_AMB am join sapprd.ZCOMM l on am.mandt=l.mandt and am.docn=l.docn and am.DOCP=l.DOCP and am.ETENR=l.ETENR ");
+		sqlString.append(" join sapprd.zcomdti b on am.mandt=b.mandt and l.nrcom=b.nr ");
+		sqlString.append(" where am.Long_PRED <>' ' and am.LAT_PRED <> ' ' and  am.Long_PRED <>'0' and am.LAT_PRED <> '0'  and am.mandt='900' and ROWNUM = 1 ");
+		sqlString.append(" and b.nrborderou = :bord and ((l.LIFNA = a.cod and l.ADRNA = a.adresa) or(l.KUNNZ = a.cod and l.ADRNZ = a.adresa))) ");
+		sqlString.append(" ,'-1'))) latitudine, ");
+		sqlString.append(" nvl(trim(e.longitude),nvl((select am.long_ ");
+		sqlString.append(" from sapprd.zlips_amb am join sapprd.lips l on am.mandt=l.mandt and am.vbeln=l.vbeln and am.posnr=l.posnr ");
+		sqlString.append(" join sapprd.vbpa p on p.mandt=l.mandt and p.vbeln=l.vbeln and p.PARVW = 'WE' ");
+		sqlString.append(" join sapprd.vttp b on am.mandt=b.mandt and am.vbeln=b.vbeln ");
+		sqlString.append(" where am.LONG_ <>' ' and am.lat_ <> ' ' and  am.LONG_ <>'0' and am.lat_ <> '0'  and am.mandt='900' and ROWNUM = 1 ");
+		sqlString.append(" and b.tknum = :bord and p.kunnr = a.cod and p.adrnr = a.adresa), ");
+		sqlString.append(" nvl( ");
+		sqlString.append(" (select am.Long_PRED ");
+		sqlString.append(" from sapprd.ZCOM_AMB am join sapprd.ZCOMM l on am.mandt=l.mandt and am.docn=l.docn and am.DOCP=l.DOCP and am.ETENR=l.ETENR ");
+		sqlString.append(" join sapprd.zcomdti b on am.mandt=b.mandt and l.nrcom=b.nr ");
+		sqlString.append(" where am.Long_PRED <>' ' and am.LAT_PRED <> ' ' and  am.Long_PRED <>'0' and am.LAT_PRED <> '0'  and am.mandt='900' and ROWNUM = 1 ");
+		sqlString.append(" and b.nrborderou = :bord and ((l.LIFNA = a.cod and l.ADRNA = a.adresa) or(l.KUNNZ = a.cod and l.ADRNZ = a.adresa))) ");
+		sqlString.append(" ,'-1'))) longitudine, nvl(f.latitude,'-1') lat_fil, ");
+		sqlString.append(" nvl(f.longitude,'-1') long_fil  from sapprd.zdocumentebord a, sapprd.adrc b,   sapprd.zadreseclienti e, ");
+		sqlString.append(" sapprd.ZGPSDEPCOORD f  where a.nr_bord = :bord   and e.codclient(+) = a.cod and e.codadresa(+)= a.adresa ");
+		sqlString.append(" and b.client = '900' and f.tdlnr(+) = a.cod  and b.addrnumber = a.adresa  order by a.poz ");
+		
+		
+		return sqlString.toString();
+		
 	}
 
 	public static String getCoordClientiNevisit() {
@@ -194,7 +236,7 @@ public class SqlQueries {
 		sqlString.append(" select to_char(record_time,'dd-Mon-yy hh24:mi:ss') data_rec, latitude, longitude, mileage ");
 		sqlString.append(" from gps_date where ");
 		sqlString.append(" record_time between to_date(?,'dd-mm-yy hh24:mi:ss') and to_date(?,'dd-mm-yy hh24:mi:ss') ");
-		sqlString.append(" and device_id =(select distinct id from gps_masini where nr_masina=?)  order by record_time ");
+		sqlString.append(" and device_id =(select distinct id from gps_masini where nr_masina=?) and mileage is not null  order by record_time ");
 
 		return sqlString.toString();
 	}
@@ -216,9 +258,40 @@ public class SqlQueries {
 		sqlString.append(" c.longitude, nvl(c.mileage,0) kilo from gps_masini b, gps_date c ");
 		sqlString.append(" where b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id  ");
 		sqlString.append(" and c.record_time between to_date(:dataStart,'dd-mm-yy hh24:mi','NLS_DATE_LANGUAGE = AMERICAN') and ");
-		sqlString.append(" to_date(:dataStop,'dd-mm-yy hh24:mi','NLS_DATE_LANGUAGE = AMERICAN') order by c.record_time");
+		sqlString.append(" to_date(:dataStop,'dd-mm-yy hh24:mi','NLS_DATE_LANGUAGE = AMERICAN') and c.mileage is not null order by c.record_time");
 
 		return sqlString.toString();
+	}
+	
+	public static String getTraseuMasinaPlus() {
+		StringBuilder sqlString = new StringBuilder();
+
+		sqlString.append(" select c.latitude, ");
+		sqlString.append(" c.longitude, nvl(c.mileage,0) kilo, c.record_time, c.speed from gps_masini b, gps_date c ");
+		sqlString.append(" where b.nr_masina = replace(:nrMasina,'-','') and c.device_id = b.id  ");
+		sqlString.append(" and trunc(c.record_time) between to_date(:dataStart,'dd-mm-yy') and ");
+		sqlString.append(" to_date(:dataStop,'dd-mm-yy') and c.mileage is not null order by c.record_time");
+
+		return sqlString.toString();
+	}
+	
+	public static String getCoordonateFiliala(){
+		StringBuilder sqlString = new StringBuilder();
+		sqlString.append(" select latitude, longitude from sapprd.ZGPSDEPCOORD where mandt = '900' ");
+		sqlString.append(" and tdlnr = ? ");
+		
+		return sqlString.toString();
+	}
+	
+	public static String getCoordonatePoligon(){
+		StringBuilder sqlString = new StringBuilder();
+		sqlString.append(" select latitude, longitude from sapprd.zpoligon_det d, sapprd.zpoligon_head h  ");
+		sqlString.append(" where d.mandt = '900' and h.mandt = '900' and h.idpoligon = d.idpoligon and  ");
+		sqlString.append(" h.pct = ? and h.tippoligon = ? and h.tip = ? ");
+		sqlString.append(" order by poz ");
+		
+		return sqlString.toString();
+		
 	}
 
 }

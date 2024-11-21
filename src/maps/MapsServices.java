@@ -46,8 +46,6 @@ public class MapsServices {
 
 			String[] coords = MapUtils.getCoordLocalitateFromService(codJudet, localitate, strada, numar).split(",");
 
-			System.out.println("getArondareFiliala: " + coords[0] + " , " + coords[1]);
-
 			beans.LatLng point = new beans.LatLng(Double.valueOf(coords[0]), Double.valueOf(coords[1]));
 
 			for (EnumArondare ar : EnumArondare.values()) {

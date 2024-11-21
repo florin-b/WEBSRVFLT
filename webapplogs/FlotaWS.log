@@ -1,457 +1,52 @@
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:48:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:35:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:48:58.0 , 2024-06-05 11:48:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:48:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:36:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:48:58.0 , 2024-06-05 11:48:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:50:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:37:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:50:58.0 , 2024-06-05 11:50:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:50:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:38:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:50:58.0 , 2024-06-05 11:50:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:52:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:39:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:52:58.0 , 2024-06-05 11:52:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:52:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:40:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:52:58.0 , 2024-06-05 11:52:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:54:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:41:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:54:58.0 , 2024-06-05 11:54:58.0
+05-Jun-2024 11:57:42 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "2024-06-05 11:54:58.0"
 	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:42:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:43:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:44:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:45:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:46:09 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:49:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:53:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 14:57:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:01:19 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:03:28 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:03:29 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:03:40 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:05:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:05:03 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:06:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:07:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:08:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:09:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:10:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:11:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:12:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:13:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:14:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:15:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:16:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:17:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:18:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:19:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:20:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:21:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:22:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:23:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:24:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:25:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:26:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:27:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:28:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:29:01 , 27-Oct-20 08:46
-27-Oct-2020 15:31:14 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:30)
-	at model.CalculeazaTraseu.conditiiSosire(CalculeazaTraseu.java:131)
-	at model.CalculeazaTraseu.descoperaEvenimente(CalculeazaTraseu.java:98)
-	at model.CalculeazaTraseu.getStareTraseu(CalculeazaTraseu.java:325)
-	at test.TestWS.testBorderou(TestWS.java:185)
-	at test.TestWS.main(TestWS.java:37)
-Extra: 27-Oct-20 15:30:01 , 27-Oct-20 08:46
-27-Oct-2020 15:33:01 [main] ERROR utils.Utils - java.text.ParseException: Unparseable date: "27-Oct-20 08:46"
-	at java.text.DateFormat.parse(DateFormat.java:366)
-	at utils.Utils.dateDiff(Utils.java:29)
-	at test.TestWS.main(TestWS.java:39)
-Extra: 27-Oct-20 08:46 , 27-Oct-20 15:25:01
-08-Feb-2021 11:09:22 [main] ERROR database.OperatiiTraseu - java.sql.SQLRecoverableException: IO Error: The Network Adapter could not establish the connection
-	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:489)
-	at oracle.jdbc.driver.PhysicalConnection.<init>(PhysicalConnection.java:553)
-	at oracle.jdbc.driver.T4CConnection.<init>(T4CConnection.java:254)
-	at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:32)
-	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:528)
-	at oracle.jdbc.pool.OracleDataSource.getPhysicalConnection(OracleDataSource.java:280)
-	at oracle.jdbc.pool.OracleDataSource.getConnection(OracleDataSource.java:207)
-	at oracle.jdbc.pool.OracleDataSource.getConnection(OracleDataSource.java:157)
-	at database.OperatiiTraseu.getDateBorderou(OperatiiTraseu.java:246)
-	at test.TestWS.testBorderou(TestWS.java:160)
-	at test.TestWS.main(TestWS.java:40)
-Caused by: oracle.net.ns.NetException: The Network Adapter could not establish the connection
-	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:439)
-	at oracle.net.resolver.AddrResolution.resolveAndExecute(AddrResolution.java:454)
-	at oracle.net.ns.NSProtocol.establishConnection(NSProtocol.java:693)
-	at oracle.net.ns.NSProtocol.connect(NSProtocol.java:251)
-	at oracle.jdbc.driver.T4CConnection.connect(T4CConnection.java:1140)
-	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:340)
-	... 10 more
-Caused by: java.net.ConnectException: Connection refused: connect
-	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
-	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at oracle.net.nt.TcpNTAdapter.connect(TcpNTAdapter.java:149)
-	at oracle.net.nt.ConnOption.connect(ConnOption.java:133)
-	at oracle.net.nt.ConnStrategy.execute(ConnStrategy.java:405)
-	... 15 more
-Extra: 0002290524
-29-Jul-2021 13:16:05 [main] ERROR main.FlotaWS - java.sql.SQLException: ORA-01427: o subinterogare de o singurã linie returneazã mai mult decât o linie
+	at utils.Utils.dateDiffMinutes(Utils.java:80)
+	at model.OperatiiDiurna.calculeazaDiurna(OperatiiDiurna.java:78)
+	at test.TestWS.main(TestWS.java:83)
+Extra: 2024-06-05 11:54:58.0 , 2024-06-05 11:54:58.0
+24-Oct-2024 14:00:39 [main] ERROR main.FlotaWS - java.sql.SQLDataException: ORA-01861: literalul nu corespunde ºirului de formatare
 
 	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:447)
 	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
@@ -468,7 +63,7 @@ Extra: 0002290524
 	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3611)
 	at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:3657)
 	at oracle.jdbc.driver.OraclePreparedStatementWrapper.executeQuery(OraclePreparedStatementWrapper.java:1495)
-	at database.OperatiiTraseu.getTraseuBorderou(OperatiiTraseu.java:60)
-	at main.FlotaWS.getStareBorderou(FlotaWS.java:56)
-	at test.TestWS.main(TestWS.java:39)
-Extra: 0002456141
+	at model.Distanta.getDistanta(Distanta.java:36)
+	at main.FlotaWS.getDistantaTraseu(FlotaWS.java:92)
+	at test.TestWS.main(TestWS.java:93)
+Extra: 20241024 07:34:00 , 20241024 13:50:00 , GL-08-XCI

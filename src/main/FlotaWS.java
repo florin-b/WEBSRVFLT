@@ -22,7 +22,9 @@ import enums.EnumCoordClienti;
 import maps.MapsServices;
 import model.CalculeazaTraseu;
 import model.Distanta;
+import model.OperatiiDiurna;
 import model.OperatiiLocalitati;
+import model.OperatiiPoligoane;
 import utils.MailOperations;
 import utils.MapUtils;
 import utils.Utils;
@@ -97,11 +99,11 @@ public class FlotaWS {
 	}
 
 	public String getCoordonateLocalitate(String codJudet, String localitate, String strada, String numar) {
-		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
+		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar, "");
 	}
 
-	public String getCoordAddress(String codJudet, String localitate, String strada, String numar) {
-		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar);
+	public String getCoordAddress(String codJudet, String localitate, String strada, String numar, String tara) {
+		return MapUtils.getCoordAddressFromService(codJudet, localitate, strada, numar, tara);
 	}
 
 
@@ -196,8 +198,12 @@ public class FlotaWS {
 		return new OperatiiLocalitati().isAdresaInRaza(lat, lon, codJudet, localitate);
 	}
 	
-	public int traseuInPoligon(String dataStart, String dataStop, String nrAuto, String filiala){
-		return new MapsServices().traseuInPoligon(dataStart, dataStop, nrAuto, filiala);
+	public int traseuInPoligon(String dataStart, String dataStop, String nrAuto, String filiala, String tipPoligon, String tip){
+		return new OperatiiPoligoane().traseuInPoligon(dataStart, dataStop, nrAuto, filiala, tipPoligon, tip);
+	}
+	
+	public List<String> calculeazaDiurna(String nrAuto, String filiala, String dataStart, String dataStop){
+		return new OperatiiDiurna().calculeazaDiurna(nrAuto, filiala, dataStart, dataStop);
 	}
 
 }

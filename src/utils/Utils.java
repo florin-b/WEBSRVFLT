@@ -91,21 +91,14 @@ public class Utils {
 			}
 
 			if (diffHours > 0) {
-				
 				minutes += diffHours * 60;
-				
-				
-				
 			}
 
 			if (diffMinutes > 0) {
-				
 				minutes += diffMinutes;
-				
 			} else {
 				if (diffMinutes != 0) {
 					diffMinutes += 60 - Math.abs(diffMinutes);
-					
 				}
 			}
 
@@ -117,6 +110,55 @@ public class Utils {
 		return minutes;
 
 	}
+	
+	
+	public static int dateDiffMinutes2(String dateStart, String dateStop) {
+
+		int minutes = 0;
+
+		if (dateStart.length() == 0 || dateStop.length() == 0)
+			return 0;
+
+		try {
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", new Locale("en"));
+
+			Date d1 = dateFormat.parse(dateStart);
+			Date d2 = dateFormat.parse(dateStop);
+
+			long diff = d2.getTime() - d1.getTime();
+
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+
+			if (diffDays > 0) {
+				minutes += diffDays * 24 * 60;
+			}
+
+			if (diffHours > 0) {
+				minutes += diffHours * 60;
+			}
+
+			if (diffMinutes > 0) {
+				minutes += diffMinutes;
+			} else {
+				if (diffMinutes != 0) {
+					diffMinutes += 60 - Math.abs(diffMinutes);
+				}
+			}
+
+		} catch (Exception e) {
+			String extraInfo = dateStart + " , " + dateStop;
+			logger.error(Utils.getStackTrace(e, extraInfo));
+		}
+
+		return minutes;
+
+	}
+
+	
+	
 
 	public static String flattenToAscii(String string) {
 		StringBuilder sb = new StringBuilder(string.length());

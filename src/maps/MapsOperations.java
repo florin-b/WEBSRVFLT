@@ -19,13 +19,13 @@ public class MapsOperations {
 		int nIntersect = 0;
 		for (LatLng point2 : polygon) {
 			double dLng3 = wrap(lng3 - lng1, -Math.PI, Math.PI);
-			// Special case: point equal to vertex is inside.
+			
 			if (lat3 == lat1 && dLng3 == 0) {
 				return true;
 			}
 			double lat2 = deg2rad(point2.getLat());
 			double lng2 = deg2rad(point2.getLng());
-			// Offset longitudes by -lng1.
+			
 			if (intersects(lat1, lat2, wrap(lng2 - lng1, -Math.PI, Math.PI), lat3, dLng3, geodesic)) {
 				++nIntersect;
 			}
